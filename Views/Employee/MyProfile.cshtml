@@ -1,0 +1,28 @@
+﻿@model StarSecurity.Models.Employee
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h1>My Profile</h1>
+
+<div>
+    <h4>Employee Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Full Name</dt>
+        <dd class="col-sm-10">@Model.User?.FullName</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.User?.Email</dd>
+
+        <dt class="col-sm-2">Phone</dt>
+        <dd class="col-sm-10">@Model.User?.Phone</dd>
+
+        <dt class="col-sm-2">Service</dt>
+        <dd class="col-sm-10">@Model.Service?.Name</dd>
+
+        <dt class="col-sm-2">Rating</dt>
+        <dd class="col-sm-10">@(Model.Rating?.ToString() ?? "Not Rated")</dd>
+    </dl>
+</div>

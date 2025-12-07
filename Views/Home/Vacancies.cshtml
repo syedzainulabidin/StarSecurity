@@ -1,0 +1,25 @@
+﻿@model IEnumerable<StarSecurity.Models.Vacancy>
+
+@{
+    ViewData["Title"] = "Career Opportunities";
+}
+
+<h1>Current Job Vacancies</h1>
+
+@if (!Model.Any())
+{
+    <p>No current vacancies.</p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var vacancy in Model)
+        {
+            <div class="list-group-item">
+                <h5>@vacancy.Title</h5>
+                <p>@vacancy.Description</p>
+                <small>Positions available: @vacancy.Count</small>
+            </div>
+        }
+    </div>
+}

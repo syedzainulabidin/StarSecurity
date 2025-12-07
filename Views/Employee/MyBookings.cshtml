@@ -1,0 +1,42 @@
+﻿@model IEnumerable<StarSecurity.Models.Booking>
+
+@{
+    ViewData["Title"] = "My Bookings";
+}
+
+<h1>My Bookings</h1>
+
+@if (!Model.Any())
+{
+    <p>No bookings assigned to you.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Service</th>
+                <th>Status</th>
+                <th>Booked Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Client?.FullName</td>
+                    <td>@item.Service?.Name</td>
+                    <td>
+                        <span class="badge @(item.Status == "completed" ? "bg-success" :
+                                                                        item.Status == "approved" ? "bg-primary" :
+                                                                        item.Status == "pending" ? "bg-warning" : "bg-danger")">
+                    @item.Status
+                </span>
+            </td>
+            <td>@item.BookedAt.ToString("MM/dd/yyyy")</td>
+        </tr>
+                }
+        </tbody>
+    </table>
+}

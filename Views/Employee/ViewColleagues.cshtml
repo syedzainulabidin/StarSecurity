@@ -1,0 +1,29 @@
+﻿@model IEnumerable<StarSecurity.Models.Employee>
+
+@{
+    ViewData["Title"] = "My Colleagues";
+}
+
+<h1>My Colleagues</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Service</th>
+            <th>Rating</th>
+            <th>Contact</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.User?.FullName</td>
+                <td>@item.Service?.Name</td>
+                <td>@(item.Rating?.ToString() ?? "Not Rated")</td>
+                <td>@item.User?.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
