@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarSecurity.Data;
 using StarSecurity.Models;
@@ -11,7 +6,8 @@ using StarSecurity.Helpers;
 
 namespace StarSecurity.Controllers
 {
-    [Authorize("Admin")]
+    [Route("dashboard/users")]
+    [Helpers.Authorize("Admin")]
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,13 +17,15 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: Users
+        // GET: /dashboard/users
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Users/Details/5
+        // GET: /dashboard/users/details/5
+        [HttpGet("details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,21 +43,21 @@ namespace StarSecurity.Controllers
             return View(user);
         }
 
-        // GET: Users/Create
+        // GET: /dashboard/users/create
+        [HttpGet("create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/users/create
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,PasswordHash,Role,FullName,Phone,CreatedAt")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Email,PasswordHash,Role,FullName,Phone")] User user)
         {
             if (ModelState.IsValid)
             {
+                user.CreatedAt = DateTime.Now; // Auto-set date
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -67,7 +65,8 @@ namespace StarSecurity.Controllers
             return View(user);
         }
 
-        // GET: Users/Edit/5
+        // GET: /dashboard/users/edit/5
+        [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -83,10 +82,8 @@ namespace StarSecurity.Controllers
             return View(user);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/users/edit/5
+        [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Email,PasswordHash,Role,FullName,Phone,CreatedAt")] User user)
         {
@@ -118,7 +115,8 @@ namespace StarSecurity.Controllers
             return View(user);
         }
 
-        // GET: Users/Delete/5
+        // GET: /dashboard/users/delete/5
+        [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,8 +134,8 @@ namespace StarSecurity.Controllers
             return View(user);
         }
 
-        // POST: Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: /dashboard/users/delete/5
+        [HttpPost("delete/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

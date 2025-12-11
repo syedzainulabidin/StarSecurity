@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarSecurity.Data;
 using StarSecurity.Models;
+using StarSecurity.Helpers;
 
 namespace StarSecurity.Controllers
 {
+    [Route("dashboard/blacklist")]
     [Helpers.Authorize("Admin")]
     public class BlackListsController : Controller
     {
@@ -20,13 +17,15 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: BlackLists
+        // GET: /dashboard/blacklist
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.BlackLists.ToListAsync());
         }
 
-        // GET: BlackLists/Details/5
+        // GET: /dashboard/blacklist/details/5
+        [HttpGet("details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,21 +43,21 @@ namespace StarSecurity.Controllers
             return View(blackList);
         }
 
-        // GET: BlackLists/Create
+        // GET: /dashboard/blacklist/create
+        [HttpGet("create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: BlackLists/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/blacklist/create
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,Reason,AddedAt")] BlackList blackList)
+        public async Task<IActionResult> Create([Bind("Id,Email,Reason")] BlackList blackList)
         {
             if (ModelState.IsValid)
             {
+                blackList.AddedAt = DateTime.Now; // Auto-set date
                 _context.Add(blackList);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -66,7 +65,8 @@ namespace StarSecurity.Controllers
             return View(blackList);
         }
 
-        // GET: BlackLists/Edit/5
+        // GET: /dashboard/blacklist/edit/5
+        [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,10 +82,8 @@ namespace StarSecurity.Controllers
             return View(blackList);
         }
 
-        // POST: BlackLists/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/blacklist/edit/5
+        [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Reason,AddedAt")] BlackList blackList)
         {
@@ -117,7 +115,8 @@ namespace StarSecurity.Controllers
             return View(blackList);
         }
 
-        // GET: BlackLists/Delete/5
+        // GET: /dashboard/blacklist/delete/5
+        [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,8 +134,8 @@ namespace StarSecurity.Controllers
             return View(blackList);
         }
 
-        // POST: BlackLists/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: /dashboard/blacklist/delete/5
+        [HttpPost("delete/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

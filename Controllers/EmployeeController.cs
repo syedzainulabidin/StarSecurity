@@ -6,6 +6,7 @@ using StarSecurity.Helpers;
 
 namespace StarSecurity.Controllers
 {
+    [Route("dashboard")]
     [Helpers.Authorize("Employee")]
     public class EmployeeController : Controller
     {
@@ -16,6 +17,8 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
+        // GET: /dashboard/colleagues
+        [HttpGet("colleagues")]
         public async Task<IActionResult> ViewColleagues()
         {
             var currentUserId = int.Parse(HttpContext.Session.GetString("UserId"));
@@ -28,6 +31,8 @@ namespace StarSecurity.Controllers
             return View(colleagues);
         }
 
+        // GET: /dashboard/profile
+        [HttpGet("profile")]
         public async Task<IActionResult> MyProfile()
         {
             var userId = int.Parse(HttpContext.Session.GetString("UserId"));
@@ -42,6 +47,8 @@ namespace StarSecurity.Controllers
             return View(employee);
         }
 
+        // GET: /dashboard/my-bookings
+        [HttpGet("my-bookings")]
         public async Task<IActionResult> MyBookings()
         {
             var userId = int.Parse(HttpContext.Session.GetString("UserId"));

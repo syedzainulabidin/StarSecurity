@@ -14,15 +14,24 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
+        [HttpGet("login")]
         public IActionResult Login()
         {
+            // If already logged in, redirect based on role
+            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+            {
+                var role = HttpContext.Session.GetString("UserRole");
+                if (role == "Admin" || role == "Employee")
+                    return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public IActionResult Login(string email, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email && u.PasswordHash == password); // In real app, hash passwords
+            var user = _context.Users.FirstOrDefault(u => u.Email == email && u.PasswordHash == password);
             if (user != null)
             {
                 HttpContext.Session.SetString("UserId", user.Id.ToString());
@@ -37,12 +46,14 @@ namespace StarSecurity.Controllers
             return View();
         }
 
+        [HttpGet("logout")]
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
+            return RedirectToAction("Login", "Account");
         }
 
+        [HttpGet("access-denied")]
         public IActionResult AccessDenied()
         {
             return View();

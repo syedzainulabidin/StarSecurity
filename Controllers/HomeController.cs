@@ -7,6 +7,7 @@ using StarSecurity.Models;
 
 namespace StarSecurity.Controllers
 {
+    [Route("")]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -16,18 +17,21 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
+        [HttpGet("")]
         [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
+        [HttpGet("about")]
         [AllowAnonymous]
         public IActionResult About()
         {
             return View();
         }
 
+        [HttpGet("services")]
         [AllowAnonymous]
         public IActionResult Services()
         {
@@ -35,19 +39,22 @@ namespace StarSecurity.Controllers
             return View(services);
         }
 
+        [HttpGet("contact")]
         [AllowAnonymous]
         public IActionResult Contact()
         {
             return View();
         }
 
-        [AllowAnonymous]
-        public async Task<IActionResult> Vacancies()
-        {
-            var vacancies = await _context.Vacancies.Where(v => v.IsActive).ToListAsync();
-            return View(vacancies);
-        }
+        //[HttpGet("careers")]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Vacancies()
+        //{
+        //    var vacancies = await _context.Vacancies.Where(v => v.IsActive).ToListAsync();
+        //    return View(vacancies);
+        //}
 
+        [HttpGet("dashboard")]
         [Helpers.Authorize("Admin", "Employee")]
         public IActionResult Dashboard()
         {
@@ -60,12 +67,14 @@ namespace StarSecurity.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet("dashboard/admin")]
         [Helpers.Authorize("Admin")]
         public IActionResult AdminDashboard()
         {
             return View();
         }
 
+        [HttpGet("dashboard/employee")]
         [Helpers.Authorize("Employee")]
         public IActionResult EmployeeDashboard()
         {

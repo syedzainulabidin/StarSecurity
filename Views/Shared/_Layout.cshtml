@@ -13,7 +13,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Star Security</a>
+                <a class="navbar-brand" href="/">Star Security</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,38 +22,38 @@
                     <ul class="navbar-nav flex-grow-1">
                         <!-- Public Links -->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" href="/">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="About">About</a>
+                            <a class="nav-link text-dark" href="/about">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Services">Services</a>
+                            <a class="nav-link text-dark" href="/services">Services</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Vacancies">Careers</a>
+                            <a class="nav-link text-dark" href="/careers">Careers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Contact">Contact</a>
+                            <a class="nav-link text-dark" href="/contact">Contact</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Requests" asp-action="Create">Request Security</a>
+                            <a class="nav-link text-dark" href="/request-security">Request Security</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Hirings" asp-action="Create">Apply for Job</a>
+                            <a class="nav-link text-dark" href="/apply-now">Apply for Job</a>
                         </li>
 
                         <!-- Employee Links -->
                         @if (Context.Session.GetString("UserRole") == "Employee")
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="EmployeeDashboard">Dashboard</a>
+                                <a class="nav-link text-dark" href="/dashboard/employee">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Employee" asp-action="MyBookings">My Bookings</a>
+                                <a class="nav-link text-dark" href="/dashboard/my-bookings">My Bookings</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Employee" asp-action="ViewColleagues">Colleagues</a>
+                                <a class="nav-link text-dark" href="/dashboard/colleagues">Colleagues</a>
                             </li>
                         }
 
@@ -65,14 +65,14 @@
                                     Admin
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="adminDropdown">
-                                    <li><a class="dropdown-item" asp-controller="Users" asp-action="Index">Users</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Employees" asp-action="Index">Employees</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Services" asp-action="Index">Services</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Bookings" asp-action="Index">Bookings</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Requests" asp-action="Index">Requests</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Hirings" asp-action="Index">Job Applications</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Vacancies" asp-action="Index">Vacancies</a></li>
-                                    <li><a class="dropdown-item" asp-controller="BlackLists" asp-action="Index">Blacklist</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/users">Users</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/employees">Employees</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/services">Services</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/bookings">Bookings</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/requests">Requests</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/applications">Job Applications</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/vacancies">Vacancies</a></li>
+                                    <li><a class="dropdown-item" href="/dashboard/blacklist">Blacklist</a></li>
                                 </ul>
                             </li>
                         }
@@ -83,7 +83,7 @@
                         @if (Context.Session.GetString("UserEmail") == null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" href="/login">Login</a>
                             </li>
                         }
                         else
@@ -92,7 +92,7 @@
                                 <span class="nav-link text-dark">Welcome, @Context.Session.GetString("UserName")!</span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
+                                <a class="nav-link text-dark" href="/logout">Logout</a>
                             </li>
                         }
                     </ul>
@@ -108,7 +108,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - StarSecurity - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - StarSecurity
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

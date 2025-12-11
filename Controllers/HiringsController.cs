@@ -1,17 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StarSecurity.Data;
 using StarSecurity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using StarSecurity.Helpers;
 
 namespace StarSecurity.Controllers
 {
+    [Route("")]
     [Helpers.Authorize("Admin")]
     public class HiringsController : Controller
     {
@@ -22,13 +18,17 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: Hirings
+        // GET: /dashboard/applications
+        [HttpGet("dashboard/applications")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Hirings.ToListAsync());
         }
 
-        // GET: Hirings/Details/5
+        // GET: /dashboard/applications/details/5
+        [HttpGet("dashboard/applications/details/{id}")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,30 +46,33 @@ namespace StarSecurity.Controllers
             return View(hiring);
         }
 
-        // GET: Hirings/Create
+        // GET: /apply-now
+        [HttpGet("apply-now")]
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Hirings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: /apply-now
+        [HttpPost("apply-now")]
         [AllowAnonymous]
-        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,ServiceInterested,Description,SubmittedAt")] Hiring hiring)
+        public async Task<IActionResult> Create([Bind("Id,Name,Email,ServiceInterested,Description")] Hiring hiring)
         {
             if (ModelState.IsValid)
             {
+                hiring.SubmittedAt = DateTime.Now; // Auto-set date
                 _context.Add(hiring);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home"); // Redirect to home after submission
             }
             return View(hiring);
         }
 
-        // GET: Hirings/Edit/5
+        // GET: /dashboard/applications/edit/5
+        [HttpGet("dashboard/applications/edit/{id}")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,11 +88,10 @@ namespace StarSecurity.Controllers
             return View(hiring);
         }
 
-        // POST: Hirings/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/applications/edit/5
+        [HttpPost("dashboard/applications/edit/{id}")]
         [ValidateAntiForgeryToken]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,ServiceInterested,Description,SubmittedAt")] Hiring hiring)
         {
             if (id != hiring.Id)
@@ -120,7 +122,9 @@ namespace StarSecurity.Controllers
             return View(hiring);
         }
 
-        // GET: Hirings/Delete/5
+        // GET: /dashboard/applications/delete/5
+        [HttpGet("dashboard/applications/delete/{id}")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,9 +142,10 @@ namespace StarSecurity.Controllers
             return View(hiring);
         }
 
-        // POST: Hirings/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: /dashboard/applications/delete/5
+        [HttpPost("dashboard/applications/delete/{id}")]
         [ValidateAntiForgeryToken]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var hiring = await _context.Hirings.FindAsync(id);

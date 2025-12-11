@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StarSecurity.Data;
 using StarSecurity.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using StarSecurity.Helpers;
 
 namespace StarSecurity.Controllers
 {
+    [Route("")]
     [Helpers.Authorize("Admin")]
     public class VacanciesController : Controller
     {
@@ -21,14 +18,26 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: Vacancies
-        [AllowAnonymous]
+        // GET: /dashboard/vacancies (Admin view - all vacancies)
+        [HttpGet("dashboard/vacancies")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Vacancies.ToListAsync());
         }
 
-        // GET: Vacancies/Details/5
+        // GET: /careers (Public view - active vacancies only)
+        [HttpGet("careers")]
+        [AllowAnonymous]
+        public async Task<IActionResult> PublicIndex()
+        {
+            var vacancies = await _context.Vacancies.Where(v => v.IsActive).ToListAsync();
+            return View("PublicIndex", vacancies); // Different view for public
+        }
+
+        // GET: /dashboard/vacancies/details/5
+        [HttpGet("dashboard/vacancies/details/{id}")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,21 +55,23 @@ namespace StarSecurity.Controllers
             return View(vacancy);
         }
 
-        // GET: Vacancies/Create
+        // GET: /dashboard/vacancies/create
+        [HttpGet("dashboard/vacancies/create")]
+        [Helpers.Authorize("Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Vacancies/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/vacancies/create
+        [HttpPost("dashboard/vacancies/create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Count,IsActive,PostedAt")] Vacancy vacancy)
+        [Helpers.Authorize("Admin")]
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Count,IsActive")] Vacancy vacancy)
         {
             if (ModelState.IsValid)
             {
+                vacancy.PostedAt = DateTime.Now; // Auto-set date
                 _context.Add(vacancy);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -68,7 +79,9 @@ namespace StarSecurity.Controllers
             return View(vacancy);
         }
 
-        // GET: Vacancies/Edit/5
+        // GET: /dashboard/vacancies/edit/5
+        [HttpGet("dashboard/vacancies/edit/{id}")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -84,11 +97,10 @@ namespace StarSecurity.Controllers
             return View(vacancy);
         }
 
-        // POST: Vacancies/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/vacancies/edit/5
+        [HttpPost("dashboard/vacancies/edit/{id}")]
         [ValidateAntiForgeryToken]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Count,IsActive,PostedAt")] Vacancy vacancy)
         {
             if (id != vacancy.Id)
@@ -119,7 +131,9 @@ namespace StarSecurity.Controllers
             return View(vacancy);
         }
 
-        // GET: Vacancies/Delete/5
+        // GET: /dashboard/vacancies/delete/5
+        [HttpGet("dashboard/vacancies/delete/{id}")]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,9 +151,10 @@ namespace StarSecurity.Controllers
             return View(vacancy);
         }
 
-        // POST: Vacancies/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: /dashboard/vacancies/delete/5
+        [HttpPost("dashboard/vacancies/delete/{id}")]
         [ValidateAntiForgeryToken]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vacancy = await _context.Vacancies.FindAsync(id);

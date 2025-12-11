@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StarSecurity.Data;
-using StarSecurity.Models;
 using StarSecurity.Helpers;
-
+using StarSecurity.Models;
 
 namespace StarSecurity.Controllers
 {
-    [Authorize("Admin", "Employee")]
+    [Route("dashboard/bookings")]
+    [Helpers.Authorize("Admin", "Employee")]
     public class BookingsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -22,14 +18,40 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: Bookings
+        // GET: /dashboard/bookings
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bookings.Include(b => b.Client).Include(b => b.Employee).Include(b => b.Service);
-            return View(await applicationDbContext.ToListAsync());
+            var userRole = HttpContext.Session.GetString("UserRole");
+            var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+
+            if (userRole == "Employee")
+            {
+                // Employees only see their own bookings
+                var employee = await _context.Employees.FirstOrDefaultAsync(e => e.UserId == userId);
+                if (employee == null) return Forbid();
+
+                var employeeBookings = _context.Bookings
+                    .Include(b => b.Client)
+                    .Include(b => b.Employee)
+                    .Include(b => b.Service)
+                    .Where(b => b.EmployeeId == employee.Id);
+
+                return View(await employeeBookings.ToListAsync());
+            }
+            else
+            {
+                // Admins see all bookings
+                var applicationDbContext = _context.Bookings
+                    .Include(b => b.Client)
+                    .Include(b => b.Employee)
+                    .Include(b => b.Service);
+                return View(await applicationDbContext.ToListAsync());
+            }
         }
 
-        // GET: Bookings/Details/5
+        // GET: /dashboard/bookings/details/5
+        [HttpGet("details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,10 +69,22 @@ namespace StarSecurity.Controllers
                 return NotFound();
             }
 
+            // Check if employee is viewing their own booking
+            var userRole = HttpContext.Session.GetString("UserRole");
+            if (userRole == "Employee")
+            {
+                var userId = int.Parse(HttpContext.Session.GetString("UserId"));
+                var employee = await _context.Employees.FirstOrDefaultAsync(e => e.UserId == userId);
+                if (employee == null || booking.EmployeeId != employee.Id)
+                    return RedirectToAction("AccessDenied", "Account");
+            }
+
             return View(booking);
         }
 
-        // GET: Bookings/Create
+        // GET: /dashboard/bookings/create
+        [HttpGet("create")]
+        [Helpers.Authorize("Admin")] // Only admin can create bookings
         public IActionResult Create()
         {
             ViewData["ClientId"] = new SelectList(_context.Users.Where(u => u.Role == "Client"), "Id", "FullName");
@@ -59,26 +93,28 @@ namespace StarSecurity.Controllers
             return View();
         }
 
-        // POST: Bookings/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/bookings/create
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ClientId,ServiceId,EmployeeId,Status,BookedAt")] Booking booking)
+        [Helpers.Authorize("Admin")]
+        public async Task<IActionResult> Create([Bind("Id,ClientId,ServiceId,EmployeeId,Status")] Booking booking)
         {
             if (ModelState.IsValid)
             {
+                booking.BookedAt = DateTime.Now; // Auto-set date
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Email", booking.ClientId);
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", booking.EmployeeId);
-            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Category", booking.ServiceId);
+            ViewData["ClientId"] = new SelectList(_context.Users.Where(u => u.Role == "Client"), "Id", "FullName", booking.ClientId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees.Include(e => e.User), "Id", "User.FullName", booking.EmployeeId);
+            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", booking.ServiceId);
             return View(booking);
         }
 
-        // GET: Bookings/Edit/5
+        // GET: /dashboard/bookings/edit/5
+        [HttpGet("edit/{id}")]
+        [Helpers.Authorize("Admin")] // Only admin can edit bookings
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -98,11 +134,10 @@ namespace StarSecurity.Controllers
             return View(booking);
         }
 
-        // POST: Bookings/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/bookings/edit/5
+        [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,ClientId,ServiceId,EmployeeId,Status,BookedAt")] Booking booking)
         {
             if (id != booking.Id)
@@ -130,13 +165,15 @@ namespace StarSecurity.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Users, "Id", "Email", booking.ClientId);
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id", booking.EmployeeId);
-            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Category", booking.ServiceId);
+            ViewData["ClientId"] = new SelectList(_context.Users.Where(u => u.Role == "Client"), "Id", "FullName", booking.ClientId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees.Include(e => e.User), "Id", "User.FullName", booking.EmployeeId);
+            ViewData["ServiceId"] = new SelectList(_context.Services, "Id", "Name", booking.ServiceId);
             return View(booking);
         }
 
-        // GET: Bookings/Delete/5
+        // GET: /dashboard/bookings/delete/5
+        [HttpGet("delete/{id}")]
+        [Helpers.Authorize("Admin")] // Only admin can delete bookings
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -157,9 +194,10 @@ namespace StarSecurity.Controllers
             return View(booking);
         }
 
-        // POST: Bookings/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: /dashboard/bookings/delete/5
+        [HttpPost("delete/{id}")]
         [ValidateAntiForgeryToken]
+        [Helpers.Authorize("Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var booking = await _context.Bookings.FindAsync(id);

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StarSecurity.Data;
 using StarSecurity.Models;
+using StarSecurity.Helpers;
 
 namespace StarSecurity.Controllers
 {
+    [Route("dashboard/services")]
     [Helpers.Authorize("Admin")]
     public class ServicesController : Controller
     {
@@ -20,13 +17,15 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: Services
+        // GET: /dashboard/services
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Services.ToListAsync());
         }
 
-        // GET: Services/Details/5
+        // GET: /dashboard/services/details/5
+        [HttpGet("details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,16 +43,15 @@ namespace StarSecurity.Controllers
             return View(service);
         }
 
-        // GET: Services/Create
+        // GET: /dashboard/services/create
+        [HttpGet("create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Services/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/services/create
+        [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,Category")] Service service)
         {
@@ -66,7 +64,8 @@ namespace StarSecurity.Controllers
             return View(service);
         }
 
-        // GET: Services/Edit/5
+        // GET: /dashboard/services/edit/5
+        [HttpGet("edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,10 +81,8 @@ namespace StarSecurity.Controllers
             return View(service);
         }
 
-        // POST: Services/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // POST: /dashboard/services/edit/5
+        [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Category")] Service service)
         {
@@ -117,7 +114,8 @@ namespace StarSecurity.Controllers
             return View(service);
         }
 
-        // GET: Services/Delete/5
+        // GET: /dashboard/services/delete/5
+        [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,8 +133,8 @@ namespace StarSecurity.Controllers
             return View(service);
         }
 
-        // POST: Services/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: /dashboard/services/delete/5
+        [HttpPost("delete/{id}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

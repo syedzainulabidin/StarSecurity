@@ -1,0 +1,44 @@
+﻿@model IEnumerable<StarSecurity.Models.Vacancy>
+
+@{
+    ViewData["Title"] = "Career Opportunities";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">Career Opportunities at Star Security</h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <p>We currently don't have any open positions. Please check back later!</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var vacancy in Model)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@vacancy.Title</h5>
+                            <p class="card-text">@vacancy.Description</p>
+
+                            <div class="mb-3">
+                                <span class="badge bg-primary">Positions: @vacancy.Count</span>
+                                <span class="badge bg-success ms-2">Active</span>
+                            </div>
+
+                            <p class="text-muted">
+                                <small>Posted on: @vacancy.PostedAt.ToString("MMMM dd, yyyy")</small>
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="/apply-now" class="btn btn-primary">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

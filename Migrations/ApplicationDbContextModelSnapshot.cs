@@ -253,11 +253,16 @@ namespace StarSecurity.Migrations
                     b.Property<DateTime>("PostedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ServiceId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Vacancies");
                 });
@@ -306,6 +311,17 @@ namespace StarSecurity.Migrations
                     b.Navigation("Service");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("StarSecurity.Models.Vacancy", b =>
+                {
+                    b.HasOne("StarSecurity.Models.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Service");
                 });
 #pragma warning restore 612, 618
         }

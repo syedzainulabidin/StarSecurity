@@ -328,3 +328,4 @@ D:\Dot Net\eproject\StarSecurity\StarSecurity\obj\Debug\net9.0\refint\StarSecuri
 D:\Dot Net\eproject\StarSecurity\StarSecurity\obj\Debug\net9.0\StarSecurity.pdb
 D:\Dot Net\eproject\StarSecurity\StarSecurity\obj\Debug\net9.0\StarSecurity.genruntimeconfig.cache
 D:\Dot Net\eproject\StarSecurity\StarSecurity\obj\Debug\net9.0\ref\StarSecurity.dll
+D:\Dot Net\eproject\StarSecurity\StarSecurity\obj\Debug\net9.0\StarSecurity.sourcelink.json
