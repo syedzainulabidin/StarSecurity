@@ -1,0 +1,20 @@
+﻿@model List<Service>
+@{
+    ViewData["Title"] = "Our Services";
+}
+
+<h2>Our Business Services</h2>
+<div class="row">
+    @foreach (var service in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@service.Title</h5>
+                    <p class="card-text">@service.Description</p>
+                    <a href="/booking/book?serviceId=@service.Id" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

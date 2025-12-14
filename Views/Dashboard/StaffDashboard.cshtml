@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Staff Dashboard";
+}
+
+<h2>Welcome, @ViewBag.EmployeeName</h2>
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Assigned Bookings</h5>
+                <p class="card-text display-6">@ViewBag.AssignedBookings</p>
+                <a href="/dashboard/bookings" class="text-white">View Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="mt-5">Your Actions</h4>
+<ul>
+    <li><a href="/dashboard/profile">View/Edit Profile</a></li>
+    <li><a href="/dashboard/employees">View Colleagues</a></li>
+</ul>

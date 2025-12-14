@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Welcome, Admin @ViewBag.EmployeeName</h2>
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Total Employees</h5>
+                <p class="card-text display-6">@ViewBag.TotalEmployees</p>
+                <a href="/dashboard/employees" class="text-white">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Total Bookings</h5>
+                <p class="card-text display-6">@ViewBag.TotalBookings</p>
+                <a href="/dashboard/bookings" class="text-white">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Pending Applications</h5>
+                <p class="card-text display-6">@ViewBag.PendingApplications</p>
+                <a href="/dashboard/applications" class="text-white">Review</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 class="mt-5">Quick Actions</h4>
+<ul>
+    <li><a href="/dashboard/services">Manage Services</a></li>
+    <li><a href="/dashboard/vacancies">Manage Vacancies</a></li>
+    <li><a href="/dashboard/testimonials">Manage Testimonials</a></li>
+    <li><a href="/dashboard/clients">Manage Clients</a></li>
+</ul>

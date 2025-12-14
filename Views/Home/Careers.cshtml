@@ -1,0 +1,34 @@
+﻿@model List<Vacancy>
+@{
+    ViewData["Title"] = "Careers";
+}
+
+<h2>Current Job Openings</h2>
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Service</th>
+                <th>Openings</th>
+                <th>Posted On</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vacancy in Model)
+            {
+                <tr>
+                    <td>@vacancy.Service.Title</td>
+                    <td>@vacancy.Count</td>
+                    <td>@vacancy.PostedDate.ToShortDateString()</td>
+                    <td><a href="/Booking/Apply?serviceId=@vacancy.ServiceId" class="btn btn-sm btn-success">Apply Now</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No vacancies at the moment.</p>
+}

@@ -1,0 +1,20 @@
+﻿@model List<Testimonial>
+@{
+    ViewData["Title"] = "Testimonials";
+}
+
+<h2>What Our Clients Say</h2>
+<div class="row">
+    @foreach (var testimonial in Model)
+    {
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <p>"@testimonial.Content"</p>
+                    <h6>— Client #@testimonial.ClientId</h6>
+                    <small>Rating: @testimonial.Rating / 5</small>
+                </div>
+            </div>
+        </div>
+    }
+</div>

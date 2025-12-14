@@ -1,0 +1,26 @@
+﻿@model Employee
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h2>My Profile</h2>
+<dl class="row">
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+
+    <dt class="col-sm-3">Email</dt>
+    <dd class="col-sm-9">@Model.Email</dd>
+
+    <dt class="col-sm-3">Contact</dt>
+    <dd class="col-sm-9">@Model.Contact</dd>
+
+    <dt class="col-sm-3">Grade</dt>
+    <dd class="col-sm-9">@Model.Grade</dd>
+
+    <dt class="col-sm-3">Department/Service</dt>
+    <dd class="col-sm-9">@Model.Service?.Title</dd>
+
+    <dt class="col-sm-3">Qualification</dt>
+    <dd class="col-sm-9">@Model.Qualification?.Degree</dd>
+</dl>
+<a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>

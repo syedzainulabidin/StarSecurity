@@ -1,0 +1,140 @@
+﻿@model List<Booking>
+@{
+    ViewData["Title"] = "Manage Bookings";
+}
+
+<h2>Manage Bookings</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>S.No</th>
+            <th>Client Name</th>
+            <th>Date</th>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Staff</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var booking = Model[i];
+            <tr>
+                <td>@(i + 1)</td>
+                <td>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal-@booking.Id">
+                        @booking.ClientName
+                    </a>
+                </td>
+                <td>@booking.Date.ToShortDateString()</td>
+                <td>@booking.Service.Title</td>
+                <td>
+                    @if (booking.Status == "Pending")
+                    {
+                        <span class="badge bg-warning">Pending</span>
+                    }
+                    else if (booking.Status == "Approved")
+                    {
+                        <span class="badge bg-success">Approved</span>
+                    }
+                    else if (booking.Status == "Rejected")
+                    {
+                        <span class="badge bg-danger">Rejected</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-info">Completed</span>
+                    }
+                </td>
+                <td>
+                    @if (booking.Status == "Pending")
+                    {
+                        <span class="text-muted">—</span>
+                    }
+                    else
+                    {
+                        @booking.Employee?.Name
+                    }
+                </td>
+                <td>
+                    @if (booking.Status == "Pending")
+                    {
+                        <form method="post" asp-action="RejectBooking" asp-controller="Dashboard" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@booking.Id" />
+                            <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                        </form>
+                        <form method="post" asp-action="ApproveBooking" asp-controller="Dashboard" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@booking.Id" />
+                            <select name="employeeId" class="form-select form-select-sm d-inline w-auto" required>
+                                <option value="">-- Select Staff --</option>
+                                @foreach (var emp in ViewBag.Employees)
+                                {
+                                    if (emp.ServiceId == booking.ServiceId)
+                                    {
+                                        <option value="@emp.Id">@emp.Name (@emp.Grade)</option>
+                                    }
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                    }
+                    else if (booking.Status == "Approved")
+                    {
+                        <form method="post" asp-action="CompleteBooking" asp-controller="Dashboard" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@booking.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-success">✅ Mark Completed</button>
+                        </form>
+                    }
+                    else if (booking.Status == "Rejected")
+                    {
+                        <button class="btn btn-sm btn-secondary" disabled>Rejected</button>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Completed</span>
+                    }
+                </td>
+            </tr>
+
+            <!-- Modal -->
+            <div class="modal fade" id="detailsModal-@booking.Id" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Booking Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Client:</strong> @booking.ClientName</p>
+                            <p><strong>Email:</strong> @booking.ClientEmail</p>
+                            <p><strong>Address:</strong> @booking.Address</p>
+                            <p><strong>Description:</strong> @booking.Description</p>
+                            <p><strong>Shift:</strong> @booking.ShiftStart - @booking.ShiftEnd</p>
+                            <p><strong>Applied On:</strong> @booking.CreatedAt.ToString("dd-MM-yyyy HH:mm")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
