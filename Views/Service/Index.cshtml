@@ -1,0 +1,39 @@
+﻿@model List<Service>
+@{
+    ViewData["Title"] = "Manage Services";
+}
+
+<h2>Services</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">@TempData["Message"]</div>
+}
+
+<p><a asp-action="Create" class="btn btn-primary">Create New</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var service in Model)
+        {
+            <tr>
+                <td>@service.Title</td>
+                <td>@service.Description</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@service.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <form method="post" asp-action="Delete" asp-route-id="@service.Id" style="display:inline;" onsubmit="return confirm('Delete this service?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

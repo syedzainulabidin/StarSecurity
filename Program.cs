@@ -134,6 +134,74 @@ app.MapControllerRoute(
     pattern: "logout",
     defaults: new { controller = "Login", action = "Logout" });
 
+
+// Service CRUD routes
+app.MapControllerRoute(
+    name: "service-index",
+    pattern: "dashboard/services",
+    defaults: new { controller = "Service", action = "Index" });
+
+app.MapControllerRoute(
+    name: "service-create",
+    pattern: "dashboard/services/create",
+    defaults: new { controller = "Service", action = "Create" });
+
+app.MapControllerRoute(
+    name: "service-edit",
+    pattern: "dashboard/services/edit/{id}",
+    defaults: new { controller = "Service", action = "Edit" });
+
+app.MapControllerRoute(
+    name: "service-delete",
+    pattern: "dashboard/services/delete/{id}",
+    defaults: new { controller = "Service", action = "Delete" });
+
+
+// Vacancy CRUD routes
+app.MapControllerRoute(
+    name: "vacancy-index",
+    pattern: "dashboard/vacancies",
+    defaults: new { controller = "Vacancy", action = "Index" });
+
+app.MapControllerRoute(
+    name: "vacancy-create",
+    pattern: "dashboard/vacancies/create",
+    defaults: new { controller = "Vacancy", action = "Create" });
+
+app.MapControllerRoute(
+    name: "vacancy-edit",
+    pattern: "dashboard/vacancies/edit/{id}",
+    defaults: new { controller = "Vacancy", action = "Edit" });
+
+app.MapControllerRoute(
+    name: "vacancy-delete",
+    pattern: "dashboard/vacancies/delete/{id}",
+    defaults: new { controller = "Vacancy", action = "Delete" });
+
+
+app.MapControllerRoute(
+    name: "career-apply",
+    pattern: "careers/apply",
+    defaults: new { controller = "Career", action = "Apply" });
+
+// Application management routes
+app.MapControllerRoute(
+    name: "application-index",
+    pattern: "dashboard/applications",
+    defaults: new { controller = "Application", action = "Index" });
+
+app.MapControllerRoute(
+    name: "application-hire",
+    pattern: "dashboard/applications/hire/{id}",
+    defaults: new { controller = "Application", action = "Hire" });
+
+app.MapControllerRoute(
+    name: "application-reject",
+    pattern: "dashboard/applications/reject/{id}",
+    defaults: new { controller = "Application", action = "Reject" });
+
+
+
 // ===== Default route (LAST) =====
 app.MapControllerRoute(
     name: "default",

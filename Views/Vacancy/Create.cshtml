@@ -1,0 +1,32 @@
+﻿@model Vacancy
+@{
+    ViewData["Title"] = "Post Vacancy";
+}
+
+<h2>Post New Vacancy</h2>
+
+<form method="post" asp-controller="Vacancy" asp-action="Create">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="ServiceId">Service</label>
+        <select asp-for="ServiceId" asp-items="ViewBag.Services" class="form-control" required>
+            <option value="">-- Select Service --</option>
+        </select>
+        <span asp-validation-for="ServiceId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Count">Number of Openings</label>
+        <input asp-for="Count" type="number" min="1" class="form-control" required />
+        <span asp-validation-for="Count" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Status">Status</label>
+        <select asp-for="Status" class="form-control">
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success">Post Vacancy</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

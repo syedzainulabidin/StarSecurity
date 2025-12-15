@@ -157,22 +157,26 @@ namespace StarSecurity.Data
 
             if (!context.Hirings.Any())
             {
-                // 8. Job Applications
-                var hirings = new List<Hiring>
+                // Get the first existing vacancy
+                var vacancy = context.Vacancies.FirstOrDefault();
+                if (vacancy != null)
                 {
-                    new Hiring
-                    {
-                        Name = "Rohit Sharma",
-                        Email = "rohit@gmail.com",
-                        Contact = "9123401234",
-                        Address = "Pune",
-                        QualificationId = 3,
-                        VacancyId = 1,
-                        Status = "Pending"
-                    }
-                };
-                context.Hirings.AddRange(hirings);
-                context.SaveChanges();
+                    var hirings = new List<Hiring>
+        {
+            new Hiring
+            {
+                Name = "Rohit Sharma",
+                Email = "rohit@gmail.com",
+                Contact = "9123401234",
+                Address = "Pune",
+                QualificationId = 3,
+                VacancyId = vacancy.Id, // Use actual existing ID
+                Status = "Pending"
+            }
+        };
+                    context.Hirings.AddRange(hirings);
+                    context.SaveChanges();
+                }
             }
         }
     }

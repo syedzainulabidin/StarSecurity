@@ -12,7 +12,7 @@ using StarSecurity.Data;
 namespace StarSecurity.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251214115636_Initial")]
+    [Migration("20251215205735_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

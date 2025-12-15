@@ -1,0 +1,70 @@
+﻿@model List<Hiring>
+@{
+    ViewData["Title"] = "Job Applications";
+}
+
+<h2>Job Applications</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">@TempData["Message"]</div>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Qualification</th>
+            <th>Applied For</th>
+            <th>Status</th>
+            <th>Applied On</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var app in Model)
+        {
+            <tr>
+                <td>@app.Name</td>
+                <td>@app.Email</td>
+                <td>@app.Contact</td>
+                <td>@app.Qualification?.Degree</td>
+                <td>@app.Vacancy?.Service?.Title (Openings: @app.Vacancy?.Count)</td>
+                <td>
+                    @if (app.Status == "Pending")
+                    {
+                        <span class="badge bg-warning">Pending</span>
+                    }
+                    else if (app.Status == "Hired")
+                    {
+                        <span class="badge bg-success">Hired</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Rejected</span>
+                    }
+                </td>
+                <td>@app.CreatedAt.ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (app.Status == "Pending")
+                    {
+                        <form method="post" asp-action="Hire" asp-route-id="@app.Id" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-success">Hire</button>
+                        </form>
+                        <form method="post" asp-action="Reject" asp-route-id="@app.Id" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">—</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

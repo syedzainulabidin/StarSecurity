@@ -83,6 +83,10 @@ namespace StarSecurity.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Employee updatedEmployee)
         {
+            ModelState.Remove("Qualification");
+            ModelState.Remove("Service");
+            ModelState.Remove("Password"); // Because it's optional in edit
+
             if (ModelState.IsValid)
             {
                 var existing = _context.Employees.Find(id);

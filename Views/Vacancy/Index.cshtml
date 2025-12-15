@@ -1,0 +1,52 @@
+﻿@model List<Vacancy>
+@{
+    ViewData["Title"] = "Manage Vacancies";
+}
+
+<h2>Job Vacancies</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">@TempData["Message"]</div>
+}
+
+<p><a asp-action="Create" class="btn btn-primary">Post New Vacancy</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Service</th>
+            <th>Openings</th>
+            <th>Posted Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var vacancy in Model)
+        {
+            <tr>
+                <td>@vacancy.Service?.Title</td>
+                <td>@vacancy.Count</td>
+                <td>@vacancy.PostedDate.ToString("dd-MM-yyyy")</td>
+                <td>
+                    @if (vacancy.Status == "Open")
+                    {
+                        <span class="badge bg-success">Open</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Closed</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@vacancy.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <form method="post" asp-action="Delete" asp-route-id="@vacancy.Id" style="display:inline;" onsubmit="return confirm('Delete this vacancy?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
