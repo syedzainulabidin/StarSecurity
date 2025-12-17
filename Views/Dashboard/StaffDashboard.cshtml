@@ -3,20 +3,24 @@
 }
 
 <h2>Welcome, @ViewBag.EmployeeName</h2>
+<hr />
+
 <div class="row mt-4">
     <div class="col-md-4">
-        <div class="card text-white bg-info">
+        <div class="card text-white bg-primary">
             <div class="card-body">
                 <h5 class="card-title">Assigned Bookings</h5>
                 <p class="card-text display-6">@ViewBag.AssignedBookings</p>
-                <a href="/dashboard/bookings" class="text-white">View Details</a>
+                <a href="/dashboard/mybookings" class="text-white">View Details</a>
             </div>
         </div>
     </div>
 </div>
 
-<h4 class="mt-5">Your Actions</h4>
-<ul>
-    <li><a href="/dashboard/profile">View/Edit Profile</a></li>
-    <li><a href="/dashboard/employees">View Colleagues</a></li>
-</ul>
+<h4 class="mt-5">Quick Actions</h4>
+<div class="d-flex flex-wrap gap-2">
+    <a href="/dashboard/profile" class="btn btn-outline-primary">Update Profile</a>
+    <a href="/dashboard/changepassword" class="btn btn-outline-primary">Change Password</a>
+    <a href="/dashboard/colleagues" class="btn btn-outline-primary">View Colleagues</a>
+    <a href="/dashboard/mybookings" class="btn btn-outline-success">My Bookings</a>
+</div>

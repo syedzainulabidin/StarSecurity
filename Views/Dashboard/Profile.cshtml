@@ -4,23 +4,58 @@
 }
 
 <h2>My Profile</h2>
-<dl class="row">
-    <dt class="col-sm-3">Name</dt>
-    <dd class="col-sm-9">@Model.Name</dd>
 
-    <dt class="col-sm-3">Email</dt>
-    <dd class="col-sm-9">@Model.Email</dd>
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
 
-    <dt class="col-sm-3">Contact</dt>
-    <dd class="col-sm-9">@Model.Contact</dd>
+<form method="post" asp-controller="Dashboard" asp-action="UpdateProfile">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
 
-    <dt class="col-sm-3">Grade</dt>
-    <dd class="col-sm-9">@Model.Grade</dd>
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
 
-    <dt class="col-sm-3">Department/Service</dt>
-    <dd class="col-sm-9">@Model.Service?.Title</dd>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" readonly />
+        <small class="text-muted">Email cannot be changed.</small>
+    </div>
 
-    <dt class="col-sm-3">Qualification</dt>
-    <dd class="col-sm-9">@Model.Qualification?.Degree</dd>
-</dl>
-<a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+    <div class="form-group">
+        <label asp-for="Contact"></label>
+        <input asp-for="Contact" class="form-control" required />
+        <span asp-validation-for="Contact" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Address"></label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="QualificationId">Qualification</label>
+        <select asp-for="QualificationId" asp-items="ViewBag.Qualifications" class="form-control">
+            <option value="">-- Select --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ServiceId">Service/Department</label>
+        <select asp-for="ServiceId" asp-items="ViewBag.Services" class="form-control">
+            <option value="">-- Select --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Grade">Grade</label>
+        <input asp-for="Grade" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-warning mt-3">Update Profile</button>
+    <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</form>

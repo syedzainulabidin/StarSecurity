@@ -3,8 +3,11 @@
 }
 
 <h2>Welcome, Admin @ViewBag.EmployeeName</h2>
+<hr />
+
+<!-- Stats Cards -->
 <div class="row mt-4">
-    <div class="col-md-3">
+    <div class="col-md-3 mb-3">
         <div class="card text-white bg-primary">
             <div class="card-body">
                 <h5 class="card-title">Total Employees</h5>
@@ -13,17 +16,26 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 mb-3">
         <div class="card text-white bg-success">
             <div class="card-body">
                 <h5 class="card-title">Total Bookings</h5>
                 <p class="card-text display-6">@ViewBag.TotalBookings</p>
-                <a href="/dashboard/bookings" class="text-white">View</a>
+                <a href="/dashboard/bookings" class="text-white">View All</a>
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 mb-3">
         <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Pending Bookings</h5>
+                <p class="card-text display-6">@ViewBag.PendingBookings</p>
+                <a href="/dashboard/bookings" class="text-white">Review</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-info">
             <div class="card-body">
                 <h5 class="card-title">Pending Applications</h5>
                 <p class="card-text display-6">@ViewBag.PendingApplications</p>
@@ -33,10 +45,147 @@
     </div>
 </div>
 
-<h4 class="mt-5">Quick Actions</h4>
-<ul>
-    <li><a href="/dashboard/services">Manage Services</a></li>
-    <li><a href="/dashboard/vacancies">Manage Vacancies</a></li>
-    <li><a href="/dashboard/testimonials">Manage Testimonials</a></li>
-    <li><a href="/dashboard/clients">Manage Clients</a></li>
-</ul>
+<!-- Second Row -->
+<div class="row">
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-secondary">
+            <div class="card-body">
+                <h5 class="card-title">Clients</h5>
+                <p class="card-text display-6">@ViewBag.TotalClients</p>
+                <a href="/dashboard/clients" class="text-white">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-dark">
+            <div class="card-body">
+                <h5 class="card-title">Testimonials</h5>
+                <p class="card-text display-6">@ViewBag.TotalTestimonials</p>
+                <a href="/dashboard/testimonials" class="text-white">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-danger">
+            <div class="card-body">
+                <h5 class="card-title">Approved Bookings</h5>
+                <p class="card-text display-6">@ViewBag.ApprovedBookings</p>
+                <a href="/dashboard/bookings" class="text-white">View</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Completed Bookings</h5>
+                <p class="card-text display-6">@ViewBag.CompletedBookings</p>
+                <a href="/dashboard/bookings" class="text-white">View</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activities -->
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h4>Recent Bookings</h4>
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var booking in ViewBag.RecentBookings)
+                {
+                    <tr>
+                        <td>@booking.ClientName</td>
+                        <td>@booking.Service.Title</td>
+                        <td>@booking.Date.ToShortDateString()</td>
+                        <td>
+                            @if (booking.Status == "Pending")
+                            {
+                                <span class="badge bg-warning">Pending</span>
+                            }
+                            else if (booking.Status == "Approved")
+                            {
+
+                                <span class="badge bg-success">Approved</span>
+                            }
+                            else if (booking.Status == "Completed")
+                            {
+
+                                <span class="badge bg-info">Completed</span>
+                            }
+                            else
+                            {
+
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="/dashboard/bookings" class="btn btn-outline-primary btn-sm">View All Bookings</a>
+    </div>
+
+    <div class="col-md-6">
+        <h4>Recent Job Applications</h4>
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>Applicant</th>
+                    <th>Service</th>
+                    <th>Applied On</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var app in ViewBag.RecentApplications)
+                {
+                    <tr>
+                        <td>@app.Name</td>
+                        <td>@app.Vacancy?.Service?.Title</td>
+                        <td>@app.CreatedAt.ToString("dd-MM-yyyy")</td>
+                        <td>
+                            @if (app.Status == "Pending")
+                            {
+                                <span class="badge bg-warning">Pending</span>
+                            }
+                            else if (app.Status == "Hired")
+                            {
+
+                                <span class="badge bg-success">Hired</span>
+                            }
+                            else
+                            {
+
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a href="/dashboard/applications" class="btn btn-outline-primary btn-sm">View All Applications</a>
+    </div>
+</div>
+
+<!-- Quick Links -->
+<div class="row mt-5">
+    <div class="col-12">
+        <h4>Quick Actions</h4>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="/dashboard/employees/create" class="btn btn-primary">Add Employee</a>
+            <a href="/dashboard/services/create" class="btn btn-primary">Add Service</a>
+            <a href="/dashboard/vacancies/create" class="btn btn-primary">Post Vacancy</a>
+            <a href="/dashboard/clients/create" class="btn btn-primary">Add Client</a>
+            <a href="/dashboard/testimonials/create" class="btn btn-primary">Add Testimonial</a>
+            <a href="/booking/book" class="btn btn-success">Create Booking</a>
+        </div>
+    </div>
+</div>

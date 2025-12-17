@@ -1,0 +1,21 @@
+﻿@model Client
+@{
+    ViewData["Title"] = "Add Client";
+}
+
+<h2>Add New Client</h2>
+
+<form method="post" asp-controller="Client" asp-action="Create">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="BookingId">Select Completed Booking</label>
+        <select asp-for="BookingId" asp-items="ViewBag.Bookings" class="form-control" required>
+            <option value="">-- Select Booking --</option>
+        </select>
+        <span asp-validation-for="BookingId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Client</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

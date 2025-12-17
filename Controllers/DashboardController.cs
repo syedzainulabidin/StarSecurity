@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StarSecurity.Data;
 using StarSecurity.Models;
 using System.Security.Claims;
+using BCrypt.Net;
 
 namespace StarSecurity.Controllers
 {
@@ -26,13 +28,37 @@ namespace StarSecurity.Controllers
 
             if (role == "admin")
             {
+                // Admin stats
                 ViewBag.TotalEmployees = _context.Employees.Count();
                 ViewBag.TotalBookings = _context.Bookings.Count();
+                ViewBag.PendingBookings = _context.Bookings.Count(b => b.Status == "Pending");
+                ViewBag.ApprovedBookings = _context.Bookings.Count(b => b.Status == "Approved");
+                ViewBag.CompletedBookings = _context.Bookings.Count(b => b.Status == "Completed");
                 ViewBag.PendingApplications = _context.Hirings.Count(h => h.Status == "Pending");
+                ViewBag.TotalClients = _context.Clients.Count();
+                ViewBag.TotalTestimonials = _context.Testimonials.Count();
+
+                // Recent bookings (last 5)
+                ViewBag.RecentBookings = _context.Bookings
+                    .Include(b => b.Service)
+                    .Include(b => b.Employee)
+                    .OrderByDescending(b => b.CreatedAt)
+                    .Take(5)
+                    .ToList();
+
+                // Recent applications (last 5)
+                ViewBag.RecentApplications = _context.Hirings
+                    .Include(h => h.Vacancy)
+                        .ThenInclude(v => v.Service)
+                    .OrderByDescending(h => h.CreatedAt)
+                    .Take(5)
+                    .ToList();
+
                 return View("AdminDashboard");
             }
             else
             {
+                // Staff dashboard data
                 var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
                 var assignedBookings = _context.Bookings
                     .Where(b => b.EmployeeId == empId && b.Status == "Approved")
@@ -42,7 +68,7 @@ namespace StarSecurity.Controllers
             }
         }
 
-        // Staff: View own profile
+        // GET: /dashboard/profile
         public IActionResult Profile()
         {
             var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
@@ -52,10 +78,92 @@ namespace StarSecurity.Controllers
                 .FirstOrDefault(e => e.Id == empId);
 
             if (employee == null) return NotFound();
+
+            ViewBag.Qualifications = new SelectList(_context.Qualifications, "Id", "Degree");
+            ViewBag.Services = new SelectList(_context.Services, "Id", "Title");
             return View(employee);
         }
 
-        // Staff: View assigned bookings (rename to MyBookings)
+        // POST: /dashboard/profile
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateProfile(Employee updatedEmployee)
+        {
+            var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
+            var existing = _context.Employees.Find(empId);
+            if (existing == null) return NotFound();
+
+            ModelState.Remove("Password");
+            ModelState.Remove("Email");
+            ModelState.Remove("Role");
+            ModelState.Remove("Qualification");
+            ModelState.Remove("Service");
+
+            if (ModelState.IsValid)
+            {
+                existing.Name = updatedEmployee.Name;
+                existing.Contact = updatedEmployee.Contact;
+                existing.Address = updatedEmployee.Address;
+                existing.QualificationId = updatedEmployee.QualificationId;
+                existing.ServiceId = updatedEmployee.ServiceId;
+                existing.Grade = updatedEmployee.Grade;
+                existing.UpdatedAt = DateTime.Now;
+
+                _context.SaveChanges();
+                TempData["Message"] = "Profile updated successfully.";
+                return RedirectToAction("Profile");
+            }
+
+            ViewBag.Qualifications = new SelectList(_context.Qualifications, "Id", "Degree");
+            ViewBag.Services = new SelectList(_context.Services, "Id", "Title");
+            return View("Profile", updatedEmployee);
+        }
+
+        // GET: /dashboard/changepassword
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        // POST: /dashboard/changepassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangePassword(string currentPassword, string newPassword, string confirmPassword)
+        {
+            var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
+            var employee = _context.Employees.Find(empId);
+            if (employee == null) return NotFound();
+
+            // Verify current password
+            if (!BCrypt.Net.BCrypt.Verify(currentPassword, employee.Password))
+            {
+                ModelState.AddModelError("currentPassword", "Current password is incorrect.");
+                return View();
+            }
+
+            // Validate new password
+            if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 6)
+            {
+                ModelState.AddModelError("newPassword", "New password must be at least 6 characters.");
+                return View();
+            }
+
+            if (newPassword != confirmPassword)
+            {
+                ModelState.AddModelError("confirmPassword", "New password and confirmation do not match.");
+                return View();
+            }
+
+            // Update password
+            employee.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            employee.UpdatedAt = DateTime.Now;
+            _context.SaveChanges();
+
+            TempData["Message"] = "Password changed successfully.";
+            return RedirectToAction("Profile");
+        }
+
+        // Staff: View assigned bookings
         public IActionResult MyBookings()
         {
             var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
@@ -77,6 +185,7 @@ namespace StarSecurity.Controllers
         }
 
         // ADMIN: Manage all bookings
+        [Authorize(Roles = "admin")]
         public IActionResult Bookings()
         {
             var bookings = _context.Bookings
@@ -155,6 +264,18 @@ namespace StarSecurity.Controllers
 
             TempData["Message"] = "Booking marked completed.";
             return RedirectToAction("Bookings");
+        }
+
+        [Authorize(Roles = "staff")]
+        public IActionResult Colleagues()
+        {
+            var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
+            var colleagues = _context.Employees
+                .Include(e => e.Qualification)
+                .Include(e => e.Service)
+                .Where(e => e.Id != empId) // Exclude self
+                .ToList();
+            return View(colleagues);
         }
     }
 }

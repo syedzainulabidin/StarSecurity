@@ -1,0 +1,42 @@
+﻿@model List<Client>
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<h2>Clients</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info">@TempData["Message"]</div>
+}
+
+<p><a asp-action="Create" class="btn btn-primary">Add New Client</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Client Name</th>
+            <th>Service Availed</th>
+            <th>Booking Date</th>
+            <th>Added On</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.Booking?.ClientName</td>
+                <td>@client.Booking?.Service?.Title</td>
+                <td>@client.Booking?.Date.ToShortDateString()</td>
+                <td>@client.CreatedAt.ToString("dd-MM-yyyy")</td>
+                <td>
+                    <form method="post" asp-action="Delete" asp-route-id="@client.Id" style="display:inline;" onsubmit="return confirm('Remove this client?');">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

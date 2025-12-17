@@ -201,6 +201,58 @@ app.MapControllerRoute(
     defaults: new { controller = "Application", action = "Reject" });
 
 
+// Client routes
+app.MapControllerRoute(
+    name: "client-index",
+    pattern: "dashboard/clients",
+    defaults: new { controller = "Client", action = "Index" });
+
+app.MapControllerRoute(
+    name: "client-create",
+    pattern: "dashboard/clients/create",
+    defaults: new { controller = "Client", action = "Create" });
+
+app.MapControllerRoute(
+    name: "client-delete",
+    pattern: "dashboard/clients/delete/{id}",
+    defaults: new { controller = "Client", action = "Delete" });
+
+// Testimonial routes
+app.MapControllerRoute(
+    name: "testimonial-index",
+    pattern: "dashboard/testimonials",
+    defaults: new { controller = "Testimonial", action = "Index" });
+
+app.MapControllerRoute(
+    name: "testimonial-create",
+    pattern: "dashboard/testimonials/create",
+    defaults: new { controller = "Testimonial", action = "Create" });
+
+app.MapControllerRoute(
+    name: "testimonial-edit",
+    pattern: "dashboard/testimonials/edit/{id}",
+    defaults: new { controller = "Testimonial", action = "Edit" });
+
+app.MapControllerRoute(
+    name: "testimonial-delete",
+    pattern: "dashboard/testimonials/delete/{id}",
+    defaults: new { controller = "Testimonial", action = "Delete" });
+
+
+app.MapControllerRoute(
+    name: "update-profile",
+    pattern: "dashboard/updateprofile",
+    defaults: new { controller = "Dashboard", action = "UpdateProfile" });
+
+app.MapControllerRoute(
+    name: "change-password",
+    pattern: "dashboard/changepassword",
+    defaults: new { controller = "Dashboard", action = "ChangePassword" });
+
+app.MapControllerRoute(
+    name: "colleagues",
+    pattern: "dashboard/colleagues",
+    defaults: new { controller = "Dashboard", action = "Colleagues" });
 
 // ===== Default route (LAST) =====
 app.MapControllerRoute(

@@ -1,0 +1,32 @@
+﻿@model List<Employee>
+@{
+    ViewData["Title"] = "Colleagues";
+}
+
+<h2>Colleagues</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Service</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            <tr>
+                <td>@emp.Name</td>
+                <td>@emp.Email</td>
+                <td>@emp.Contact</td>
+                <td>@emp.Service?.Title</td>
+                <td>@emp.Grade</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
