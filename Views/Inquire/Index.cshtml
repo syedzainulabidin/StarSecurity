@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Check Your Status";
+}
+
+<h2>Check Your Booking or Application Status</h2>
+
+<form method="post" asp-controller="Inquire" asp-action="Check">
+    <div class="form-group">
+        <label>Enter your email address:</label>
+        <input type="email" name="email" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Check Status</button>
+</form>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger mt-3">@ViewBag.Error</div>
+}
+
+@if (ViewBag.NotFound != null)
+{
+    <div class="alert alert-warning mt-3">
+        No records found for this email.
+    </div>
+}
+
+@if (ViewBag.Type == "booking")
+{
+    <h4 class="mt-4">Your Bookings</h4>
+    <div class="row">
+        @foreach (var booking in ViewBag.Bookings)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Booking #@booking.Id</h5>
+                        <p><strong>Service:</strong> @booking.Service.Title</p>
+                        <p><strong>Date:</strong> @booking.Date.ToShortDateString()</p>
+                        <p>
+                            <strong>Status:</strong>
+                            @if (booking.Status == "Pending")
+                            {
+                                <span class="badge bg-warning">Under Review</span>
+                            }
+                            else if (booking.Status == "Approved")
+                            {
+
+                                <span class="badge bg-success">Approved</span>
+                            }
+                            else
+                            {
+
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </p>
+                        @if (booking.Status == "Approved" && booking.Employee != null)
+                        {
+                            <p><strong>Assigned Staff:</strong> @booking.Employee.Name</p>
+                            <p><strong>Contact:</strong> @booking.Employee.Contact</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@if (ViewBag.Type == "application")
+{
+    <h4 class="mt-4">Your Job Applications</h4>
+    <div class="row">
+        @foreach (var item in ViewBag.AppResults)
+        {
+            var app = item.App;
+            var isDefaultPassword = item.IsDefaultPassword;
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Application for @app.Vacancy?.Service?.Title</h5>
+                        <p><strong>Applied On:</strong> @app.CreatedAt.ToString("dd-MM-yyyy")</p>
+                        <p>
+                            <strong>Status:</strong>
+                            @if (app.Status == "Pending")
+                            {
+                                <span class="badge bg-warning">Under Review</span>
+                            }
+                            else if (app.Status == "Hired")
+                            {
+
+                                <span class="badge bg-success">Hired</span>
+                            }
+                            else
+                            {
+
+                                <span class="badge bg-danger">Rejected</span>
+                            }
+                        </p>
+
+                        @if (app.Status == "Hired" && isDefaultPassword == true)
+                        {
+                            <div class="alert alert-info mt-2">
+                                <strong>Your login credentials:</strong><br />
+                                <strong>Email:</strong> @app.Email<br />
+                                <strong>Password:</strong> Default@123<br />
+                                <small class="text-muted">Please change your password after first login.</small>
+                            </div>
+                        }
+                        else if (app.Status == "Hired")
+                        {
+                            <p class="text-success">You have been hired. Please log in to your account.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

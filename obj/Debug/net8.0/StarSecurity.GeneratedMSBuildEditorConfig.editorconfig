@@ -40,6 +40,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xpZW50XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Dot Net/StarSecurity/StarSecurity/Views/Contact/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udGFjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Dot Net/StarSecurity/StarSecurity/Views/Dashboard/AdminDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEFkbWluRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -54,6 +58,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Dot Net/StarSecurity/StarSecurity/Views/Dashboard/Colleagues.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXENvbGxlYWd1ZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dot Net/StarSecurity/StarSecurity/Views/Dashboard/ContactInquiries.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXENvbnRhY3RJbnF1aXJpZXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Dot Net/StarSecurity/StarSecurity/Views/Dashboard/MyBookings.cshtml]
@@ -110,6 +118,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Dot Net/StarSecurity/StarSecurity/Views/Home/Testimonials.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxUZXN0aW1vbmlhbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Dot Net/StarSecurity/StarSecurity/Views/Inquire/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSW5xdWlyZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Dot Net/StarSecurity/StarSecurity/Views/Login/Index.cshtml]

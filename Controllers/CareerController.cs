@@ -48,6 +48,33 @@ namespace StarSecurity.Controllers
 
             if (ModelState.IsValid)
             {
+                // 1. Find the vacancy
+                var vacancy = _context.Vacancies.Find(hiring.VacancyId);
+                if (vacancy == null)
+                {
+                    TempData["Error"] = "Vacancy not found.";
+                    return RedirectToAction("Careers", "Home");
+                }
+
+                // 2. Check if vacancy is still open
+                if (vacancy.Status != "Open")
+                {
+                    TempData["Error"] = "This vacancy is no longer available.";
+                    return RedirectToAction("Careers", "Home");
+                }
+
+                // 3. Decrement count
+                vacancy.Count--;
+                vacancy.UpdatedAt = DateTime.Now;
+
+                // 4. If count reaches 0, close the vacancy
+                if (vacancy.Count <= 0)
+                {
+                    vacancy.Status = "Closed";
+                    vacancy.Count = 0; // ensure not negative
+                }
+
+                // 5. Save application
                 hiring.Status = "Pending";
                 hiring.CreatedAt = DateTime.Now;
                 hiring.UpdatedAt = DateTime.Now;
@@ -60,8 +87,8 @@ namespace StarSecurity.Controllers
             }
 
             // Reload form with data
-            var vacancy = _context.Vacancies.Find(hiring.VacancyId);
-            ViewBag.ServiceTitle = vacancy?.Service?.Title;
+            var vacancyForView = _context.Vacancies.Find(hiring.VacancyId);
+            ViewBag.ServiceTitle = vacancyForView?.Service?.Title;
             ViewBag.Qualifications = new SelectList(_context.Qualifications, "Id", "Degree");
             return View(hiring);
         }

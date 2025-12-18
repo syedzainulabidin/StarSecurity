@@ -1,0 +1,66 @@
+﻿@model List<Contact>
+@{
+    ViewData["Title"] = "Contact Inquiries";
+}
+
+<h2>Contact Inquiries</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Date</th>
+            <th>Message Preview</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var inquiry in Model)
+        {
+            <tr data-toggle="modal" data-target="#messageModal"
+                data-name="@inquiry.Name"
+                data-email="@inquiry.Email"
+                data-date="@inquiry.CreatedAt.ToString("dd-MM-yyyy HH:mm")"
+                data-message="@inquiry.Message"
+                style="cursor:pointer;">
+                <td>@inquiry.Name</td>
+                <td>@inquiry.Email</td>
+                <td>@inquiry.CreatedAt.ToString("dd-MM-yyyy")</td>
+                <td>@(inquiry.Message.Length > 50 ? inquiry.Message.Substring(0, 50) + "..." : inquiry.Message)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Message Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Name:</strong> <span id="modalName"></span></p>
+                <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                <hr />
+                <p><strong>Message:</strong></p>
+                <p id="modalMessage" class="border p-2 bg-light"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var modal = document.getElementById('messageModal');
+        modal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            document.getElementById('modalName').textContent = button.getAttribute('data-name');
+            document.getElementById('modalEmail').textContent = button.getAttribute('data-email');
+            document.getElementById('modalDate').textContent = button.getAttribute('data-date');
+            document.getElementById('modalMessage').textContent = button.getAttribute('data-message');
+        });
+    });
+</script>

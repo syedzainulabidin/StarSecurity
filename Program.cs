@@ -119,10 +119,10 @@ app.MapControllerRoute(
     pattern: "testimonials",
     defaults: new { controller = "Home", action = "Testimonials" });
 
-app.MapControllerRoute(
-    name: "contact",
-    pattern: "contact",
-    defaults: new { controller = "Home", action = "Contact" });
+//app.MapControllerRoute(
+//    name: "contact",
+//    pattern: "contact",
+//    defaults: new { controller = "Home", action = "Contact" });
 
 app.MapControllerRoute(
     name: "login",
@@ -253,6 +253,38 @@ app.MapControllerRoute(
     name: "colleagues",
     pattern: "dashboard/colleagues",
     defaults: new { controller = "Dashboard", action = "Colleagues" });
+
+
+// Contact public
+app.MapControllerRoute(
+    name: "contact",
+    pattern: "contact",
+    defaults: new { controller = "Contact", action = "Index" });
+
+app.MapControllerRoute(
+    name: "contact-send",
+    pattern: "contact/send",
+    defaults: new { controller = "Contact", action = "Send" });
+
+// Admin contact inquiries
+app.MapControllerRoute(
+    name: "contact-inquiries",
+    pattern: "dashboard/contactinquiries",
+    defaults: new { controller = "Contact", action = "ContactInquiries" });
+
+
+// Inquire routes
+app.MapControllerRoute(
+    name: "inquire",
+    pattern: "inquire",
+    defaults: new { controller = "Inquire", action = "Index" });
+
+app.MapControllerRoute(
+    name: "inquire-check",
+    pattern: "inquire/check",
+    defaults: new { controller = "Inquire", action = "Check" });
+
+
 
 // ===== Default route (LAST) =====
 app.MapControllerRoute(

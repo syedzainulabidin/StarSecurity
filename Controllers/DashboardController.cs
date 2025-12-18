@@ -84,7 +84,6 @@ namespace StarSecurity.Controllers
             return View(employee);
         }
 
-        // POST: /dashboard/profile
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateProfile(Employee updatedEmployee)
@@ -99,15 +98,28 @@ namespace StarSecurity.Controllers
             ModelState.Remove("Qualification");
             ModelState.Remove("Service");
 
+            // If staff, do NOT update ServiceId and Grade
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (role != "admin")
+            {
+                ModelState.Remove("ServiceId");
+                ModelState.Remove("Grade");
+            }
+
             if (ModelState.IsValid)
             {
                 existing.Name = updatedEmployee.Name;
                 existing.Contact = updatedEmployee.Contact;
                 existing.Address = updatedEmployee.Address;
                 existing.QualificationId = updatedEmployee.QualificationId;
-                existing.ServiceId = updatedEmployee.ServiceId;
-                existing.Grade = updatedEmployee.Grade;
                 existing.UpdatedAt = DateTime.Now;
+
+                // Only admin can update Service and Grade
+                if (role == "admin")
+                {
+                    existing.ServiceId = updatedEmployee.ServiceId;
+                    existing.Grade = updatedEmployee.Grade;
+                }
 
                 _context.SaveChanges();
                 TempData["Message"] = "Profile updated successfully.";

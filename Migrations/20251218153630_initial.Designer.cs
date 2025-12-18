@@ -12,8 +12,8 @@ using StarSecurity.Data;
 namespace StarSecurity.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251215205735_Initial")]
-    partial class Initial
+    [Migration("20251218153630_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,34 @@ namespace StarSecurity.Migrations
                     b.HasIndex("BookingId");
 
                     b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("StarSecurity.Models.Contact", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("StarSecurity.Models.Employee", b =>

@@ -19,6 +19,8 @@ namespace StarSecurity.Data
         public DbSet<Client> Clients { get; set; }
         public DbSet<Testimonial> Testimonials { get; set; }
 
+        public DbSet<Contact> Contacts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Optional: Add unique constraint for employee email

@@ -1,6 +1,8 @@
-﻿@model Employee
+﻿@using System.Security.Claims
+@model Employee
 @{
     ViewData["Title"] = "My Profile";
+    var role = User.FindFirst(ClaimTypes.Role)?.Value;
 }
 
 <h2>My Profile</h2>
@@ -44,17 +46,34 @@
         </select>
     </div>
 
-    <div class="form-group">
-        <label asp-for="ServiceId">Service/Department</label>
-        <select asp-for="ServiceId" asp-items="ViewBag.Services" class="form-control">
-            <option value="">-- Select --</option>
-        </select>
-    </div>
+    <!-- Only admin can edit Service and Grade -->
+    @if (role == "admin")
+    {
+        <div class="form-group">
+            <label asp-for="ServiceId">Service/Department</label>
+            <select asp-for="ServiceId" asp-items="ViewBag.Services" class="form-control">
+                <option value="">-- Select --</option>
+            </select>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="Grade">Grade</label>
-        <input asp-for="Grade" class="form-control" />
-    </div>
+        <div class="form-group">
+            <label asp-for="Grade">Grade</label>
+            <input asp-for="Grade" class="form-control" />
+        </div>
+    }
+    else
+    {
+        <!-- Display Service and Grade as read-only for staff -->
+        <div class="form-group">
+            <label>Service/Department</label>
+            <input class="form-control" value="@Model.Service?.Title" readonly />
+        </div>
+
+        <div class="form-group">
+            <label>Grade</label>
+            <input class="form-control" value="@Model.Grade" readonly />
+        </div>
+    }
 
     <button type="submit" class="btn btn-warning mt-3">Update Profile</button>
     <a href="/dashboard" class="btn btn-secondary mt-3">Back to Dashboard</a>
