@@ -3,32 +3,125 @@
     ViewData["Title"] = "Careers";
 }
 
-<h2>Current Job Openings</h2>
-@if (Model.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Service</th>
-                <th>Openings</th>
-                <th>Posted On</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var vacancy in Model)
-            {
-                <tr>
-                    <td>@vacancy.Service.Title</td>
-                    <td>@vacancy.Count</td>
-                    <td>@vacancy.PostedDate.ToShortDateString()</td>
-                    <td><a href="/careers/apply?serviceId=@vacancy.ServiceId" class="btn btn-sm btn-success">Apply Now</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No vacancies at the moment.</p>
-}
+<section class="max-w-7xl mx-auto px-8 lg:px-16 py-20">
+    <div class="flex flex-col lg:flex-row justify-between items-end gap-6 mb-12">
+        <div>
+            <h2 class="text-4xl lg:text-6xl font-anton uppercase tracking-tighter">CURRENT <span class="text-blue-600">JOB OPENINGS</span></h2>
+            <div class="h-1 w-24 bg-blue-600 mt-4"></div>
+        </div>
+        <p class="text-gray-500 font-bold uppercase tracking-widest text-sm">Last updated: @DateTime.Now.ToString("MMMM dd, yyyy")</p>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-separate border-spacing-y-4">
+                <thead>
+                    <tr class="text-gray-500 uppercase tracking-[0.2em] text-xs font-black">
+                        <th class="px-8 py-4">Service</th>
+                        <th class="px-8 py-4">Openings</th>
+                        <th class="px-8 py-4">Posted On</th>
+                        <th class="px-8 py-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vacancy in Model)
+                    {
+                        <tr class="job-row group bg-white/5 border border-white/5 rounded-2xl transition-all duration-300">
+                            <td class="px-8 py-8 rounded-l-2xl border-y border-l border-white/5">
+                                <div class="flex items-center gap-4">
+                                    @* You can customize icons based on service type *@
+                                    <div class="w-12 h-12 rounded-xl bg-blue-600/10 flex items-center justify-center text-blue-500">
+                                        @if (vacancy.Service.Title.Contains("Manned", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-1.247-9.571A10.014 10.014 0 0112 3c4.028 0 7.427 2.372 9 5.732M12 11c0 2.606-.71 5.05-1.954 7.152m1.954-7.152c1.327-3.23 4.417-5.525 8-5.525.44 0 .874.042 1.295.123M12 21c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" /></svg>
+                                        }
+                                        else if (vacancy.Service.Title.Contains("Cash", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                                        }
+                                        else
+                                        {
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                                        }
+                                    </div>
+                                    <span class="text-2xl font-bold tracking-tight">@vacancy.Service.Title</span>
+                                </div>
+                            </td>
+                            <td class="px-8 py-8 border-y border-white/5">
+                                <span class="text-xl font-anton text-blue-500">@vacancy.Count.ToString("00")</span>
+                            </td>
+                            <td class="px-8 py-8 border-y border-white/5">
+                                <span class="text-gray-400 font-medium uppercase tracking-widest text-sm">@vacancy.PostedDate.ToString("MM/dd/yyyy")</span>
+                            </td>
+                            <td class="px-8 py-8 rounded-r-2xl border-y border-r border-white/5 text-right">
+                                <a href="/careers/apply?serviceId=@vacancy.ServiceId" class="inline-block apply-btn bg-blue-600 px-8 py-3 rounded-xl font-black uppercase tracking-tighter text-sm transition-all shadow-lg shadow-blue-600/20 hover:bg-blue-700">
+                                    APPLY NOW
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-20">
+            <div class="w-24 h-24 mx-auto rounded-full bg-white/5 flex items-center justify-center mb-6">
+                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-300 mb-2">No Current Openings</h3>
+            <p class="text-gray-400">Check back later for new career opportunities.</p>
+        </div>
+    }
+</section>
+
+<!-- Why Join Section -->
+<section class="max-w-7xl mx-auto px-8 lg:px-16 py-20">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="card p-10 rounded-[2.5rem] bg-white/5 border border-white/5 transition-all duration-500 hover:-translate-y-2">
+            <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mb-8 shadow-lg shadow-blue-600/30">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            </div>
+            <h3 class="text-3xl font-anton uppercase tracking-tighter mb-4">ELITE TRAINING</h3>
+            <p class="text-gray-400 font-medium leading-relaxed">We provide world-class training programs to ensure our personnel are prepared for any situation.</p>
+        </div>
+
+        <div class="card p-10 rounded-[2.5rem] bg-white/5 border border-white/5 transition-all duration-500 hover:-translate-y-2">
+            <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mb-8 shadow-lg shadow-blue-600/30">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+            </div>
+            <h3 class="text-3xl font-anton uppercase tracking-tighter mb-4">CAREER GROWTH</h3>
+            <p class="text-gray-400 font-medium leading-relaxed">Clear pathways for advancement from field roles to management and specialized security units.</p>
+        </div>
+
+        <div class="card p-10 rounded-[2.5rem] bg-white/5 border border-white/5 transition-all duration-500 hover:-translate-y-2">
+            <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center mb-8 shadow-lg shadow-blue-600/30">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+            </div>
+            <h3 class="text-3xl font-anton uppercase tracking-tighter mb-4">STRONG CULTURE</h3>
+            <p class="text-gray-500 font-medium leading-relaxed">Join a brotherhood built on integrity, discipline, and mutual respect for every team member.</p>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .job-row:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .apply-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
+    }
+
+    .card:hover {
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+</style>

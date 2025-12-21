@@ -1,0 +1,108 @@
+﻿@model IEnumerable<StarSecurity.Models.Qualification>
+@{
+    ViewData["Title"] = "Qualifications";
+    Layout = "_Admin_Dashboard_Layout";
+}
+
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
+
+    <!-- Background -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl lg:text-7xl font-anton uppercase tracking-tight text-yellow-600">
+                QUALIFICATIONS
+            </h1>
+        </div>
+
+        <!-- Alerts -->
+        @if (TempData["Message"] != null)
+        {
+            <div class="mb-6 p-4 bg-blue-900/30 border border-blue-500/30 rounded-xl text-blue-300">
+                @TempData["Message"]
+            </div>
+        }
+
+        <!-- Add Button -->
+        <div class="mb-6 text-right">
+            <a href="/dashboard/qualification/create" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold uppercase text-sm">
+                + Add Qualification
+            </a>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl overflow-x-auto">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="text-gray-500 uppercase tracking-widest text-xs">
+                        <th class="px-6 py-4">ID</th>
+                        <th class="px-6 py-4">Degree</th>
+                        <th class="px-6 py-4">Created</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/10">
+                    @foreach (var q in Model)
+                    {
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="px-6 py-5">@q.Id</td>
+                            <td class="px-6 py-5 font-bold">@q.Degree</td>
+                            <td class="px-6 py-5">@q.CreatedAt.ToShortDateString()</td>
+                            <td class="px-6 py-5 text-right">
+                                <div class="flex justify-end gap-2">
+                                    <a href="/dashboard/qualification/edit/@q.Id" class="px-4 py-2 bg-yellow-900/30 border border-yellow-500/30 rounded-xl text-yellow-300 text-sm font-bold uppercase">
+                                        Edit
+                                    </a>
+                                    <button type="button" class="px-4 py-2 bg-red-900/30 border border-red-500/30 rounded-xl text-red-300 text-sm font-bold uppercase" onclick="openDeleteModal(@q.Id, '@q.Degree')">
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- DELETE MODAL -->
+<div id="deleteModal" class="fixed inset-0 hidden z-[9999]">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur" onclick="closeDeleteModal()"></div>
+
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-[#020617] border border-white/10 rounded-[2rem] w-full max-w-md p-6">
+            <h3 class="text-3xl font-anton uppercase mb-4 text-red-500">Confirm Delete</h3>
+            <p class="text-gray-300 mb-6">Are you sure you want to delete the qualification: <span id="deleteQualificationName" class="font-bold"></span>?</p>
+
+            <form id="deleteForm" method="post">
+                @Html.AntiForgeryToken()
+                <div class="flex justify-end gap-4">
+                    <button type="button" onclick="closeDeleteModal()" class="px-6 py-2 border border-white/10 rounded-xl">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-red-600 hover:bg-red-700 rounded-xl font-bold uppercase">
+                        Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openDeleteModal(id, degree) {
+        document.getElementById('deleteQualificationName').textContent = degree;
+        const form = document.getElementById('deleteForm');
+        form.action = `/dashboard/qualification/delete/${id}`;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+</script>

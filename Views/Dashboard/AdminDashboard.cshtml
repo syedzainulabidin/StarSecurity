@@ -1,191 +1,178 @@
 ﻿@{
     ViewData["Title"] = "Admin Dashboard";
+    Layout = "_Admin_Dashboard_Layout";
 }
 
-<h2>Welcome, Admin @ViewBag.EmployeeName</h2>
-<hr />
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-<!-- Stats Cards -->
-<div class="row mt-4">
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-primary">
-            <div class="card-body">
-                <h5 class="card-title">Total Employees</h5>
-                <p class="card-text display-6">@ViewBag.TotalEmployees</p>
-                <a href="/dashboard/employees" class="text-white">Manage</a>
+    <!-- Background Glows -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
+
+    <!-- Background Text -->
+    <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none">
+        <h2 class="text-[10rem] lg:text-[18rem] font-anton tracking-tighter opacity-5 uppercase text-transparent text-stroke">
+            DASHBOARD
+        </h2>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto">
+
+        <!-- Header -->
+        <div class="text-center mb-14">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium mb-4">
+                <div class="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                Admin Control Panel
+            </div>
+            <h1 class="text-5xl lg:text-7xl font-anton uppercase tracking-tighter">
+                Welcome, <span class="text-blue-600">@ViewBag.EmployeeName</span>
+            </h1>
+            <p class="text-gray-400 mt-3 text-lg">Monitor operations, bookings, and workforce activity.</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+
+            @* Card *@
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-xl hover:bg-white/10 transition">
+                <h4 class="text-gray-400 uppercase tracking-wider text-sm">Employees</h4>
+                <p class="text-4xl font-bold mt-2">@ViewBag.TotalEmployees</p>
+                <a href="/dashboard/employees" class="text-blue-400 text-sm mt-3 inline-block">Manage →</a>
+            </div>
+
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-xl hover:bg-white/10 transition">
+                <h4 class="text-gray-400 uppercase tracking-wider text-sm">Bookings</h4>
+                <p class="text-4xl font-bold mt-2">@ViewBag.TotalBookings</p>
+                <a href="/dashboard/bookings" class="text-blue-400 text-sm mt-3 inline-block">View →</a>
+            </div>
+
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-xl hover:bg-white/10 transition">
+                <h4 class="text-gray-400 uppercase tracking-wider text-sm">Pending Bookings</h4>
+                <p class="text-4xl font-bold mt-2 text-yellow-400">@ViewBag.PendingBookings</p>
+                <a href="/dashboard/bookings" class="text-blue-400 text-sm mt-3 inline-block">Review →</a>
+            </div>
+
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-3xl shadow-xl hover:bg-white/10 transition">
+                <h4 class="text-gray-400 uppercase tracking-wider text-sm">Applications</h4>
+                <p class="text-4xl font-bold mt-2 text-blue-400">@ViewBag.PendingApplications</p>
+                <a href="/dashboard/applications" class="text-blue-400 text-sm mt-3 inline-block">Review →</a>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+
+            <!-- Recent Bookings -->
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl">
+                <h3 class="text-2xl font-anton uppercase tracking-tight mb-4">Recent Bookings</h3>
+
+                <table class="w-full text-left">
+                    <thead class="text-gray-500 uppercase tracking-widest text-xs">
+                        <tr>
+                            <th class="py-3">Client</th>
+                            <th>Service</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/10">
+                        @foreach (var booking in ViewBag.RecentBookings)
+                        {
+                            <tr class="hover:bg-white/5 transition">
+                                <td class="py-3 font-semibold">@booking.ClientName</td>
+                                <td>@booking.Service.Title</td>
+                                <td>@booking.Date.ToShortDateString()</td>
+                                <td>
+                                    <span class="px-3 py-1 text-xs rounded-full font-bold
+                                        @(booking.Status == "Pending" ? "bg-yellow-900/30 text-yellow-300" :
+                                                                                booking.Status == "Approved" ? "bg-green-900/30 text-green-300" :
+                                                                                booking.Status == "Completed" ? "bg-blue-900/30 text-blue-300" :
+                                                                                "bg-red-900/30 text-red-300")">
+                                    @booking.Status
+                                </span>
+                            </td>
+                        </tr>
+                                                }
+                    </tbody>
+                </table>
+
+                <a href="/dashboard/bookings" class="inline-block mt-4 text-blue-400 text-sm">View All →</a>
+            </div>
+
+            <!-- Recent Applications -->
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl">
+                <h3 class="text-2xl font-anton uppercase tracking-tight mb-4">Recent Applications</h3>
+
+                <table class="w-full text-left">
+                    <thead class="text-gray-500 uppercase tracking-widest text-xs">
+                        <tr>
+                            <th class="py-3">Applicant</th>
+                            <th>Service</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/10">
+                        @foreach (var app in ViewBag.RecentApplications)
+                        {
+                            <tr class="hover:bg-white/5 transition">
+                                <td class="py-3 font-semibold">@app.Name</td>
+                                <td>@app.Vacancy?.Service?.Title</td>
+                                <td>@app.CreatedAt.ToString("dd-MM-yyyy")</td>
+                                <td>
+                                    <span class="px-3 py-1 text-xs rounded-full font-bold
+                                        @(app.Status == "Pending" ? "bg-yellow-900/30 text-yellow-300" :
+                                                                                app.Status == "Hired" ? "bg-green-900/30 text-green-300" :
+                                                                                "bg-red-900/30 text-red-300")">
+                                    @app.Status
+                                </span>
+                            </td>
+                        </tr>
+                                                }
+                    </tbody>
+                </table>
+
+                <a href="/dashboard/applications" class="inline-block mt-4 text-blue-400 text-sm">View All →</a>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] shadow-2xl">
+            <h3 class="text-2xl font-anton uppercase tracking-tight mb-6">Quick Actions</h3>
+            <div class="flex flex-wrap gap-4">
+                <a href="/dashboard/employees/create" class="btn-primary">Add Employee</a>
+                <a href="/dashboard/services/create" class="btn-primary">Add Service</a>
+                <a href="/dashboard/vacancies/create" class="btn-primary">Post Vacancy</a>
+                <a href="/dashboard/clients/create" class="btn-primary">Add Client</a>
+                <a href="/dashboard/testimonials/create" class="btn-primary">Add Testimonial</a>
             </div>
         </div>
     </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-success">
-            <div class="card-body">
-                <h5 class="card-title">Total Bookings</h5>
-                <p class="card-text display-6">@ViewBag.TotalBookings</p>
-                <a href="/dashboard/bookings" class="text-white">View All</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-warning">
-            <div class="card-body">
-                <h5 class="card-title">Pending Bookings</h5>
-                <p class="card-text display-6">@ViewBag.PendingBookings</p>
-                <a href="/dashboard/bookings" class="text-white">Review</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-info">
-            <div class="card-body">
-                <h5 class="card-title">Pending Applications</h5>
-                <p class="card-text display-6">@ViewBag.PendingApplications</p>
-                <a href="/dashboard/applications" class="text-white">Review</a>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
 
-<!-- Second Row -->
-<div class="row">
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-secondary">
-            <div class="card-body">
-                <h5 class="card-title">Clients</h5>
-                <p class="card-text display-6">@ViewBag.TotalClients</p>
-                <a href="/dashboard/clients" class="text-white">Manage</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-dark">
-            <div class="card-body">
-                <h5 class="card-title">Testimonials</h5>
-                <p class="card-text display-6">@ViewBag.TotalTestimonials</p>
-                <a href="/dashboard/testimonials" class="text-white">Manage</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-danger">
-            <div class="card-body">
-                <h5 class="card-title">Approved Bookings</h5>
-                <p class="card-text display-6">@ViewBag.ApprovedBookings</p>
-                <a href="/dashboard/bookings" class="text-white">View</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="card text-white bg-success">
-            <div class="card-body">
-                <h5 class="card-title">Completed Bookings</h5>
-                <p class="card-text display-6">@ViewBag.CompletedBookings</p>
-                <a href="/dashboard/bookings" class="text-white">View</a>
-            </div>
-        </div>
-    </div>
-</div>
+<style>
+    .text-stroke {
+        -webkit-text-stroke: 1px rgba(255,255,255,.3);
+    }
 
-<!-- Recent Activities -->
-<div class="row mt-5">
-    <div class="col-md-6">
-        <h4>Recent Bookings</h4>
-        <table class="table table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th>Client</th>
-                    <th>Service</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var booking in ViewBag.RecentBookings)
-                {
-                    <tr>
-                        <td>@booking.ClientName</td>
-                        <td>@booking.Service.Title</td>
-                        <td>@booking.Date.ToShortDateString()</td>
-                        <td>
-                            @if (booking.Status == "Pending")
-                            {
-                                <span class="badge bg-warning">Pending</span>
-                            }
-                            else if (booking.Status == "Approved")
-                            {
+    .btn-primary {
+        padding: 1rem 1.5rem;
+        background: rgba(59,130,246,.3);
+        border: 1px solid rgba(59,130,246,.5);
+        border-radius: 1rem;
+        font-weight: bold;
+        transition: all .3s;
+    }
 
-                                <span class="badge bg-success">Approved</span>
-                            }
-                            else if (booking.Status == "Completed")
-                            {
+        .btn-primary:hover {
+            background: rgba(59,130,246,.6);
+        }
 
-                                <span class="badge bg-info">Completed</span>
-                            }
-                            else
-                            {
-
-                                <span class="badge bg-danger">Rejected</span>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <a href="/dashboard/bookings" class="btn btn-outline-primary btn-sm">View All Bookings</a>
-    </div>
-
-    <div class="col-md-6">
-        <h4>Recent Job Applications</h4>
-        <table class="table table-sm table-bordered">
-            <thead>
-                <tr>
-                    <th>Applicant</th>
-                    <th>Service</th>
-                    <th>Applied On</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var app in ViewBag.RecentApplications)
-                {
-                    <tr>
-                        <td>@app.Name</td>
-                        <td>@app.Vacancy?.Service?.Title</td>
-                        <td>@app.CreatedAt.ToString("dd-MM-yyyy")</td>
-                        <td>
-                            @if (app.Status == "Pending")
-                            {
-                                <span class="badge bg-warning">Pending</span>
-                            }
-                            else if (app.Status == "Hired")
-                            {
-
-                                <span class="badge bg-success">Hired</span>
-                            }
-                            else
-                            {
-
-                                <span class="badge bg-danger">Rejected</span>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-        <a href="/dashboard/applications" class="btn btn-outline-primary btn-sm">View All Applications</a>
-    </div>
-</div>
-
-<!-- Quick Links -->
-<div class="row mt-5">
-    <div class="col-12">
-        <h4>Quick Actions</h4>
-        <div class="d-flex flex-wrap gap-2">
-            <a href="/dashboard/employees/create" class="btn btn-primary">Add Employee</a>
-            <a href="/dashboard/services/create" class="btn btn-primary">Add Service</a>
-            <a href="/dashboard/vacancies/create" class="btn btn-primary">Post Vacancy</a>
-            <a href="/dashboard/clients/create" class="btn btn-primary">Add Client</a>
-            <a href="/dashboard/testimonials/create" class="btn btn-primary">Add Testimonial</a>
-            <a href="/booking/book" class="btn btn-success">Create Booking</a>
-        </div>
-    </div>
-</div>
+    .btn-success {
+        padding: 1rem 1.5rem;
+        background: rgba(16,185,129,.3);
+        border: 1px solid rgba(16,185,129,.5);
+        border-radius: 1rem;
+        font-weight: bold;
+    }
+</style>

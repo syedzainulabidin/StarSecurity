@@ -2,11 +2,168 @@
     ViewData["Title"] = "About Us";
 }
 
-<h2>About Star Security</h2>
-<p>Founded in 2000, Star Security is a leader in private security services.</p>
-<h4>History</h4>
-<p>Started as an investigation firm, now a total security solutions provider.</p>
-<h4>Chairman's Profile</h4>
-<p>Details about our chairman.</p>
-<h4>Board of Directors</h4>
-<p>Meet our board members.</p>
+<!-- Header / Hero -->
+<div class="py-20 px-8 lg:px-16 text-center">
+    <h1 class="text-7xl lg:text-[10rem] font-anton uppercase tracking-tighter leading-none text-gradient opacity-20">ABOUT US</h1>
+</div>
+
+<!-- Section 1: About Guardity & History -->
+<section class="relative py-24 px-8 lg:px-16 max-w-7xl mx-auto border-t border-white/5">
+    <div class="flex flex-col lg:flex-row gap-20 items-center">
+        <div class="lg:w-1/2 space-y-8">
+            <div class="inline-block px-4 py-1.5 rounded-full border border-blue-600/30 bg-blue-600/10 text-blue-500 text-xs font-bold uppercase tracking-widest">
+                Founded 2010
+            </div>
+            <h2 class="text-6xl lg:text-8xl font-anton uppercase tracking-tighter leading-none">
+                A LEGACY OF <span class="text-blue-600">STEEL</span>
+            </h2>
+            <p class="text-gray-400 text-xl leading-relaxed">
+                For over 13 years, Guardity has defined the standard for elite protection. What started as a specialized tactical unit has evolved into a global force of over 500 expert operatives dedicated to safeguarding the world's most high-profile assets and individuals.
+            </p>
+            <div class="grid grid-cols-2 gap-10 pt-4">
+                <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+                    <div class="text-4xl font-anton text-blue-500">1,500+</div>
+                    <div class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Missions Completed</div>
+                </div>
+                <div class="p-6 rounded-3xl bg-white/5 border border-white/10">
+                    <div class="text-4xl font-anton text-blue-500">100%</div>
+                    <div class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-2">Safety Record</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:w-1/2 relative">
+            <div class="rounded-[3.5rem] overflow-hidden border border-white/10 group">
+                <img src="https://images.unsplash.com/photo-1557597774-9d2739f85a9a?q=80&w=2000" alt="Guardity History" class="w-full h-[600px] object-cover">
+            </div>
+            <!-- Experience Badge -->
+            <div class="absolute -bottom-10 -left-10 bg-blue-600 p-10 rounded-[2.5rem] shadow-2xl shadow-blue-600/40 hidden lg:block">
+                <div class="text-6xl font-anton leading-none">13+</div>
+                <div class="text-xs font-bold uppercase tracking-[0.2em] opacity-80 mt-2">YEARS OF ELITE PROTECTION</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2: Chairman's Profile -->
+<section class="relative py-32 px-8 lg:px-16 bg-[#03081c] overflow-hidden">
+    <div class="absolute top-1/2 left-0 -translate-y-1/2 text-[20rem] font-anton opacity-[0.02] select-none pointer-events-none">CHAIRMAN</div>
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row-reverse gap-20 items-center">
+        <div class="lg:w-1/2 space-y-10">
+            <div class="space-y-4">
+                <span class="text-blue-500 font-bold uppercase tracking-[0.3em] text-xs">The Visionary</span>
+                <h2 class="text-6xl lg:text-8xl font-anton uppercase tracking-tighter leading-none">
+                    VICTOR <br> <span class="text-blue-600">STARK</span>
+                </h2>
+            </div>
+            <div class="relative pl-12 border-l-4 border-blue-600">
+                <p class="text-2xl font-medium text-white italic leading-relaxed">
+                    "In a world of constant change, security remains the only constant foundation for peace. We don't just provide guards; we provide the certainty that life goes on uninterrupted."
+                </p>
+            </div>
+            <div class="space-y-6 text-gray-400 text-lg leading-relaxed">
+                <p>As the founder and Chairman of Guardity, Victor Stark brings 25 years of tactical experience from elite military units to the private sector. His philosophy of "Proactive Defense" has revolutionized how executive protection is executed globally.</p>
+            </div>
+        </div>
+
+        <div class="lg:w-1/2">
+            <div class="relative group">
+                <div class="rounded-[4rem] overflow-hidden border border-white/10 aspect-[3/4] relative z-10">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1000" alt="Victor Stark - Chairman" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 3: Employees/Team -->
+<section class="relative py-32 px-8 lg:px-16 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+        <!-- Guard 1 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Security Expert</span>
+                <h4 class="text-xl font-bold">James Wilson</h4>
+            </div>
+        </div>
+
+        <!-- Guard 2 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Tactical Officer</span>
+                <h4 class="text-xl font-bold">Michael Chen</h4>
+            </div>
+        </div>
+
+        <!-- Guard 3 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Executive Protection</span>
+                <h4 class="text-xl font-bold">Robert Davis</h4>
+            </div>
+        </div>
+
+        <!-- Guard 4 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Special Agent</span>
+                <h4 class="text-xl font-bold">Alexander Wright</h4>
+            </div>
+        </div>
+
+        <!-- CENTER CONTENT -->
+        <div class="flex flex-col items-center justify-center text-center py-12 px-4 space-y-8 order-last md:order-none">
+            <h2 class="text-6xl lg:text-8xl font-anton uppercase tracking-tighter leading-none text-gradient">
+                MEET OUR <br> TEAM
+            </h2>
+            <a href="#" class="group relative flex items-center justify-between gap-4 rounded-full border border-blue-600/50 px-8 py-4 text-blue-500 transition-all duration-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 w-full max-w-[320px]">
+                <span class="text-sm font-bold uppercase tracking-widest">Join the Elite</span>
+                <div class="flex h-6 w-6 items-center justify-center rounded-full border border-current">
+                    <svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M7 17L17 7M7 7H17V17" /></svg>
+                </div>
+            </a>
+        </div>
+
+        <!-- Guard 5 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Security Analyst</span>
+                <h4 class="text-xl font-bold">David Thompson</h4>
+            </div>
+        </div>
+
+        <!-- Guard 6 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Lead Guard</span>
+                <h4 class="text-xl font-bold">Samuel Miller</h4>
+            </div>
+        </div>
+
+        <!-- Guard 7 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Field Commander</span>
+                <h4 class="text-xl font-bold">John Stevens</h4>
+            </div>
+        </div>
+
+        <!-- Guard 8 -->
+        <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1000" alt="Team Member">
+            <div class="team-image-overlay">
+                <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Protection Specialist</span>
+                <h4 class="text-xl font-bold">Kevin Harris</h4>
+            </div>
+        </div>
+
+    </div>
+</section>

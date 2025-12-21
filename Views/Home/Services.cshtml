@@ -3,18 +3,133 @@
     ViewData["Title"] = "Our Services";
 }
 
-<h2>Our Business Services</h2>
-<div class="row">
-    @foreach (var service in Model)
-    {
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@service.Title</h5>
-                    <p class="card-text">@service.Description</p>
-                    <a href="/booking/book?serviceId=@service.Id" class="btn btn-primary">Book Now</a>
+<section class="relative py-24 px-8 lg:px-16 max-w-7xl mx-auto">
+    <!-- Background Decorative Text -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none select-none z-0">
+        <h2 class="text-[12rem] lg:text-[20rem] font-anton opacity-5 uppercase tracking-tighter leading-none text-outline">
+            SERVICES
+        </h2>
+    </div>
+
+    <!-- Section Header -->
+    <div class="relative z-10 flex flex-col lg:flex-row justify-between items-end gap-8 mb-20">
+        <div class="space-y-4">
+            <div class="flex items-center gap-3 text-blue-500 font-bold tracking-[0.3em] uppercase text-sm">
+                <div class="h-[2px] w-12 bg-blue-500"></div>
+                What We Offer
+            </div>
+            <h2 class="text-5xl lg:text-7xl font-anton uppercase tracking-tighter leading-[0.9]">
+                OUR BUSINESS <br />
+                <span class="text-blue-600">SERVICES</span>
+            </h2>
+        </div>
+        <p class="text-gray-400 max-w-sm text-lg leading-relaxed lg:text-right">
+            We provide comprehensive security solutions tailored to meet the unique needs of our elite clientele worldwide.
+        </p>
+    </div>
+
+    <!-- Services Grid - Dynamic from Model -->
+    <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @{
+            int serviceIndex = 0;
+            string[] svgIcons = new string[]
+            {
+                @"<path d='M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z'/>",
+                @"<path d='M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2'/><circle cx='9' cy='7' r='4'/>",
+                @"<path d='M3 3h18v18H3z'/><path d='M21 9H3'/>",
+                @"<path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z'/>",
+                @"<path d='M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z'/>",
+                @"<path d='M19 21v-2a4 4 0 00-4-4H9a4 4 0 00-4 4v2'/><path d='M23 21v-2a4 4 0 00-3-3.87'/><path d='M16 3.13a4 4 0 010 7.75'/>"
+            };
+        }
+
+        @foreach (var service in Model)
+        {
+            serviceIndex++;
+            <div class="group relative bg-white/5 border border-white/10 rounded-[2.5rem] p-10 transition-all duration-500 hover:bg-blue-600 hover:border-blue-600 cursor-pointer overflow-hidden @(serviceIndex == 2 || serviceIndex == 5 ? "lg:mt-12" : "")">
+                <!-- Card Glow -->
+                <div class="absolute -right-20 -top-20 h-40 w-40 bg-blue-500/20 blur-[60px] group-hover:bg-white/20 transition-colors"></div>
+
+                <div class="relative z-10 space-y-8">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-600/20 flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                        <svg class="w-8 h-8 text-blue-500 group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            @Html.Raw(svgIcons[(serviceIndex - 1) % svgIcons.Length])
+                        </svg>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-3xl font-anton uppercase tracking-tight">@service.Title</h3>
+                        <p class="text-gray-400 group-hover:text-white/80 transition-colors leading-relaxed">
+                            @service.Description
+                        </p>
+                    </div>
+
+                    <a href="/booking/book?serviceId=@service.Id"
+                       class="flex items-center justify-between pt-4 border-t border-white/10 group-hover:border-white/20 hover:no-underline">
+                        <span class="text-sm font-bold uppercase tracking-widest">Book Now</span>
+                        <div class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-blue-600 transition-all">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" />
+                            </svg>
+                        </div>
+                    </a>
                 </div>
             </div>
+        }
+
+        <!-- CTA Card -->
+        <div class="relative bg-blue-600 rounded-[2.5rem] p-10 flex flex-col justify-center items-center text-center gap-6 overflow-hidden group cursor-pointer shadow-2xl shadow-blue-600/20">
+            <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="relative z-10">
+                <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center mb-4">
+                    <svg class="w-10 h-10 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 5v14M5 12h14" />
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-anton uppercase">Need Custom <br> Protection?</h3>
+                <a href="/contact" class="block text-white/80 text-sm mt-4 font-bold tracking-widest hover:text-white hover:no-underline">GET A QUOTE</a>
+            </div>
         </div>
+    </div>
+
+    <!-- Scroll Indicator (Decorative) -->
+    <div class="mt-20 flex justify-center">
+        <div class="flex items-center gap-4 text-blue-500/40 font-bold text-xs uppercase tracking-[0.5em]">
+            Explore All Services
+            <div class="w-12 h-[1px] bg-blue-500/20"></div>
+            <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .text-outline {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+        -webkit-text-fill-color: transparent;
     }
-</div>
+
+    .group:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+        .group:hover .group-hover\:bg-white\/20 {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .group:hover .group-hover\:text-white {
+            color: white;
+        }
+
+        .group:hover .group-hover\:border-white\/20 {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .group:hover .group-hover\:bg-white {
+            background: white;
+        }
+
+        .group:hover .group-hover\:text-blue-600 {
+            color: #2563eb;
+        }
+</style>

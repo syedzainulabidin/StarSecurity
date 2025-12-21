@@ -285,6 +285,28 @@ app.MapControllerRoute(
     defaults: new { controller = "Inquire", action = "Check" });
 
 
+// Qualification CRUD routes
+app.MapControllerRoute(
+    name: "qualification-index",
+    pattern: "dashboard/qualification",
+    defaults: new { controller = "Qualification", action = "Index" });
+
+app.MapControllerRoute(
+    name: "qualification-edit",
+    pattern: "dashboard/qualification/edit/{id}",
+    defaults: new { controller = "Qualification", action = "Edit" });
+
+app.MapControllerRoute(
+    name: "qualification-delete",
+    pattern: "dashboard/qualification/delete/{id}",
+    defaults: new { controller = "Qualification", action = "Delete" });
+
+app.MapControllerRoute(
+    name: "qualification-create",
+    pattern: "dashboard/qualification/create",
+    defaults: new { controller = "Qualification", action = "Create" });
+
+
 
 // ===== Default route (LAST) =====
 app.MapControllerRoute(

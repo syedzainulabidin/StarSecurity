@@ -3,66 +3,229 @@
     ViewData["Title"] = "Book Security Service";
 }
 
-<h2>Book @ViewBag.ServiceTitle</h2>
-<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
+    <!-- Background Glows -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
 
-@if (ViewBag.Errors != null)
-{
-    <div class="alert alert-danger">
-        <ul>
-            @foreach (var error in ViewBag.Errors)
+    <!-- Background Text -->
+    <div class="absolute inset-0 z-0 flex flex-col items-center justify-center pointer-events-none select-none">
+        <h2 class="text-[8rem] lg:text-[15rem] font-anton leading-none tracking-tighter opacity-5 uppercase text-transparent text-stroke">
+            BOOKING
+        </h2>
+        <h2 class="text-[8rem] lg:text-[15rem] font-anton leading-none tracking-tighter opacity-10 uppercase -mt-10 lg:-mt-20">
+            SECURE
+        </h2>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium mb-4">
+                <div class="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                Request Security Service
+            </div>
+            <h1 class="text-5xl lg:text-7xl font-anton uppercase tracking-tighter mb-4">
+                BOOK <span class="text-blue-600">@ViewBag.ServiceTitle</span>
+            </h1>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg">Complete the form below to request our elite security services.</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 lg:p-12 rounded-[2.5rem] shadow-2xl">
+            <!-- Success Message -->
+            @if (TempData["Success"] != null)
             {
-                <li>@error</li>
+                <div class="mb-8 p-6 bg-green-900/30 border border-green-500/30 rounded-2xl text-green-300">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="text-lg">@TempData["Success"]</span>
+                    </div>
+                </div>
             }
-        </ul>
+
+            <!-- Validation Summary -->
+            <div asp-validation-summary="ModelOnly" class="mb-8 p-6 bg-red-900/30 border border-red-500/30 rounded-2xl text-red-300 @(ViewData.ModelState.IsValid ? "hidden" : "")">
+                <div class="flex items-start gap-3">
+                    <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                        <h4 class="font-bold mb-2">Please fix the following errors:</h4>
+                        <ul class="space-y-1">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li class="text-sm">• @error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Error List -->
+            @if (ViewBag.Errors != null)
+            {
+                <div class="mb-8 p-6 bg-red-900/30 border border-red-500/30 rounded-2xl text-red-300">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div>
+                            <h4 class="font-bold mb-2">Please fix the following errors:</h4>
+                            <ul class="space-y-1">
+                                @foreach (var error in ViewBag.Errors)
+                                {
+                                    <li class="text-sm">• @error</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <form method="post" action="/booking/book" class="space-y-8">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="ServiceId" value="@ViewBag.ServiceId" />
+
+                <!-- Personal Information Section -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-anton uppercase tracking-tight border-b border-white/10 pb-3">Personal Information</h3>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <!-- Name Field -->
+                        <div class="space-y-2">
+                            <label asp-for="ClientName" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Your Name</label>
+                            <input asp-for="ClientName" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                   placeholder="Enter your full name">
+                            <span asp-validation-for="ClientName" class="text-red-400 text-sm mt-2 ml-1"></span>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="space-y-2">
+                            <label asp-for="ClientEmail" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Email Address</label>
+                            <input asp-for="ClientEmail" type="email" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                                   placeholder="your@email.com">
+                            <span asp-validation-for="ClientEmail" class="text-red-400 text-sm mt-2 ml-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Details Section -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-anton uppercase tracking-tight border-b border-white/10 pb-3">Service Details</h3>
+
+                    <!-- Date Field -->
+                    <div class="space-y-2">
+                        <label asp-for="Date" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Service Date</label>
+                        <input asp-for="Date" type="date" required min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                               class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                        <span asp-validation-for="Date" class="text-red-400 text-sm mt-2 ml-1"></span>
+                    </div>
+
+                    <!-- Time Fields -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label asp-for="ShiftStart" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Shift Start Time</label>
+                            <input asp-for="ShiftStart" type="time" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                            <span asp-validation-for="ShiftStart" class="text-red-400 text-sm mt-2 ml-1"></span>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label asp-for="ShiftEnd" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Shift End Time</label>
+                            <input asp-for="ShiftEnd" type="time" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                            <span asp-validation-for="ShiftEnd" class="text-red-400 text-sm mt-2 ml-1"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Location Details Section -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-anton uppercase tracking-tight border-b border-white/10 pb-3">Location Details</h3>
+
+                    <!-- Address Field -->
+                    <div class="space-y-2">
+                        <label asp-for="Address" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Service Address</label>
+                        <textarea asp-for="Address" rows="3" required
+                                  class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
+                                  placeholder="Enter complete service address"></textarea>
+                        <span asp-validation-for="Address" class="text-red-400 text-sm mt-2 ml-1"></span>
+                    </div>
+
+                    <!-- Additional Details -->
+                    <div class="space-y-2">
+                        <label asp-for="Description" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">Additional Details (Optional)</label>
+                        <textarea asp-for="Description" rows="2"
+                                  class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
+                                  placeholder="Any special requirements or additional information"></textarea>
+                        <span asp-validation-for="Description" class="text-red-400 text-sm mt-2 ml-1"></span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-6 border-t border-white/10">
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl transition-all shadow-lg shadow-blue-600/30 flex items-center justify-center gap-3 group text-lg">
+                        Submit Booking Request
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Security Note -->
+            <div class="mt-8 p-4 bg-white/5 rounded-xl border border-white/5 text-center">
+                <div class="flex items-center justify-center gap-2 text-sm text-gray-400">
+                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                    <span>Your information is secured with enterprise-grade encryption</span>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
+
+<style>
+    .text-stroke {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .group:hover .group-hover\:translate-x-1 {
+        transform: translateX(0.25rem);
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 40px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Custom date/time input styling */
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+        opacity: 0.6;
+        cursor: pointer;
+    }
+
+    input[type="date"]:focus::-webkit-calendar-picker-indicator,
+    input[type="time"]:focus::-webkit-calendar-picker-indicator {
+        opacity: 1;
+    }
+</style>
+
+<!-- Include validation scripts if needed -->
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
-
-<form method="post" action="/booking/book">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="ServiceId" value="@ViewBag.ServiceId" />
-
-    <div class="form-group">
-        <label asp-for="ClientName">Your Name</label>
-        <input asp-for="ClientName" class="form-control" required />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="ClientEmail">Email</label>
-        <input asp-for="ClientEmail" type="email" class="form-control" required />
-        <span asp-validation-for="ClientEmail" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="Date">Service Date</label>
-        <input asp-for="Date" type="date" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" required />
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <label asp-for="ShiftStart">Shift Start Time</label>
-            <input asp-for="ShiftStart" type="time" class="form-control" required />
-        </div>
-        <div class="col">
-            <label asp-for="ShiftEnd">Shift End Time</label>
-            <input asp-for="ShiftEnd" type="time" class="form-control" required />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Address">Service Address</label>
-        <textarea asp-for="Address" class="form-control" rows="3" required></textarea>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Description">Additional Details</label>
-        <textarea asp-for="Description" class="form-control" rows="2"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-success mt-3">Submit Booking Request</button>
-</form>

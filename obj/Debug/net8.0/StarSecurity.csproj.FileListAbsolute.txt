@@ -149,3 +149,5 @@ D:\Dot Net\StarSecurity\StarSecurity\obj\Debug\net8.0\StarSecurity.pdb
 D:\Dot Net\StarSecurity\StarSecurity\obj\Debug\net8.0\StarSecurity.genruntimeconfig.cache
 D:\Dot Net\StarSecurity\StarSecurity\obj\Debug\net8.0\ref\StarSecurity.dll
 D:\Dot Net\StarSecurity\StarSecurity\obj\Debug\net8.0\StarSecurity.sourcelink.json
+D:\Dot Net\StarSecurity\StarSecurity\bin\Debug\net8.0\package-lock.json
+D:\Dot Net\StarSecurity\StarSecurity\bin\Debug\net8.0\package.json

@@ -1,67 +1,160 @@
 ﻿@model Employee
 @{
     ViewData["Title"] = "Edit Employee";
+    Layout = "_Admin_Dashboard_Layout";
 }
 
-<h2>Edit Employee</h2>
+<section class="relative py-20 px-6 lg:px-16 overflow-hidden">
 
-<form method="post">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="Id" />
+    <!-- Background glows -->
+    <div class="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-blue-900/10 blur-[120px]"></div>
 
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" required />
+    <!-- Background Text -->
+    <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none">
+        <h2 class="text-[8rem] lg:text-[14rem] font-anton opacity-5 uppercase text-transparent text-stroke">
+            EDIT
+        </h2>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" type="email" class="form-control" required />
-    </div>
+    <div class="relative z-10 max-w-4xl mx-auto">
 
-    <div class="form-group">
-        <label asp-for="Password">New Password (leave blank to keep current)</label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <small class="text-muted">Only enter if you want to change the password.</small>
-    </div>
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs mb-4">
+                <div class="h-2 w-2 rounded-full bg-yellow-500"></div>
+                Employee Management
+            </div>
 
-    <div class="form-group">
-        <label asp-for="Contact"></label>
-        <input asp-for="Contact" class="form-control" required />
-    </div>
+            <h1 class="text-4xl lg:text-6xl font-anton uppercase tracking-tight">
+                EDIT <span class="text-yellow-400">EMPLOYEE</span>
+            </h1>
 
-    <div class="form-group">
-        <label asp-for="Address"></label>
-        <input asp-for="Address" class="form-control" />
-    </div>
+            <p class="text-gray-400 mt-4">
+                Update employee information and permissions
+            </p>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="QualificationId">Qualification</label>
-        <select asp-for="QualificationId" asp-items="ViewBag.Qualifications" class="form-control">
-            <option value="">-- Select --</option>
-        </select>
-    </div>
+        <!-- Form Card -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl p-8 lg:p-10">
 
-    <div class="form-group">
-        <label asp-for="ServiceId">Service</label>
-        <select asp-for="ServiceId" asp-items="ViewBag.Services" class="form-control">
-            <option value="">-- Select --</option>
-        </select>
-    </div>
+            <form method="post" class="space-y-8">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="Id" />
 
-    <div class="form-group">
-        <label asp-for="Grade"></label>
-        <input asp-for="Grade" class="form-control" />
-    </div>
+                <!-- Personal Info -->
+                <div>
+                    <h3 class="text-lg font-bold uppercase tracking-wider text-blue-400 mb-4">
+                        Personal Information
+                    </h3>
 
-    <div class="form-group">
-        <label asp-for="Role"></label>
-        <select asp-for="Role" class="form-control">
-            <option value="staff">Staff</option>
-            <option value="admin">Admin</option>
-        </select>
-    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="Name" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Name" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/30" />
+                        </div>
 
-    <button type="submit" class="btn btn-warning mt-3">Update</button>
-    <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
-</form>
+                        <div>
+                            <label asp-for="Email" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Email" type="email" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-blue-500/30" />
+                        </div>
+
+                        <div>
+                            <label asp-for="Contact" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Contact" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                        </div>
+
+                        <div>
+                            <label asp-for="Address" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Address"
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <h3 class="text-lg font-bold uppercase tracking-wider text-blue-400 mb-4">
+                        Security
+                    </h3>
+
+                    <div>
+                        <label asp-for="Password" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">
+                            New Password (optional)
+                        </label>
+                        <input asp-for="Password" type="password"
+                               class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                        <p class="text-xs text-gray-500 mt-2">
+                            Leave blank to keep the current password.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Employment Info -->
+                <div>
+                    <h3 class="text-lg font-bold uppercase tracking-wider text-blue-400 mb-4">
+                        Employment Details
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="QualificationId" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <select asp-for="QualificationId" asp-items="ViewBag.Qualifications"
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                                <option value="">Select qualification</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label asp-for="ServiceId" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <select asp-for="ServiceId" asp-items="ViewBag.Services"
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                                <option value="">Select service</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label asp-for="Grade" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Grade"
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                        </div>
+
+                        <div>
+                            <label asp-for="Role" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <select asp-for="Role"
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                                <option value="staff">Staff</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="pt-6 flex flex-col sm:flex-row justify-end gap-4">
+                    <a href="/dashboard/employees"
+                       class="px-6 py-3 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-wider hover:bg-white/5 transition">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="px-6 py-3 bg-yellow-900/40 border border-yellow-500/40 rounded-xl
+                                   text-yellow-300 text-sm font-bold uppercase tracking-wider
+                                   hover:bg-yellow-700 hover:border-yellow-400 transition">
+                        Update Employee
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .text-stroke {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    }
+</style>

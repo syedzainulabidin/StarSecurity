@@ -3,53 +3,135 @@
     ViewData["Title"] = "Apply for Job";
 }
 
-<h2>Apply for @ViewBag.ServiceTitle</h2>
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
+    <!-- Background Glows -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
+
+    <!-- Background Text -->
+    <div class="absolute inset-0 z-0 flex flex-col items-center justify-center pointer-events-none select-none">
+        <h2 class="text-[8rem] lg:text-[15rem] font-anton leading-none tracking-tighter opacity-5 uppercase text-transparent text-stroke">
+            CAREER
+        </h2>
+        <h2 class="text-[8rem] lg:text-[15rem] font-anton leading-none tracking-tighter opacity-10 uppercase -mt-10 lg:-mt-20">
+            APPLY
+        </h2>
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium mb-4">
+                <div class="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                Job Application
+            </div>
+
+            <h1 class="text-5xl lg:text-6xl font-anton uppercase tracking-tighter mb-4">
+                APPLY FOR <span class="text-blue-600">@ViewBag.ServiceTitle</span>
+            </h1>
+
+            <p class="text-gray-400 max-w-xl mx-auto text-lg">
+                Complete the form below to submit your application.
+            </p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 lg:p-12 rounded-[2.5rem] shadow-2xl">
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="mb-8 p-6 bg-red-900/30 border border-red-500/30 rounded-2xl text-red-300">
+                    @TempData["Error"]
+                </div>
+            }
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="mb-8 p-6 bg-green-900/30 border border-green-500/30 rounded-2xl text-green-300">
+                    @TempData["Success"]
+                </div>
+            }
+
+            <form method="post" asp-controller="Career" asp-action="Apply" class="space-y-8">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="VacancyId" value="@ViewBag.VacancyId" />
+
+                <!-- Name -->
+                <div class="space-y-2">
+                    <label asp-for="Name" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">
+                        Full Name
+                    </label>
+                    <input asp-for="Name" required
+                           class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" />
+                    <span asp-validation-for="Name" class="text-red-400 text-sm ml-1"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="space-y-2">
+                    <label asp-for="Email" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">
+                        Email Address
+                    </label>
+                    <input asp-for="Email" type="email" required
+                           class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" />
+                    <span asp-validation-for="Email" class="text-red-400 text-sm ml-1"></span>
+                </div>
+
+                <!-- Contact -->
+                <div class="space-y-2">
+                    <label asp-for="Contact" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">
+                        Phone Number
+                    </label>
+                    <input asp-for="Contact" required
+                           class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" />
+                    <span asp-validation-for="Contact" class="text-red-400 text-sm ml-1"></span>
+                </div>
+
+                <!-- Address -->
+                <div class="space-y-2">
+                    <label asp-for="Address" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">
+                        Address
+                    </label>
+                    <textarea asp-for="Address" rows="2"
+                              class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-gray-600 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"></textarea>
+                </div>
+
+                <!-- Qualification -->
+                <div class="space-y-2">
+                    <label asp-for="QualificationId" class="block text-xs font-bold uppercase tracking-widest text-gray-500 ml-1">
+                        Highest Qualification
+                    </label>
+                    <select asp-for="QualificationId" asp-items="ViewBag.Qualifications"
+                            class="w-full bg-black/40 border border-white/10 rounded-xl px-5 py-4 text-white transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20">
+                        <option value="">-- Select Qualification --</option>
+                    </select>
+                    <span asp-validation-for="QualificationId" class="text-red-400 text-sm ml-1"></span>
+                </div>
+
+                <!-- Actions -->
+                <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-4">
+                    <button type="submit"
+                            class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl transition-all shadow-lg shadow-blue-600/30">
+                        Submit Application
+                    </button>
+
+                    <a href="/careers"
+                       class="flex-1 text-center bg-white/5 hover:bg-white/10 text-white font-bold py-5 rounded-2xl transition-all border border-white/10">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .text-stroke {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    }
+</style>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
-
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-
-<form method="post" asp-controller="Career" asp-action="Apply">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="VacancyId" value="@ViewBag.VacancyId" />
-
-    <div class="form-group">
-        <label asp-for="Name">Full Name</label>
-        <input asp-for="Name" class="form-control" required />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Email">Email</label>
-        <input asp-for="Email" type="email" class="form-control" required />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Contact">Phone Number</label>
-        <input asp-for="Contact" class="form-control" required />
-        <span asp-validation-for="Contact" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Address">Address</label>
-        <textarea asp-for="Address" class="form-control" rows="2"></textarea>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="QualificationId">Highest Qualification</label>
-        <select asp-for="QualificationId" asp-items="ViewBag.Qualifications" class="form-control">
-            <option value="">-- Select Qualification --</option>
-        </select>
-        <span asp-validation-for="QualificationId" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success mt-3">Submit Application</button>
-    <a href="/careers" class="btn btn-secondary mt-3">Cancel</a>
-</form>

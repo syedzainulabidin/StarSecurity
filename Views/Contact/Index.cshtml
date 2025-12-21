@@ -3,33 +3,172 @@
     ViewData["Title"] = "Contact Us";
 }
 
-<h2>Contact Us</h2>
-
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-
-<form method="post" asp-controller="Contact" asp-action="Send">
-    @Html.AntiForgeryToken()
-
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" required />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
+    <div class="absolute top-[-10%] left-[-10%] h-[400px] w-[400px] rounded-full bg-blue-900/20 blur-[100px]"></div>
+    <div class="relative z-10 max-w-7xl mx-auto text-center">
+        <h1 class="text-6xl lg:text-9xl font-anton uppercase tracking-tighter leading-none mb-4">
+            CONTACT <span class="opacity-10 text-stroke" style="-webkit-text-fill-color: transparent;">US</span>
+        </h1>
+        <p class="text-blue-500 font-bold text-xl uppercase tracking-widest">
+            Get in touch for elite protection
+        </p>
     </div>
+</section>
 
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" type="email" class="form-control" required />
-        <span asp-validation-for="Email" class="text-danger"></span>
+<!-- Contact Section -->
+<section class="relative py-24 px-8 lg:px-16 max-w-7xl mx-auto">
+    @if (TempData["Success"] != null)
+    {
+        <div class="mb-8 p-6 bg-green-900/30 border border-green-500/30 rounded-2xl text-green-300">
+            <div class="flex items-center gap-3">
+                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>@TempData["Success"]</span>
+            </div>
+        </div>
+    }
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <!-- Contact Info -->
+        <div class="flex flex-col gap-12">
+            <div class="space-y-6">
+                <h2 class="text-4xl font-bold tracking-tight uppercase">Let's talk about <br><span class="text-blue-600">Your Security</span></h2>
+                <p class="text-gray-400 text-lg leading-relaxed max-w-md">
+                    Our experts are ready to provide you with a tailored security plan that meets your specific needs and ensures complete peace of mind.
+                </p>
+            </div>
+
+            <div class="grid gap-8">
+                <!-- Location -->
+                <div class="flex items-start gap-6 group">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-600/20 flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
+                        <svg class="w-6 h-6 text-blue-500 group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-1">Our Location</div>
+                        <div class="text-xl font-bold">123 Security Plaza, New Delhi, India</div>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="flex items-start gap-6 group">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-600/20 flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
+                        <svg class="w-6 h-6 text-blue-500 group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-1">Email Us</div>
+                        <div class="text-xl font-bold">contact@guardity.com</div>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="flex items-start gap-6 group">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-600/10 border border-blue-600/20 flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
+                        <svg class="w-6 h-6 text-blue-500 group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-1">Call Anytime</div>
+                        <div class="text-xl font-bold">+91 1800 123 4567</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form - Integrated with your ASP.NET Core form -->
+        <div class="bg-white/5 border border-white/10 p-10 lg:p-16 rounded-[3rem]">
+            <form method="post" asp-controller="Contact" asp-action="Send" class="space-y-8">
+                @Html.AntiForgeryToken()
+
+                <div class="space-y-2">
+                    <label asp-for="Name" class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 ml-4"></label>
+                    <input asp-for="Name"
+                           class="w-full bg-[#020617] border border-white/10 rounded-2xl px-6 py-4 outline-none transition-all text-white placeholder:text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                           placeholder="Enter your full name" required />
+                    <span asp-validation-for="Name" class="text-red-400 text-sm mt-2 ml-4"></span>
+                </div>
+
+                <div class="space-y-2">
+                    <label asp-for="Email" class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 ml-4"></label>
+                    <input asp-for="Email" type="email"
+                           class="w-full bg-[#020617] border border-white/10 rounded-2xl px-6 py-4 outline-none transition-all text-white placeholder:text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                           placeholder="your@email.com" required />
+                    <span asp-validation-for="Email" class="text-red-400 text-sm mt-2 ml-4"></span>
+                </div>
+
+                <div class="space-y-2">
+                    <label asp-for="Message" class="text-xs font-bold uppercase tracking-[0.2em] text-gray-500 ml-4"></label>
+                    <textarea asp-for="Message" rows="4"
+                              class="w-full bg-[#020617] border border-white/10 rounded-2xl px-6 py-4 outline-none transition-all text-white placeholder:text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 resize-none"
+                              placeholder="How can we help you?" required></textarea>
+                    <span asp-validation-for="Message" class="text-red-400 text-sm mt-2 ml-4"></span>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-5 rounded-2xl transition-all flex items-center justify-center gap-3 uppercase tracking-widest text-sm shadow-xl shadow-blue-600/20 group">
+                    Send Message
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </form>
+        </div>
     </div>
+</section>
 
-    <div class="form-group">
-        <label asp-for="Message"></label>
-        <textarea asp-for="Message" class="form-control" rows="5" required></textarea>
-        <span asp-validation-for="Message" class="text-danger"></span>
+<!-- Map Section -->
+<section class="px-8 lg:px-16 mb-24 max-w-7xl mx-auto">
+    <div class="w-full h-[400px] rounded-[3rem] overflow-hidden border border-white/10">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.8392319277!2d77.06889754725782!3d28.52728034451857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b71db4152a9!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1710345678901!5m2!1sen!2sin"
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
     </div>
+</section>
 
-    <button type="submit" class="btn btn-primary mt-3">Send Message</button>
-</form>
+<style>
+    .text-stroke {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    }
+
+    .group:hover .group-hover\:bg-blue-600 {
+        background-color: #2563eb;
+    }
+
+    .group:hover .group-hover\:text-white {
+        color: white;
+    }
+
+    input:focus, textarea:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+
+    .group:hover .group-hover\:translate-x-1 {
+        transform: translateX(0.25rem);
+    }
+
+    .validation-summary-errors {
+        background-color: rgba(220, 38, 38, 0.2);
+        border: 1px solid rgba(220, 38, 38, 0.3);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+        .validation-summary-errors ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .validation-summary-errors li {
+            color: #f87171;
+            font-size: 0.875rem;
+        }
+</style>

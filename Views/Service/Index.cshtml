@@ -1,39 +1,237 @@
 ﻿@model List<Service>
 @{
     ViewData["Title"] = "Manage Services";
+    Layout = "_Admin_Dashboard_Layout";
 }
 
-<h2>Services</h2>
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-info">@TempData["Message"]</div>
-}
+    <!-- Background -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
 
-<p><a asp-action="Create" class="btn btn-primary">Create New</a></p>
+    <div class="relative z-10 max-w-7xl mx-auto">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var service in Model)
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl lg:text-7xl font-anton uppercase tracking-tight">
+                SERVICE <span class="text-blue-600">MANAGEMENT</span>
+            </h1>
+            <p class="text-gray-400 mt-4">
+                View, create, and manage services
+            </p>
+        </div>
+
+        <!-- Alert -->
+        @if (TempData["Message"] != null)
         {
-            <tr>
-                <td>@service.Title</td>
-                <td>@service.Description</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@service.Id" class="btn btn-sm btn-warning">Edit</a>
-                    <form method="post" asp-action="Delete" asp-route-id="@service.Id" style="display:inline;" onsubmit="return confirm('Delete this service?');">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
+            <div class="mb-6 p-4 bg-blue-900/30 border border-blue-500/30 rounded-xl text-blue-300">
+                @TempData["Message"]
+            </div>
         }
-    </tbody>
-</table>
+
+        <!-- Controls -->
+        <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between">
+            <input id="searchInput"
+                   placeholder="Search services..."
+                   class="w-full md:w-1/3 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+
+            <a asp-action="Create"
+               class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold uppercase text-sm text-center">
+                + Add Service
+            </a>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-gray-500 uppercase tracking-widest text-xs">
+                            <th class="px-6 py-4">Title</th>
+                            <th class="px-6 py-4">Description</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="serviceTable" class="divide-y divide-white/10">
+                        @foreach (var s in Model)
+                        {
+                            <tr class="service-row hover:bg-white/5 transition cursor-pointer"
+                                data-title="@s.Title.ToLower()"
+                                data-fulltitle="@s.Title"
+                                data-description="@s.Description"
+                                data-created="@s.CreatedAt.ToString("dd MMM yyyy HH:mm")">
+
+                                <td class="px-6 py-5 font-bold text-blue-400"
+                                    onclick="openDetailsModal(this.parentElement)">
+                                    @s.Title
+                                </td>
+
+                                <td class="px-6 py-5 text-gray-300 truncate max-w-xl">
+                                    @s.Description
+                                </td>
+
+                                <td class="px-6 py-5 text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <a href="/dashboard/services/edit/@s.Id"
+                                           class="px-4 py-2 bg-yellow-900/30 border border-yellow-500/30
+                                                      rounded-xl text-yellow-300 text-sm font-bold uppercase">
+                                            Edit
+                                        </a>
+                                        <button onclick="event.stopPropagation(); openDeleteModal(@s.Id, '@s.Title')"
+                                                class="px-4 py-2 bg-red-900/30 border border-red-500/30
+                                                           rounded-xl text-red-300 text-sm font-bold uppercase">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 flex justify-between items-center">
+                <div id="recordCount" class="text-sm text-gray-400"></div>
+                <div id="paginationControls" class="flex gap-2"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICE DETAILS MODAL -->
+<div id="detailsModal" class="fixed inset-0 hidden z-[9999]">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur" onclick="closeDetailsModal()"></div>
+
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-[#020617] border border-white/10 rounded-[2rem] w-full max-w-lg p-6">
+            <h3 id="modalTitle"
+                class="text-3xl font-anton uppercase mb-2 text-blue-400"></h3>
+
+            <p class="text-sm text-gray-500 mb-4">
+                Created on <span id="modalCreated"></span>
+            </p>
+
+            <p id="modalDescription" class="text-gray-300 leading-relaxed"></p>
+
+            <div class="mt-8 flex justify-end">
+                <button onclick="closeDetailsModal()"
+                        class="px-6 py-2 border border-white/10 rounded-xl">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div id="deleteModal" class="fixed inset-0 hidden z-[9999]">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur" onclick="closeDeleteModal()"></div>
+
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-[#020617] border border-white/10 rounded-[2rem] w-full max-w-md p-6">
+            <h3 class="text-2xl font-anton uppercase mb-4 text-red-400">
+                Confirm Deletion
+            </h3>
+
+            <p class="text-gray-300 mb-6">
+                Are you sure you want to delete
+                <strong id="deleteServiceName"></strong>?
+            </p>
+
+            <form id="deleteForm" method="post">
+                @Html.AntiForgeryToken()
+                <div class="flex justify-end gap-3">
+                    <button type="button"
+                            onclick="closeDeleteModal()"
+                            class="px-5 py-2 border border-white/10 rounded-xl">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                            class="px-5 py-2 bg-red-900/40 border border-red-500/40
+                                   rounded-xl text-red-300 font-bold uppercase">
+                        Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentPage = 1;
+    let rowsPerPage = 5;
+    let searchValue = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('searchInput').addEventListener('input', e => {
+            searchValue = e.target.value.toLowerCase();
+            currentPage = 1;
+            updateTable();
+        });
+
+        updateTable();
+    });
+
+    function updateTable() {
+        const rows = Array.from(document.querySelectorAll('.service-row'));
+        const filtered = rows.filter(r =>
+            r.dataset.title.includes(searchValue)
+        );
+
+        rows.forEach(r => r.style.display = 'none');
+
+        filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+            .forEach(r => r.style.display = '');
+
+        document.getElementById('recordCount').textContent =
+            `Showing ${filtered.length} services`;
+
+        buildPagination(filtered.length);
+    }
+
+    function buildPagination(total) {
+        const pages = Math.ceil(total / rowsPerPage);
+        const container = document.getElementById('paginationControls');
+        container.innerHTML = '';
+
+        for (let i = 1; i <= pages; i++) {
+            container.innerHTML += `
+                <button onclick="changePage(${i})"
+                        class="px-3 py-1 rounded-lg ${i === currentPage ? 'bg-blue-600' : 'bg-white/10'}">
+                    ${i}
+                </button>`;
+        }
+    }
+
+    function changePage(p) {
+        currentPage = p;
+        updateTable();
+    }
+
+    // DETAILS MODAL
+    function openDetailsModal(row) {
+        document.getElementById('modalTitle').textContent = row.dataset.fulltitle;
+        document.getElementById('modalDescription').textContent = row.dataset.description;
+        document.getElementById('modalCreated').textContent = row.dataset.created;
+        document.getElementById('detailsModal').classList.remove('hidden');
+    }
+
+    function closeDetailsModal() {
+        document.getElementById('detailsModal').classList.add('hidden');
+    }
+
+    // DELETE MODAL
+    function openDeleteModal(id, title) {
+        document.getElementById('deleteServiceName').textContent = title;
+        document.getElementById('deleteForm').action =
+            `/dashboard/services/delete/${id}`;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+</script>

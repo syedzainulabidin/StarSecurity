@@ -1,21 +1,69 @@
 ﻿@model Client
 @{
     ViewData["Title"] = "Add Client";
+    Layout = "_Admin_Dashboard_Layout";
 }
 
-<h2>Add New Client</h2>
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-<form method="post" asp-controller="Client" asp-action="Create">
-    @Html.AntiForgeryToken()
+    <!-- Background -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
 
-    <div class="form-group">
-        <label asp-for="BookingId">Select Completed Booking</label>
-        <select asp-for="BookingId" asp-items="ViewBag.Bookings" class="form-control" required>
-            <option value="">-- Select Booking --</option>
-        </select>
-        <span asp-validation-for="BookingId" class="text-danger"></span>
+    <div class="relative z-10 max-w-4xl mx-auto">
+
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl lg:text-6xl font-anton uppercase tracking-tight text-yellow-600">
+                ADD <span class="text-white">CLIENT</span>
+            </h1>
+            <p class="text-gray-400 mt-4">
+                Select a completed booking to add a new client
+            </p>
+        </div>
+
+        <!-- Alert -->
+        @if (TempData["Message"] != null)
+        {
+            <div class="mb-6 p-4 bg-blue-900/30 border border-blue-500/30 rounded-xl text-blue-300">
+                @TempData["Message"]
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="mb-6 p-4 bg-red-900/30 border border-red-500/30 rounded-xl text-red-300">
+                @TempData["Error"]
+            </div>
+        }
+
+        <!-- Form Card -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-[2.5rem] shadow-2xl">
+            <form method="post" asp-controller="Client" asp-action="Create">
+                @Html.AntiForgeryToken()
+
+                <div class="mb-6">
+                    <label asp-for="BookingId" class="block mb-2 font-semibold text-gray-300">
+                        Select Completed Booking
+                    </label>
+                    <select asp-for="BookingId" asp-items="ViewBag.Bookings"
+                            class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white"
+                            required>
+                        <option value="">-- Select Booking --</option>
+                    </select>
+                    <span asp-validation-for="BookingId" class="text-red-400 mt-1 block"></span>
+                </div>
+
+                <div class="flex gap-4 justify-end mt-8">
+                    <button type="submit"
+                            class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold text-white uppercase text-sm">
+                        Add Client
+                    </button>
+                    <a asp-action="Index"
+                       class="px-6 py-3 bg-gray-700 hover:bg-gray-800 rounded-xl font-bold text-white uppercase text-sm">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-success">Add Client</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+</section>

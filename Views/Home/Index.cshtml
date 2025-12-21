@@ -2,16 +2,445 @@
     ViewData["Title"] = "Home";
 }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @TempData["Success"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
 
-<div class="text-center">
-    <h1 class="display-4">Star Security Services</h1>
-    <p>Providing premium security solutions since 2000.</p>
-    <a href="/services" class="btn btn-primary mt-3">View Our Services</a>
-</div>
+
+<section class="relative flex min-h-[calc(100vh-88px)] flex-col items-center justify-center px-8 lg:px-16 overflow-hidden">
+
+    <!-- Background Glows -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]">
+    </div>
+
+    <!-- Background Text -->
+    <div class="absolute inset-0 z-0 flex flex-col items-center justify-center pointer-events-none select-none">
+        <h2 class="text-[10rem] lg:text-[18rem] font-anton leading-none tracking-tighter opacity-10 uppercase text-transparent text-stroke">
+            Professional
+        </h2>
+        <h2 class="text-[10rem] lg:text-[18rem] font-anton leading-none tracking-tighter opacity-20 uppercase -mt-10 lg:-mt-20">
+            Bodyguard
+        </h2>
+    </div>
+
+    <!-- Hero Content Grid -->
+    <div class="relative z-10 grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-3">
+
+        <!-- Left Column -->
+        <div x-data="{ show: false }" x-init="setTimeout(() => show = true, 200)" x-show="show"
+             x-transition:enter="transition ease-out duration-1000"
+             x-transition:enter-start="opacity-0 -translate-x-12" x-transition:enter-end="opacity-100 translate-x-0"
+             class="flex flex-col items-start gap-6">
+            <div class="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium">
+                <div class="h-2 w-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]"></div>
+                Available for Hire
+            </div>
+            <h1 class="text-4xl font-bold leading-[1.1] tracking-tight lg:text-5xl">
+                We Aim to Provide You With a Life With <br>
+                <span class="text-blue-600">Full Protection</span>
+            </h1>
+        </div>
+
+        <!-- Center Column - Person -->
+        <div class="relative flex justify-center" x-data="{ show: false }"
+             x-init="setTimeout(() => show = true, 100)" x-show="show"
+             x-transition:enter="transition ease-out duration-1000"
+             x-transition:enter-start="opacity-0 translate-y-12" x-transition:enter-end="opacity-100 translate-y-0">
+            <div class="relative z-20 w-full max-w-[500px]">
+                <img src="https://templatekit.kotakkuning.com/guardity/wp-content/uploads/sites/15/2025/06/hero-image.png" alt="Bodyguard"
+                     class="relative z-20 h-auto w-full object-cover mix-blend-lighten">
+                <!-- <div
+                    class="absolute inset-0 z-30 bg-gradient-to-t from-[#020617] via-transparent to-transparent h-1/4 bottom-0">
+                </div> -->
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full bg-blue-600 transform -rotate-1 origin-bottom-left z-50">
+            <div class="flex whitespace-nowrap animate-infinite-scroll">
+                <div class="flex items-center gap-8 px-6 py-5 text-3xl font-black uppercase tracking-tighter bg-blue-600">
+                    <svg class="h-6 w-6 fill-white" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    Professional Security Services You Can Trust
+                </div>
+                <div class="flex items-center gap-8 px-6 py-5 text-3xl font-black uppercase tracking-tighter bg-blue-600">
+                    <svg class="h-6 w-6 fill-white" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    Professional Security Services You Can Trust
+                </div>
+                <div class="flex items-center gap-8 px-6 py-5 text-3xl font-black uppercase tracking-tighter bg-blue-600">
+                    <svg class="h-6 w-6 fill-white" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    Professional Security Services You Can Trust
+                </div>
+                <div class="flex items-center gap-8 px-6 py-5 text-3xl font-black uppercase tracking-tighter bg-blue-600">
+                    <svg class="h-6 w-6 fill-white" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                    Professional Security Services You Can Trust
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div x-data="{ show: false }" x-init="setTimeout(() => show = true, 400)" x-show="show"
+             x-transition:enter="transition ease-out duration-1000"
+             x-transition:enter-start="opacity-0 translate-x-12" x-transition:enter-end="opacity-100 translate-x-0"
+             class="flex flex-col items-start gap-12 lg:items-end lg:text-right">
+
+            <div class="space-y-1">
+                <div class="flex items-center gap-2 text-4xl font-bold lg:justify-end">
+                    13 Years <span class="text-blue-600 text-2xl">+</span>
+                </div>
+                <p class="text-sm font-medium text-gray-400 uppercase tracking-widest">Years of Experience</p>
+            </div>
+
+            <div class="space-y-1">
+                <div class="flex items-center gap-2 text-4xl font-bold lg:justify-end">
+                    1,500 <span class="text-blue-600 text-2xl">+</span>
+                </div>
+                <p class="text-sm font-medium text-gray-400 uppercase tracking-widest">Satisfied Clients</p>
+            </div>
+
+            <!-- Circular Play Button -->
+            <div class="relative flex h-32 w-32 items-center justify-center">
+                <div class="absolute inset-0 rounded-full border border-dashed border-white/20 rotate-text"></div>
+                <div class="absolute inset-0 flex items-center justify-center p-2">
+                    <svg class="h-full w-full rotate-[-90deg]" viewBox="0 0 100 100">
+                        <path id="textPath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
+                              fill="none" />
+                        <text class="text-[8px] font-bold uppercase tracking-[2px] fill-white/60">
+                            <textPath xlink:href="#textPath">
+                                Professional Protection Anywhere and Anytime •
+                            </textPath>
+                        </text>
+                    </svg>
+                </div>
+                <button class="z-10 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 shadow-lg shadow-blue-600/40 transition-transform hover:scale-110">
+                    <svg class="ml-1 h-6 w-6 fill-white text-white" viewBox="0 0 24 24">
+                        <path d="m7 3 14 9-14 9V3z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
+
+<section class="relative py-24 px-8 lg:px-16 overflow-hidden" x-data="{ activeService: 1 }">
+    <!-- Background Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none">
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-20">
+            <h2 class="text-5xl lg:text-7xl font-anton uppercase tracking-tighter mb-6">
+                WHAT WE SERVE <span class="opacity-30" style="-webkit-text-stroke: 1px white; color: transparent;">
+                    &
+                    PROTECT
+                </span>
+            </h2>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus luctus nec ullamcorper.
+            </p>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+
+            <!-- Left: Services List -->
+            <div class="flex flex-col border-t border-white/10">
+                <!-- Service Item 1 -->
+                <div @@mouseenter ="activeService = 1"
+                     class="group cursor-pointer border-b border-white/10 py-8 transition-all duration-500"
+                     :class="activeService === 1 ? 'border-blue-600' : ''">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl lg:text-3xl font-anton uppercase tracking-tight transition-colors duration-300"
+                            :class="activeService === 1 ? 'text-blue-600' : 'text-white'">
+                            Personal Protection
+                        </h3>
+                        <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300"
+                             :class="activeService === 1 ? 'bg-blue-600 border-blue-600 rotate-45' : 'group-hover:border-blue-600'">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div x-show="activeService === 1" x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0" class="text-gray-400 max-w-md">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam non lacus quam. Donec est
+                        velit, condimentum vitae tempor eget, pretium et massa.
+                    </div>
+                </div>
+
+                <!-- Service Item 2 -->
+                <div @@mouseenter ="activeService = 2"
+                     class="group cursor-pointer border-b border-white/10 py-8 transition-all duration-500"
+                     :class="activeService === 2 ? 'border-blue-600' : ''">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl lg:text-3xl font-anton uppercase tracking-tight transition-colors duration-300"
+                            :class="activeService === 2 ? 'text-blue-600' : 'text-white'">
+                            Commercial Security
+                        </h3>
+                        <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300"
+                             :class="activeService === 2 ? 'bg-blue-600 border-blue-600 rotate-45' : 'group-hover:border-blue-600'">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div x-show="activeService === 2" x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0" class="text-gray-400 max-w-md">
+                        Advanced security solutions for businesses and corporations, ensuring asset protection and
+                        staff safety through technology and elite personnel.
+                    </div>
+                </div>
+
+                <!-- Service Item 3 -->
+                <div @@mouseenter ="activeService = 3"
+                     class="group cursor-pointer border-b border-white/10 py-8 transition-all duration-500"
+                     :class="activeService === 3 ? 'border-blue-600' : ''">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl lg:text-3xl font-anton uppercase tracking-tight transition-colors duration-300"
+                            :class="activeService === 3 ? 'text-blue-600' : 'text-white'">
+                            Residential Security
+                        </h3>
+                        <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300"
+                             :class="activeService === 3 ? 'bg-blue-600 border-blue-600 rotate-45' : 'group-hover:border-blue-600'">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div x-show="activeService === 3" x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0" class="text-gray-400 max-w-md">
+                        Home protection services for VIPs and families, including perimeter monitoring, smart
+                        surveillance, and specialized residential response units.
+                    </div>
+                </div>
+
+                <!-- Service Item 4 -->
+                <div @@mouseenter ="activeService = 4"
+                     class="group cursor-pointer border-b border-white/10 py-8 transition-all duration-500"
+                     :class="activeService === 4 ? 'border-blue-600' : ''">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-2xl lg:text-3xl font-anton uppercase tracking-tight transition-colors duration-300"
+                            :class="activeService === 4 ? 'text-blue-600' : 'text-white'">
+                            Security Consulting
+                        </h3>
+                        <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center transition-all duration-300"
+                             :class="activeService === 4 ? 'bg-blue-600 border-blue-600 rotate-45' : 'group-hover:border-blue-600'">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div x-show="activeService === 4" x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0 -translate-y-2"
+                         x-transition:enter-end="opacity-100 translate-y-0" class="text-gray-400 max-w-md">
+                        Strategic planning and risk assessment services to identify vulnerabilities and implement
+                        robust defense systems for any scenario.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Image/Video Area -->
+            <div class="relative group">
+                <div class="rounded-[2.5rem] overflow-hidden relative shadow-2xl shadow-blue-600/10 border border-white/5 aspect-[4/3] lg:aspect-square xl:aspect-video">
+                    <img src="https://images.unsplash.com/photo-1552581234-26160f608093?q=80&w=2000"
+                         alt="Security Team"
+                         class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
+                    <!-- Overlay -->
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-500">
+                    </div>
+
+                    <!-- Play Button -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <button class="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/40 transition-transform duration-300 hover:scale-110">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white fill-white ml-1"
+                                 viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Bottom Button -->
+                    <div class="absolute bottom-6 left-6">
+                        <a href="#"
+                           class="inline-flex items-center gap-3 bg-blue-600 px-8 py-4 rounded-xl font-bold uppercase tracking-wider text-sm transition-all duration-300 hover:bg-blue-700 hover:-translate-y-1">
+                            Browse All Our Services
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="relative min-h-screen flex items-center justify-center py-20 px-8 lg:px-16 overflow-hidden">
+    <!-- Background Glows -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-[800px] rounded-full bg-blue-900/10 blur-[150px] pointer-events-none">
+    </div>
+
+    <div class="max-w-7xl w-full">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+            <!-- Row 1, Col 1 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1000"
+                     alt="Team Member 1">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Security Expert</span>
+                    <h4 class="text-lg font-bold">James Wilson</h4>
+                </div>
+            </div>
+
+            <!-- Row 1, Col 2 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000"
+                     alt="Team Member 2">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Tactical Officer</span>
+                    <h4 class="text-lg font-bold">Michael Chen</h4>
+                </div>
+            </div>
+
+            <!-- Row 1, Col 3 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000"
+                     alt="Team Member 3">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">
+                        Executive
+                        Protection
+                    </span>
+                    <h4 class="text-lg font-bold">Robert Davis</h4>
+                </div>
+            </div>
+
+            <!-- Row 2, Col 1 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=1000"
+                     alt="Team Member 4">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Special Agent</span>
+                    <h4 class="text-lg font-bold">Alexander Wright</h4>
+                </div>
+            </div>
+
+            <!-- Row 2, Col 2 (CENTER CONTENT) -->
+            <div class="flex flex-col items-center justify-center text-center py-12 px-4 space-y-8 order-last md:order-none">
+                <h2 class="text-6xl lg:text-8xl font-anton uppercase tracking-tighter leading-none text-gradient">
+                    MEET OUR <br> TEAM
+                </h2>
+
+                <a href="#"
+                   class="group relative flex items-center justify-between gap-4 rounded-full border border-blue-600/50 px-8 py-4 text-blue-500 transition-all duration-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 w-full max-w-[320px]">
+                    <span class="text-sm font-bold uppercase tracking-widest">See All Our Expert Guards</span>
+                    <div class="flex h-6 w-6 items-center justify-center rounded-full border border-current transition-transform group-hover:rotate-45">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Row 2, Col 3 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=1000"
+                     alt="Team Member 5">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Security Analyst</span>
+                    <h4 class="text-lg font-bold">David Thompson</h4>
+                </div>
+            </div>
+
+            <!-- Row 3, Col 1 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?q=80&w=1000"
+                     alt="Team Member 6">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Lead Guard</span>
+                    <h4 class="text-lg font-bold">Samuel Miller</h4>
+                </div>
+            </div>
+
+            <!-- Row 3, Col 2 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1000"
+                     alt="Team Member 7">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">Field Commander</span>
+                    <h4 class="text-lg font-bold">John Stevens</h4>
+                </div>
+            </div>
+
+            <!-- Row 3, Col 3 -->
+            <div class="team-image-container aspect-[4/3] md:aspect-square lg:aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1000"
+                     alt="Team Member 8">
+                <div class="team-image-overlay flex flex-col justify-end p-8">
+                    <span class="text-blue-500 font-bold uppercase tracking-widest text-xs">
+                        Protection
+                        Specialist
+                    </span>
+                    <h4 class="text-lg font-bold">Kevin Harris</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- CTA Section -->
+<section class="relative py-20 lg:py-32 px-8 lg:px-16 overflow-hidden">
+    <!-- Background Glow -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-blue-900/10 blur-[120px] pointer-events-none">
+    </div>
+
+    <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
+        <div class="flex flex-col">
+            <h2 class="text-6xl lg:text-[10rem] font-anton leading-none tracking-tight text-outline uppercase">
+                LET'S WORK
+            </h2>
+            <h2 class="text-6xl lg:text-[10rem] font-anton leading-none tracking-tight text-white/90 uppercase -mt-2 lg:-mt-8">
+                WITH GUARDITY
+            </h2>
+        </div>
+
+        <!-- Large Arrow Button -->
+        <a href="#"
+           class="group relative flex items-center justify-center w-48 h-48 lg:w-64 lg:h-64 rounded-full bg-blue-600 shadow-[0_0_50px_rgba(37,99,235,0.3)] transition-transform duration-500 hover:scale-105">
+            <i data-lucide="arrow-up-right" class="w-24 h-24 lg:w-32 lg:h-32 text-white stroke-[1.5]"></i>
+        </a>
+    </div>
+
+    <!-- Divider Line -->
+    <div class="max-w-7xl mx-auto border-t border-white/5 mt-24 lg:mt-32"></div>
+</section>

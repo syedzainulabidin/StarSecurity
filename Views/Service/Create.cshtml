@@ -1,32 +1,56 @@
 ﻿@model Service
 @{
     ViewData["Title"] = "Create Service";
+    Layout = "_Admin_Dashboard_Layout";
 }
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger">
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
-    </div>
-}
-<h2>Create Service</h2>
 
-<form method="post" asp-controller="Service" asp-action="Create">
-    @Html.AntiForgeryToken()
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" required />
-        <span asp-validation-for="Title" class="text-danger"></span>
+    <!-- Background -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto">
+
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-anton uppercase tracking-tight text-blue-600">Create Service</h1>
+            <p class="text-gray-400 mt-2">Add a new service to your system</p>
+        </div>
+
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="mb-6 p-4 bg-red-900/30 border border-red-500/30 rounded-xl text-red-300">
+                <ul class="list-disc list-inside">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form method="post" asp-controller="Service" asp-action="Create" class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-4">
+                <label asp-for="Title" class="block mb-2 font-semibold text-gray-300"></label>
+                <input asp-for="Title" class="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-600" required />
+                <span asp-validation-for="Title" class="text-red-400 text-sm mt-1 block"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Description" class="block mb-2 font-semibold text-gray-300"></label>
+                <textarea asp-for="Description" rows="4" class="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+            </div>
+
+            <div class="flex gap-4 mt-6">
+                <button type="submit" class="px-6 py-3 bg-green-600 hover:bg-green-700 rounded-xl font-bold uppercase text-sm">
+                    Create
+                </button>
+                <a asp-action="Index" class="px-6 py-3 bg-gray-700 hover:bg-gray-800 rounded-xl font-bold uppercase text-sm">
+                    Cancel
+                </a>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+</section>

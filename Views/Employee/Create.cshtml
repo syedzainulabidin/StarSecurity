@@ -1,76 +1,175 @@
 ﻿@model Employee
 @{
     ViewData["Title"] = "Create Employee";
+    Layout = "_Admin_Dashboard_Layout";
 }
 
-<h2>Create Employee</h2>
+<section class="relative py-20 px-6 lg:px-16 overflow-hidden">
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">
-        @Html.Raw(TempData["Error"])
-    </div>
-}
+    <!-- Background glows -->
+    <div class="absolute top-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-green-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-green-900/10 blur-[120px]"></div>
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["Message"]
+    <!-- Background Text -->
+    <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none select-none">
+        <h2 class="text-[8rem] lg:text-[14rem] font-anton opacity-5 uppercase text-transparent text-stroke">
+            CREATE
+        </h2>
     </div>
-}
 
-<form method="post" asp-controller="Employee" asp-action="Create">
-    @Html.AntiForgeryToken()
+    <div class="relative z-10 max-w-4xl mx-auto">
 
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" required />
-        <span asp-validation-for="Name" class="text-danger"></span>
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs mb-4">
+                <div class="h-2 w-2 rounded-full bg-green-500"></div>
+                Employee Management
+            </div>
+
+            <h1 class="text-4xl lg:text-6xl font-anton uppercase tracking-tight">
+                CREATE <span class="text-green-400">EMPLOYEE</span>
+            </h1>
+
+            <p class="text-gray-400 mt-4">
+                Add a new employee to the organization
+            </p>
+        </div>
+
+        <!-- Alerts -->
+        @if (TempData["Error"] != null)
+        {
+            <div class="mb-6 p-4 bg-red-900/30 border border-red-500/30 rounded-xl text-red-300">
+                @Html.Raw(TempData["Error"])
+            </div>
+        }
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="mb-6 p-4 bg-green-900/30 border border-green-500/30 rounded-xl text-green-300">
+                @TempData["Message"]
+            </div>
+        }
+
+        <!-- Form Card -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] shadow-2xl p-8 lg:p-10">
+
+            <form method="post" asp-controller="Employee" asp-action="Create" class="space-y-8">
+                @Html.AntiForgeryToken()
+
+                <!-- Personal Info -->
+                <div>
+                    <h3 class="text-lg font-bold uppercase tracking-wider text-blue-400 mb-4">
+                        Personal Information
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="Name" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Name" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                            <span asp-validation-for="Name" class="text-red-400 text-xs"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Email" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Email" type="email" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                            <span asp-validation-for="Email" class="text-red-400 text-xs"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Contact" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Contact" required
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                            <span asp-validation-for="Contact" class="text-red-400 text-xs"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Address" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Address"
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Security -->
+                <div>
+                    <h3 class="text-lg font-bold uppercase tracking-wider text-blue-400 mb-4">
+                        Security
+                    </h3>
+
+                    <div>
+                        <label asp-for="Password" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                        <input asp-for="Password" type="password" required
+                               class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                        <span asp-validation-for="Password" class="text-red-400 text-xs"></span>
+                    </div>
+                </div>
+
+                <!-- Employment Details -->
+                <div>
+                    <h3 class="text-lg font-bold uppercase tracking-wider text-blue-400 mb-4">
+                        Employment Details
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="QualificationId" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <select asp-for="QualificationId" asp-items="ViewBag.Qualifications"
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                                <option value="">Select qualification</option>
+                            </select>
+                            <span asp-validation-for="QualificationId" class="text-red-400 text-xs"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="ServiceId" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <select asp-for="ServiceId" asp-items="ViewBag.Services"
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                                <option value="">Select service</option>
+                            </select>
+                            <span asp-validation-for="ServiceId" class="text-red-400 text-xs"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="Grade" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <input asp-for="Grade"
+                                   class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+                        </div>
+
+                        <div>
+                            <label asp-for="Role" class="block text-xs font-bold uppercase tracking-widest text-gray-500 mb-2"></label>
+                            <select asp-for="Role"
+                                    class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                                <option value="staff">Staff</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="pt-6 flex flex-col sm:flex-row justify-end gap-4">
+                    <a href="/dashboard/employees"
+                       class="px-6 py-3 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-wider hover:bg-white/5 transition">
+                        Cancel
+                    </a>
+
+                    <button type="submit"
+                            class="px-6 py-3 bg-green-900/40 border border-green-500/40 rounded-xl
+                                   text-green-300 text-sm font-bold uppercase tracking-wider
+                                   hover:bg-green-700 hover:border-green-400 transition">
+                        Create Employee
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" type="email" class="form-control" required />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" required />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Contact"></label>
-        <input asp-for="Contact" class="form-control" required />
-        <span asp-validation-for="Contact" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Address"></label>
-        <input asp-for="Address" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="QualificationId">Qualification</label>
-        <select asp-for="QualificationId" asp-items="ViewBag.Qualifications" class="form-control">
-            <option value="">-- Select --</option>
-        </select>
-        <span asp-validation-for="QualificationId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ServiceId">Service</label>
-        <select asp-for="ServiceId" asp-items="ViewBag.Services" class="form-control">
-            <option value="">-- Select --</option>
-        </select>
-        <span asp-validation-for="ServiceId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Grade"></label>
-        <input asp-for="Grade" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label asp-for="Role"></label>
-        <select asp-for="Role" class="form-control">
-            <option value="staff">Staff</option>
-            <option value="admin">Admin</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-success mt-3">Create</button>
-    <a asp-action="Index" class="btn btn-secondary mt-3">Cancel</a>
-</form>
+</section>
+
+<style>
+    .text-stroke {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+    }
+</style>

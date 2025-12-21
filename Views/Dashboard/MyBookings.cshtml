@@ -1,69 +1,217 @@
 ﻿@model List<Booking>
 @{
     ViewData["Title"] = "My Assigned Bookings";
+    Layout = "_Employee_Dashboard_Layout";
 }
 
-<h2>My Assigned Bookings</h2>
+<section class="relative py-12 px-8 lg:px-16 overflow-hidden">
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-info">@TempData["Message"]</div>
-}
+    <div class="relative z-10 max-w-7xl mx-auto">
 
-@if (Model.Any())
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Client</th>
-                <th>Service</th>
-                <th>Date</th>
-                <th>Shift</th>
-                <th>Address</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var booking in Model)
-            {
-                <tr>
-                    <td>@booking.ClientName</td>
-                    <td>@booking.Service?.Title</td>
-                    <td>@booking.Date.ToShortDateString()</td>
-                    <td>@booking.ShiftStart - @booking.ShiftEnd</td>
-                    <td>@booking.Address</td>
-                    <td>
-                        @if (booking.Status == "Approved")
-                        {
-                            <span class="badge bg-success">Assigned</span>
-                        }
-                        else if (booking.Status == "Completed")
-                        {
-                            <span class="badge bg-info">Completed</span>
-                        }
-                    </td>
-                    <td>
-                        @if (booking.Status == "Approved")
-                        {
-                            <form method="post" asp-action="CompleteBooking" asp-route-id="@booking.Id" style="display:inline;">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-sm btn-outline-success">Mark Completed</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <span class="text-muted">—</span>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>You have no assigned bookings.</p>
-}
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-5xl font-anton uppercase tracking-tight text-yellow-600">
+                My <span class="text-white">Assigned Bookings</span>
+            </h1>
+            <p class="text-gray-400 mt-3">
+                View your assigned bookings and update status
+            </p>
+        </div>
 
-<a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+        <!-- Filters & Search -->
+        <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between">
+            <input id="searchInput"
+                   placeholder="Search bookings..."
+                   class="w-full md:w-1/3 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+
+            <select id="statusFilter"
+                    class="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <option value="all">All Status</option>
+                <option value="Approved">Assigned</option>
+                <option value="Completed">Completed</option>
+            </select>
+
+            <select id="serviceFilter"
+                    class="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <option value="all">All Services</option>
+                @foreach (var s in Model.Select(b => b.Service?.Title).Distinct())
+                {
+                    if (!string.IsNullOrEmpty(s))
+                    {
+                        <option value="@s">@s</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <!-- Booking Table -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl overflow-x-auto">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="text-gray-500 uppercase tracking-widest text-xs">
+                        <th class="px-6 py-4">Client</th>
+                        <th class="px-6 py-4">Service</th>
+                        <th class="px-6 py-4">Date</th>
+                        <th class="px-6 py-4">Shift</th>
+                        <th class="px-6 py-4">Address</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingTable" class="divide-y divide-white/10">
+                    @foreach (var b in Model)
+                    {
+                        <tr class="booking-row hover:bg-white/5 transition cursor-pointer"
+                            data-client="@b.ClientName"
+                            data-service="@b.Service?.Title"
+                            data-date="@b.Date.ToString("dd-MM-yyyy")"
+                            data-shift="@b.ShiftStart - @b.ShiftEnd"
+                            data-address="@b.Address"
+                            data-status="@b.Status"
+                            data-description="@b.Description"
+                            onclick="openBookingModal(this)">
+                            <td class="px-6 py-4 font-bold">@b.ClientName</td>
+                            <td class="px-6 py-4">@b.Service?.Title</td>
+                            <td class="px-6 py-4">@b.Date.ToString("dd-MM-yyyy")</td>
+                            <td class="px-6 py-4">@b.ShiftStart - @b.ShiftEnd</td>
+                            <td class="px-6 py-4">@b.Address</td>
+                            <td class="px-6 py-4">
+                                @if (b.Status == "Approved")
+                                {
+                                    <span class="bg-green-600 text-white px-3 py-1 rounded-full text-sm">Assigned</span>
+                                }
+                                else if (b.Status == "Completed")
+                                {
+                                    <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-sm">Completed</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                @if (b.Status == "Approved")
+                                {
+                                    <form method="post" asp-action="CompleteBooking" asp-route-id="@b.Id" class="inline" onsubmit="event.stopPropagation();">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="px-4 py-2 bg-yellow-700 text-white rounded-xl text-sm hover:bg-yellow-800">Mark Completed</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-gray-400">—</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Pagination & Records -->
+            <div class="mt-6 flex justify-between items-center">
+                <div id="recordCount" class="text-sm text-gray-400"></div>
+                <div id="paginationControls" class="flex gap-2"></div>
+            </div>
+        </div>
+
+        <a href="/dashboard" class="mt-6 inline-block px-6 py-3 bg-gray-700 text-white rounded-xl hover:bg-gray-800">Back to Dashboard</a>
+    </div>
+</section>
+
+<!-- Booking Details Modal -->
+<div id="bookingModal" class="fixed inset-0 hidden z-[9999]">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur" onclick="closeBookingModal()"></div>
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-[#020617] border border-white/10 rounded-[2rem] w-full max-w-lg p-6">
+            <h3 class="text-3xl font-anton uppercase mb-2 text-yellow-400" id="modalClient"></h3>
+            <p class="text-gray-400 mb-1"><strong>Service:</strong> <span id="modalService"></span></p>
+            <p class="text-gray-400 mb-1"><strong>Date:</strong> <span id="modalDate"></span></p>
+            <p class="text-gray-400 mb-1"><strong>Shift:</strong> <span id="modalShift"></span></p>
+            <p class="text-gray-400 mb-1"><strong>Address:</strong> <span id="modalAddress"></span></p>
+            <p class="text-gray-400 mb-1"><strong>Status:</strong> <span id="modalStatus"></span></p>
+            <p class="text-gray-400 mb-1"><strong>Description:</strong></p>
+            <p class="border p-2 bg-black/20 rounded-lg" id="modalDescription"></p>
+            <div class="mt-6 flex justify-end">
+                <button onclick="closeBookingModal()" class="px-6 py-2 border border-white/10 rounded-xl">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    let searchValue = '';
+    let statusFilter = 'all';
+    let serviceFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('searchInput').addEventListener('input', e => {
+            searchValue = e.target.value.toLowerCase();
+            currentPage = 1;
+            updateTable();
+        });
+
+        document.getElementById('statusFilter').addEventListener('change', e => {
+            statusFilter = e.target.value;
+            currentPage = 1;
+            updateTable();
+        });
+
+        document.getElementById('serviceFilter').addEventListener('change', e => {
+            serviceFilter = e.target.value;
+            currentPage = 1;
+            updateTable();
+        });
+
+        updateTable();
+    });
+
+    function updateTable() {
+        const rows = Array.from(document.querySelectorAll('.booking-row'));
+        const filtered = rows.filter(r => {
+            const matchesSearch = r.dataset.client.toLowerCase().includes(searchValue) ||
+                                  r.dataset.address.toLowerCase().includes(searchValue);
+            const matchesStatus = statusFilter === 'all' || r.dataset.status === statusFilter;
+            const matchesService = serviceFilter === 'all' || r.dataset.service === serviceFilter;
+            return matchesSearch && matchesStatus && matchesService;
+        });
+
+        rows.forEach(r => r.style.display = 'none');
+        filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+                .forEach(r => r.style.display = '');
+
+        document.getElementById('recordCount').textContent =
+            `Showing ${filtered.length} bookings`;
+
+        buildPagination(filtered.length);
+    }
+
+    function buildPagination(total) {
+        const pages = Math.ceil(total / rowsPerPage);
+        const container = document.getElementById('paginationControls');
+        container.innerHTML = '';
+        for (let i = 1; i <= pages; i++) {
+            container.innerHTML += `<button onclick="changePage(${i})"
+                class="px-3 py-1 rounded-lg ${i === currentPage ? 'bg-yellow-600' : 'bg-white/10'}">
+                ${i}
+            </button>`;
+        }
+    }
+
+    function changePage(p) {
+        currentPage = p;
+        updateTable();
+    }
+
+    function openBookingModal(row) {
+        document.getElementById('modalClient').textContent = row.dataset.client;
+        document.getElementById('modalService').textContent = row.dataset.service;
+        document.getElementById('modalDate').textContent = row.dataset.date;
+        document.getElementById('modalShift').textContent = row.dataset.shift;
+        document.getElementById('modalAddress').textContent = row.dataset.address;
+        document.getElementById('modalStatus').textContent = row.dataset.status;
+        document.getElementById('modalDescription').textContent = row.dataset.description;
+        document.getElementById('bookingModal').classList.remove('hidden');
+    }
+
+    function closeBookingModal() {
+        document.getElementById('bookingModal').classList.add('hidden');
+    }
+</script>

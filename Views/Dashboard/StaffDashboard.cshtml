@@ -1,26 +1,47 @@
 ﻿@{
     ViewData["Title"] = "Staff Dashboard";
+    Layout = "_Employee_Dashboard_Layout";
 }
 
-<h2>Welcome, @ViewBag.EmployeeName</h2>
-<hr />
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-<div class="row mt-4">
-    <div class="col-md-4">
-        <div class="card text-white bg-primary">
-            <div class="card-body">
-                <h5 class="card-title">Assigned Bookings</h5>
-                <p class="card-text display-6">@ViewBag.AssignedBookings</p>
-                <a href="/dashboard/mybookings" class="text-white">View Details</a>
+    <!-- Background -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto">
+
+        <!-- Welcome -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl lg:text-6xl font-anton uppercase tracking-tight text-yellow-600">
+                Welcome, <span class="text-white">@ViewBag.EmployeeName</span>
+            </h1>
+            <p class="text-gray-400 mt-3">
+                Here’s a quick overview of your tasks and bookings
+            </p>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2rem] shadow-2xl hover:scale-105 transition">
+                <h3 class="text-xl text-yellow-400 font-bold mb-2">Assigned Bookings</h3>
+                <p class="text-white text-4xl font-bold mb-4">@ViewBag.AssignedBookings</p>
+                <a href="/dashboard/mybookings" class="text-blue-400 hover:underline">View Bookings</a>
+            </div>
+
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2rem] shadow-2xl hover:scale-105 transition">
+                <h3 class="text-xl text-yellow-400 font-bold mb-2">Pending Tasks</h3>
+                <p class="text-white text-4xl font-bold mb-4">@ViewBag.PendingTasks</p>
+                <a href="/dashboard/tasks" class="text-blue-400 hover:underline">View Tasks</a>
+            </div>
+
+            <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2rem] shadow-2xl hover:scale-105 transition">
+                <h3 class="text-xl text-yellow-400 font-bold mb-2">Completed Bookings</h3>
+                <p class="text-white text-4xl font-bold mb-4">@ViewBag.CompletedBookings</p>
+                <a href="/dashboard/completedbookings" class="text-blue-400 hover:underline">View Completed</a>
             </div>
         </div>
-    </div>
-</div>
 
-<h4 class="mt-5">Quick Actions</h4>
-<div class="d-flex flex-wrap gap-2">
-    <a href="/dashboard/profile" class="btn btn-outline-primary">Update Profile</a>
-    <a href="/dashboard/changepassword" class="btn btn-outline-primary">Change Password</a>
-    <a href="/dashboard/colleagues" class="btn btn-outline-primary">View Colleagues</a>
-    <a href="/dashboard/mybookings" class="btn btn-outline-success">My Bookings</a>
-</div>
+       
+    </div>
+</section>

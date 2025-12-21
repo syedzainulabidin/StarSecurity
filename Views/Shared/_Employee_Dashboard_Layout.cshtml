@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StarSecurity</title>
+
+    <!-- Bootstrap (for legacy components) -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" />
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        anton: ['Anton', 'sans-serif'],
+                        grotesk: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    @* <link href="/wwwroot/css/site.css" rel="stylesheet" /> *@
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Space Grotesk", sans-serif;
+        }
+
+
+        body {
+            background: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 270px;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.95);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            transition: all .4s ease;
+            z-index: 50;
+        }
+
+            .sidebar.collapsed {
+                width: 90px;
+            }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+            .sidebar-header img {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+            }
+
+        .sidebar-toggler {
+            background: rgba(255,255,255,.08);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: .75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Nav */
+        .nav-list {
+            list-style: none;
+            padding: 0 1rem;
+            margin: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: .75rem 1rem;
+            border-radius: .75rem;
+            color: #cbd5f5;
+            text-decoration: none;
+            transition: all .3s ease;
+        }
+
+            .nav-link:hover {
+                background: rgba(255,255,255,.08);
+                color: white;
+            }
+
+        .nav-label {
+            white-space: nowrap;
+            transition: opacity .3s ease;
+        }
+
+        .sidebar.collapsed .nav-label {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .dropdown-icon {
+            margin-left: auto;
+        }
+
+        .dropdown-menu {
+            list-style: none;
+            padding-left: 1.5rem;
+            display: none;
+        }
+
+        .dropdown-container.open .dropdown-menu {
+            display: block;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 270px;
+            padding: 2rem;
+            transition: margin-left .4s ease;
+        }
+
+        .sidebar.collapsed ~ main {
+            margin-left: 90px;
+        }
+
+        @@media (max-width: 1024px) {
+            .sidebar {
+                left: -270px;
+            }
+
+                .sidebar.collapsed {
+                    left: 0;
+                }
+
+            main {
+                margin-left: 270px;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <aside class="sidebar collapsed">
+        <header class="sidebar-header">
+            <img src="/logo.png" alt="StarSecurity" />
+            <button class="sidebar-toggler">
+                <span class="material-symbols-rounded">menu</span>
+            </button>
+        </header>
+
+        <nav>
+            <ul class="nav-list">
+
+                <li>
+                    <a href="/dashboard" class="nav-link">
+                        <span class="material-symbols-rounded">dashboard</span>
+                        <span class="nav-label">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/dashboard/mybookings" class="nav-link">
+                        <span class="material-symbols-rounded">event</span>
+                        <span class="nav-label">Bookings</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/dashboard/colleagues" class="nav-link">
+                        <span class="material-symbols-rounded">group</span>
+                        <span class="nav-label">Colleagues</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/dashboard/changepassword" class="nav-link">
+                        <span class="material-symbols-rounded">passkey</span>
+                        <span class="nav-label">Change Password</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/dashboard/profile" class="nav-link">
+                        <span class="material-symbols-rounded">account_circle</span>
+                        <span class="nav-label">Profile</span>
+                    </a>
+                </li>
+
+             
+
+                <li class="mt-4">
+                    <a href="/logout" class="nav-link text-red-400">
+                        <span class="material-symbols-rounded">logout</span>
+                        <span class="nav-label">Sign Out</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </aside>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- Scripts -->
+    <script>
+        document.querySelector('.sidebar-toggler').addEventListener('click', () => {
+            document.querySelector('.sidebar').classList.toggle('collapsed');
+        });
+
+        lucide.createIcons();
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

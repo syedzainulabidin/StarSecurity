@@ -1,140 +1,291 @@
 ﻿@model List<Booking>
 @{
     ViewData["Title"] = "Manage Bookings";
+    Layout = "_Admin_Dashboard_Layout";
 }
 
-<h2>Manage Bookings</h2>
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-info alert-dismissible fade show" role="alert">
-        @TempData["Message"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-}
+    <!-- Background -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["Error"]
-    </div>
-}
+    <div class="relative z-10 max-w-7xl mx-auto">
 
-<table class="table table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th>S.No</th>
-            <th>Client Name</th>
-            <th>Date</th>
-            <th>Service</th>
-            <th>Status</th>
-            <th>Staff</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.Count; i++)
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl lg:text-7xl font-anton uppercase tracking-tight">
+                BOOKING <span class="text-blue-600">MANAGEMENT</span>
+            </h1>
+            <p class="text-gray-400 mt-4">
+                Review, approve, assign, and complete bookings
+            </p>
+        </div>
+
+        <!-- Alerts -->
+        @if (TempData["Message"] != null)
         {
-            var booking = Model[i];
-            <tr>
-                <td>@(i + 1)</td>
-                <td>
-                    <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal-@booking.Id">
-                        @booking.ClientName
-                    </a>
-                </td>
-                <td>@booking.Date.ToShortDateString()</td>
-                <td>@booking.Service.Title</td>
-                <td>
-                    @if (booking.Status == "Pending")
-                    {
-                        <span class="badge bg-warning">Pending</span>
-                    }
-                    else if (booking.Status == "Approved")
-                    {
-                        <span class="badge bg-success">Approved</span>
-                    }
-                    else if (booking.Status == "Rejected")
-                    {
-                        <span class="badge bg-danger">Rejected</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-info">Completed</span>
-                    }
-                </td>
-                <td>
-                    @if (booking.Status == "Pending")
-                    {
-                        <span class="text-muted">—</span>
-                    }
-                    else
-                    {
-                        @booking.Employee?.Name
-                    }
-                </td>
-                <td>
-                    @if (booking.Status == "Pending")
-                    {
-                        <form method="post" asp-action="RejectBooking" asp-controller="Dashboard" style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@booking.Id" />
-                            <button type="submit" class="btn btn-sm btn-danger">Reject</button>
-                        </form>
-                        <form method="post" asp-action="ApproveBooking" asp-controller="Dashboard" style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@booking.Id" />
-                            <select name="employeeId" class="form-select form-select-sm d-inline w-auto" required>
-                                <option value="">-- Select Staff --</option>
-                                @foreach (var emp in ViewBag.Employees)
-                                {
-                                    if (emp.ServiceId == booking.ServiceId)
-                                    {
-                                        <option value="@emp.Id">@emp.Name (@emp.Grade)</option>
-                                    }
-                                }
-                            </select>
-                            <button type="submit" class="btn btn-sm btn-success">Approve</button>
-                        </form>
-                    }
-                    else if (booking.Status == "Approved")
-                    {
-                        <form method="post" asp-action="CompleteBooking" asp-controller="Dashboard" style="display:inline;">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="id" value="@booking.Id" />
-                            <button type="submit" class="btn btn-sm btn-outline-success">✅ Mark Completed</button>
-                        </form>
-                    }
-                    else if (booking.Status == "Rejected")
-                    {
-                        <button class="btn btn-sm btn-secondary" disabled>Rejected</button>
-                    }
-                    else
-                    {
-                        <span class="text-muted">Completed</span>
-                    }
-                </td>
-            </tr>
-
-            <!-- Modal -->
-            <div class="modal fade" id="detailsModal-@booking.Id" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Booking Details</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p><strong>Client:</strong> @booking.ClientName</p>
-                            <p><strong>Email:</strong> @booking.ClientEmail</p>
-                            <p><strong>Address:</strong> @booking.Address</p>
-                            <p><strong>Description:</strong> @booking.Description</p>
-                            <p><strong>Shift:</strong> @booking.ShiftStart - @booking.ShiftEnd</p>
-                            <p><strong>Applied On:</strong> @booking.CreatedAt.ToString("dd-MM-yyyy HH:mm")</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="mb-6 p-4 bg-blue-900/30 border border-blue-500/30 rounded-xl text-blue-300">
+                @TempData["Message"]
             </div>
         }
-    </tbody>
-</table>
+        @if (TempData["Error"] != null)
+        {
+            <div class="mb-6 p-4 bg-red-900/30 border border-red-500/30 rounded-xl text-red-300">
+                @TempData["Error"]
+            </div>
+        }
+
+        <!-- Controls -->
+        <div class="mb-6 flex flex-col lg:flex-row gap-4 justify-between">
+
+            <input id="searchInput"
+                   placeholder="Search bookings..."
+                   class="w-full lg:w-1/3 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+
+            <select id="statusFilter"
+                    class="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <option value="all">All Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+                <option value="Completed">Completed</option>
+            </select>
+
+            <select id="serviceFilter"
+                    class="bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white">
+                <option value="all">All Services</option>
+                @foreach (var s in Model.Select(b => b.Service.Title).Distinct())
+                {
+                    <option value="@s">@s</option>
+                }
+            </select>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-gray-500 uppercase tracking-widest text-xs">
+                            <th class="px-6 py-4">Client</th>
+                            <th class="px-6 py-4">Date</th>
+                            <th class="px-6 py-4">Service</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4">Staff</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="bookingTable" class="divide-y divide-white/10">
+                        @foreach (var b in Model)
+                        {
+                            <tr class="booking-row hover:bg-white/5 transition"
+                                data-status="@b.Status"
+                                data-service="@b.Service.Title">
+                                <td class="px-6 py-5 font-bold">
+                                    <button onclick="openDetailsModal(this)"
+                                            data-client="@b.ClientName"
+                                            data-email="@b.ClientEmail"
+                                            data-address="@b.Address"
+                                            data-description="@b.Description"
+                                            data-shift="@b.ShiftStart - @b.ShiftEnd"
+                                            data-created="@b.CreatedAt.ToString("dd-MM-yyyy HH:mm")"
+                                            class="text-blue-400 hover:underline">
+                                        @b.ClientName
+                                    </button>
+                                </td>
+                                <td class="px-6 py-5">@b.Date.ToShortDateString()</td>
+                                <td class="px-6 py-5">@b.Service.Title</td>
+                                <td class="px-6 py-5">
+                                    <span class="px-3 py-1 rounded-full text-xs uppercase
+                                            @(b.Status == "Pending" ? "bg-yellow-900/40 text-yellow-300" :
+                                                                                    b.Status == "Approved" ? "bg-green-900/40 text-green-300" :
+                                                                                    b.Status == "Rejected" ? "bg-red-900/40 text-red-300" :
+                                                                                    "bg-blue-900/40 text-blue-300")">
+                                    @b.Status
+                                </span>
+                            </td>
+                            <td class="px-6 py-5">
+                                @(b.Employee != null ? b.Employee.Name : "—")
+                            </td>
+                            <td class="px-6 py-5 text-right">
+                                <div class="flex justify-end gap-2 flex-wrap">
+                                    @if (b.Status == "Pending")
+                                        {
+                                            <form method="post" asp-action="RejectBooking" asp-controller="Dashboard">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@b.Id" />
+                                                <button class="px-3 py-2 bg-red-900/30 border border-red-500/30 rounded-lg text-xs uppercase text-red-300">
+                                                    Reject
+                                                </button>
+                                            </form>
+
+                                            <form method="post" asp-action="ApproveBooking" asp-controller="Dashboard" class="flex gap-2">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@b.Id" />
+                                                <select name="employeeId" required
+                                                        class="bg-black/40 border border-white/10 rounded-lg px-2 py-1 text-xs">
+                                                    <option value="">Staff</option>
+                                                    @foreach (var emp in ViewBag.Employees)
+                                                    {
+                                                        if (emp.ServiceId == b.ServiceId)
+                                                        {
+                                                            <option value="@emp.Id">@emp.Name (@emp.Grade)</option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <button class="px-3 py-2 bg-green-900/30 border border-green-500/30 rounded-lg text-xs uppercase text-green-300">
+                                                    Approve
+                                                </button>
+                                            </form>
+                                        }
+                                        else if (b.Status == "Approved")
+                                        {
+                                            <form method="post" asp-action="CompleteBooking" asp-controller="Dashboard">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@b.Id" />
+                                                <button class="px-3 py-2 bg-blue-900/30 border border-blue-500/30 rounded-lg text-xs uppercase text-blue-300">
+                                                    Mark Completed
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-gray-500 text-sm">—</span>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 flex justify-between items-center">
+                <div id="recordCount" class="text-sm text-gray-400"></div>
+                <div id="paginationControls" class="flex gap-2"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DETAILS MODAL -->
+<div id="detailsModal" class="fixed inset-0 hidden z-[9999]">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur" onclick="closeDetailsModal()"></div>
+
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-[#020617] border border-white/10 rounded-[2rem] w-full max-w-lg p-6">
+            <h3 class="text-2xl font-anton uppercase mb-4 text-blue-400">
+                Booking Details
+            </h3>
+
+            <div class="space-y-2 text-gray-300 text-sm">
+                <p><strong>Client:</strong> <span id="dClient"></span></p>
+                <p><strong>Email:</strong> <span id="dEmail"></span></p>
+                <p><strong>Address:</strong> <span id="dAddress"></span></p>
+                <p><strong>Description:</strong> <span id="dDescription"></span></p>
+                <p><strong>Shift:</strong> <span id="dShift"></span></p>
+                <p><strong>Applied On:</strong> <span id="dCreated"></span></p>
+            </div>
+
+            <div class="mt-6 text-right">
+                <button onclick="closeDetailsModal()"
+                        class="px-5 py-2 border border-white/10 rounded-xl">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentPage = 1;
+    let rowsPerPage = 5;
+    let searchValue = '';
+    let statusFilter = 'all';
+    let serviceFilter = 'all';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('searchInput').addEventListener('input', e => {
+            searchValue = e.target.value.toLowerCase();
+            currentPage = 1;
+            updateTable();
+        });
+
+        document.getElementById('statusFilter').addEventListener('change', e => {
+            statusFilter = e.target.value;
+            currentPage = 1;
+            updateTable();
+        });
+
+        document.getElementById('serviceFilter').addEventListener('change', e => {
+            serviceFilter = e.target.value;
+            currentPage = 1;
+            updateTable();
+        });
+
+        updateTable();
+    });
+
+    function updateTable() {
+        const rows = Array.from(document.querySelectorAll('.booking-row'));
+
+        const filtered = rows.filter(r => {
+            const matchesSearch = r.textContent.toLowerCase().includes(searchValue);
+            const matchesStatus = statusFilter === 'all' || r.dataset.status === statusFilter;
+            const matchesService = serviceFilter === 'all' || r.dataset.service === serviceFilter;
+            return matchesSearch && matchesStatus && matchesService;
+        });
+
+        rows.forEach(r => r.style.display = 'none');
+
+        filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+            .forEach(r => r.style.display = '');
+
+        document.getElementById('recordCount').textContent =
+            `Showing ${filtered.length} bookings`;
+
+        buildPagination(filtered.length);
+    }
+
+    function buildPagination(total) {
+        const pages = Math.ceil(total / rowsPerPage);
+        const container = document.getElementById('paginationControls');
+        container.innerHTML = '';
+
+        for (let i = 1; i <= pages; i++) {
+            container.innerHTML += `
+                <button onclick="changePage(${i})"
+                        class="px-3 py-1 rounded-lg ${i === currentPage ? 'bg-blue-600' : 'bg-white/10'}">
+                    ${i}
+                </button>`;
+        }
+    }
+
+    function changePage(p) {
+        currentPage = p;
+        updateTable();
+    }
+
+    function openDetailsModal(btn) {
+        document.getElementById('dClient').textContent = btn.dataset.client;
+        document.getElementById('dEmail').textContent = btn.dataset.email;
+        document.getElementById('dAddress').textContent = btn.dataset.address;
+        document.getElementById('dDescription').textContent = btn.dataset.description;
+        document.getElementById('dShift').textContent = btn.dataset.shift;
+        document.getElementById('dCreated').textContent = btn.dataset.created;
+        document.getElementById('detailsModal').classList.remove('hidden');
+    }
+
+    function closeDetailsModal() {
+        document.getElementById('detailsModal').classList.add('hidden');
+    }
+</script>
+
+<style>
+    .text-stroke {
+        -webkit-text-stroke: 1px rgba(255,255,255,.3);
+    }
+</style>

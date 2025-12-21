@@ -1,52 +1,233 @@
 ﻿@model List<Vacancy>
 @{
     ViewData["Title"] = "Manage Vacancies";
+    Layout = "_Admin_Dashboard_Layout";
 }
 
-<h2>Job Vacancies</h2>
+<section class="relative py-20 px-8 lg:px-16 overflow-hidden">
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-info">@TempData["Message"]</div>
-}
+    <!-- Background -->
+    <div class="absolute top-[-10%] left-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/20 blur-[120px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] h-[600px] w-[600px] rounded-full bg-blue-900/10 blur-[120px]"></div>
 
-<p><a asp-action="Create" class="btn btn-primary">Post New Vacancy</a></p>
+    <div class="relative z-10 max-w-7xl mx-auto">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Service</th>
-            <th>Openings</th>
-            <th>Posted Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var vacancy in Model)
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl lg:text-7xl font-anton uppercase tracking-tight text-yellow-600">
+                JOB <span class="text-white">VACANCIES</span>
+            </h1>
+            <p class="text-gray-400 mt-4">
+                View, edit, and manage job openings
+            </p>
+        </div>
+
+        <!-- Alert -->
+        @if (TempData["Message"] != null)
         {
-            <tr>
-                <td>@vacancy.Service?.Title</td>
-                <td>@vacancy.Count</td>
-                <td>@vacancy.PostedDate.ToString("dd-MM-yyyy")</td>
-                <td>
-                    @if (vacancy.Status == "Open")
-                    {
-                        <span class="badge bg-success">Open</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-secondary">Closed</span>
-                    }
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@vacancy.Id" class="btn btn-sm btn-warning">Edit</a>
-                    <form method="post" asp-action="Delete" asp-route-id="@vacancy.Id" style="display:inline;" onsubmit="return confirm('Delete this vacancy?');">
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
+            <div class="mb-6 p-4 bg-blue-900/30 border border-blue-500/30 rounded-xl text-blue-300">
+                @TempData["Message"]
+            </div>
         }
-    </tbody>
-</table>
+
+        <!-- Controls -->
+        <div class="mb-6 flex flex-col md:flex-row gap-4 justify-between">
+            <input id="searchInput"
+                   placeholder="Search vacancies..."
+                   class="w-full md:w-1/3 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white" />
+
+            <a asp-action="Create"
+               class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold uppercase text-sm text-center">
+                + Post New Vacancy
+            </a>
+        </div>
+
+        <!-- Table -->
+        <div class="bg-white/5 backdrop-blur-xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-gray-500 uppercase tracking-widest text-xs">
+                            <th class="px-6 py-4">Service</th>
+                            <th class="px-6 py-4">Openings</th>
+                            <th class="px-6 py-4">Posted Date</th>
+                            <th class="px-6 py-4">Status</th>
+                            <th class="px-6 py-4 text-right">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="vacancyTable" class="divide-y divide-white/10">
+                        @foreach (var v in Model)
+                        {
+                            <tr class="vacancy-row hover:bg-white/5 transition cursor-pointer"
+                                data-service="@v.Service?.Title"
+                                data-openings="@v.Count"
+                                data-posted="@v.PostedDate.ToString("dd MMM yyyy")"
+                                data-status="@v.Status"
+                                data-description="@v.Service?.Description"
+                                onclick="openVacancyModal(this)">
+
+                                <td class="px-6 py-5 font-bold text-yellow-300">@v.Service?.Title</td>
+                                <td class="px-6 py-5">@v.Count</td>
+                                <td class="px-6 py-5">@v.PostedDate.ToString("dd-MM-yyyy")</td>
+                                <td class="px-6 py-5">
+                                    @if (v.Status == "Open")
+                                    {
+                                        <span class="px-3 py-1 rounded-full bg-green-600 text-white text-xs uppercase">Open</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="px-3 py-1 rounded-full bg-gray-700 text-white text-xs uppercase">Closed</span>
+                                    }
+                                </td>
+                                <td class="px-6 py-5 text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <a asp-action="Edit" asp-route-id="@v.Id"
+                                           class="px-4 py-2 bg-yellow-900/30 border border-yellow-500/30 rounded-xl text-yellow-300 text-sm font-bold uppercase">
+                                            Edit
+                                        </a>
+                                        <button onclick="event.stopPropagation(); openDeleteModal(@v.Id, '@v.Service?.Title')"
+                                                class="px-4 py-2 bg-red-900/30 border border-red-500/30 rounded-xl text-red-300 text-sm font-bold uppercase">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer -->
+            <div class="mt-6 flex justify-between items-center">
+                <div id="recordCount" class="text-sm text-gray-400"></div>
+                <div id="paginationControls" class="flex gap-2"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- VACANCY DETAILS MODAL -->
+<div id="vacancyModal" class="fixed inset-0 hidden z-[9999]">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur" onclick="closeVacancyModal()"></div>
+
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-[#020617] border border-white/10 rounded-[2rem] w-full max-w-lg p-6">
+            <h3 id="modalService" class="text-3xl font-anton uppercase mb-2 text-yellow-400"></h3>
+            <p class="text-sm text-gray-500 mb-4">
+                Status: <span id="modalStatus"></span> | Openings: <span id="modalOpenings"></span>
+            </p>
+            <p id="modalPosted" class="text-gray-400 mb-2"></p>
+            <p id="modalDescription" class="text-gray-300 leading-relaxed"></p>
+
+            <div class="mt-8 flex justify-end">
+                <button onclick="closeVacancyModal()" class="px-6 py-2 border border-white/10 rounded-xl">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div id="deleteModal" class="fixed inset-0 hidden z-[9999]">
+    <div class="fixed inset-0 bg-black/80 backdrop-blur" onclick="closeDeleteModal()"></div>
+
+    <div class="fixed inset-0 flex items-center justify-center p-4">
+        <div class="bg-[#020617] border border-white/10 rounded-[2rem] w-full max-w-md p-6">
+            <h3 class="text-2xl font-anton uppercase mb-4 text-red-400">Confirm Deletion</h3>
+
+            <p class="text-gray-300 mb-6">
+                Are you sure you want to delete <strong id="deleteVacancyName"></strong>?
+            </p>
+
+            <form id="deleteForm" method="post">
+                @Html.AntiForgeryToken()
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeDeleteModal()" class="px-5 py-2 border border-white/10 rounded-xl">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-red-900/40 border border-red-500/40 rounded-xl text-red-300 font-bold uppercase">
+                        Delete
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentPage = 1;
+    const rowsPerPage = 5;
+    let searchValue = '';
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('searchInput').addEventListener('input', e => {
+            searchValue = e.target.value.toLowerCase();
+            currentPage = 1;
+            updateTable();
+        });
+        updateTable();
+    });
+
+    function updateTable() {
+        const rows = Array.from(document.querySelectorAll('.vacancy-row'));
+        const filtered = rows.filter(r =>
+            r.dataset.service.toLowerCase().includes(searchValue)
+        );
+
+        rows.forEach(r => r.style.display = 'none');
+
+        filtered.slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage)
+            .forEach(r => r.style.display = '');
+
+        document.getElementById('recordCount').textContent =
+            `Showing ${filtered.length} vacancies`;
+
+        buildPagination(filtered.length);
+    }
+
+    function buildPagination(total) {
+        const pages = Math.ceil(total / rowsPerPage);
+        const container = document.getElementById('paginationControls');
+        container.innerHTML = '';
+
+        for (let i = 1; i <= pages; i++) {
+            container.innerHTML += `
+                <button onclick="changePage(${i})"
+                        class="px-3 py-1 rounded-lg ${i === currentPage ? 'bg-yellow-600' : 'bg-white/10'}">
+                    ${i}
+                </button>`;
+        }
+    }
+
+    function changePage(p) {
+        currentPage = p;
+        updateTable();
+    }
+
+    // VACANCY DETAILS MODAL
+    function openVacancyModal(row) {
+        document.getElementById('modalService').textContent = row.dataset.service;
+        document.getElementById('modalOpenings').textContent = row.dataset.openings;
+        document.getElementById('modalStatus').textContent = row.dataset.status;
+        document.getElementById('modalPosted').textContent = "Posted on: " + row.dataset.posted;
+        document.getElementById('modalDescription').textContent = row.dataset.description;
+        document.getElementById('vacancyModal').classList.remove('hidden');
+    }
+
+    function closeVacancyModal() {
+        document.getElementById('vacancyModal').classList.add('hidden');
+    }
+
+    // DELETE MODAL
+    function openDeleteModal(id, name) {
+        document.getElementById('deleteVacancyName').textContent = name;
+        document.getElementById('deleteForm').action = `/dashboard/vacancies/delete/${id}`;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+</script>
