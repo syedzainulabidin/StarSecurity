@@ -16,22 +16,17 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /dashboard/qualification
         public IActionResult Index()
         {
             var qualifications = _context.Qualifications.ToList();
             return View(qualifications);
         }
 
-        // GET: /dashboard/qualification/create
         public IActionResult Create()
         {
             return View();
         }
 
-
-
-        // POST: /dashboard/qualification/create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Qualification qualification)
@@ -54,7 +49,6 @@ namespace StarSecurity.Controllers
             return View(qualification);
         }
 
-        // GET: /dashboard/qualification/edit/5
         public IActionResult Edit(int id)
         {
             var qualification = _context.Qualifications.Find(id);
@@ -63,7 +57,6 @@ namespace StarSecurity.Controllers
             return View(qualification);
         }
 
-        // POST: /dashboard/qualification/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Qualification updatedQualification)
@@ -88,7 +81,6 @@ namespace StarSecurity.Controllers
             return View(updatedQualification);
         }
 
-        // POST: /dashboard/qualification/delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

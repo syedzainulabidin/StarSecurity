@@ -15,14 +15,12 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /careers/apply?serviceId=5
         [HttpGet]
         public IActionResult Apply(int serviceId)
         {
             var service = _context.Services.Find(serviceId);
             if (service == null) return NotFound();
 
-            // Find the first OPEN vacancy for this service
             var vacancy = _context.Vacancies
                 .FirstOrDefault(v => v.ServiceId == serviceId && v.Status == "Open");
 
@@ -38,7 +36,6 @@ namespace StarSecurity.Controllers
             return View();
         }
 
-        // POST: /careers/apply
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Apply(Hiring hiring)
@@ -48,7 +45,6 @@ namespace StarSecurity.Controllers
 
             if (ModelState.IsValid)
             {
-                // 1. Find the vacancy
                 var vacancy = _context.Vacancies.Find(hiring.VacancyId);
                 if (vacancy == null)
                 {
@@ -56,25 +52,21 @@ namespace StarSecurity.Controllers
                     return RedirectToAction("Careers", "Home");
                 }
 
-                // 2. Check if vacancy is still open
                 if (vacancy.Status != "Open")
                 {
                     TempData["Error"] = "This vacancy is no longer available.";
                     return RedirectToAction("Careers", "Home");
                 }
 
-                // 3. Decrement count
                 vacancy.Count--;
                 vacancy.UpdatedAt = DateTime.Now;
 
-                // 4. If count reaches 0, close the vacancy
                 if (vacancy.Count <= 0)
                 {
                     vacancy.Status = "Closed";
-                    vacancy.Count = 0; // ensure not negative
+                    vacancy.Count = 0;
                 }
 
-                // 5. Save application
                 hiring.Status = "Pending";
                 hiring.CreatedAt = DateTime.Now;
                 hiring.UpdatedAt = DateTime.Now;
@@ -86,7 +78,6 @@ namespace StarSecurity.Controllers
                 return RedirectToAction("Careers", "Home");
             }
 
-            // Reload form with data
             var vacancyForView = _context.Vacancies.Find(hiring.VacancyId);
             ViewBag.ServiceTitle = vacancyForView?.Service?.Title;
             ViewBag.Qualifications = new SelectList(_context.Qualifications, "Id", "Degree");

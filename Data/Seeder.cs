@@ -12,7 +12,6 @@ namespace StarSecurity.Data
 
             if (!context.Services.Any())
             {
-                // 1. Services
                 var services = new List<Service>
                 {
                     new Service { Title = "Manned Guarding", Description = "Security personnel for sites" },
@@ -26,7 +25,6 @@ namespace StarSecurity.Data
 
             if (!context.Qualifications.Any())
             {
-                // 2. Qualifications
                 var qualifications = new List<Qualification>
                 {
                     new Qualification { Degree = "High School" },
@@ -41,7 +39,7 @@ namespace StarSecurity.Data
 
             if (!context.Employees.Any())
             {
-                // 3. Employees (Admin + Staff)
+      
                 var employees = new List<Employee>
                 {
                     new Employee
@@ -49,20 +47,20 @@ namespace StarSecurity.Data
                         Name = "Admin User",
                         Email = "admin@starsecurity.com",
                         Password = BCrypt.Net.BCrypt.HashPassword("admin123"),
-                        Contact = "9876543210",
-                        Address = "Mumbai HQ",
-                        QualificationId = 5, // Not Applicable
+                        Contact = "123456789",
+                        Address = "N/A",
+                        QualificationId = 5,
                         ServiceId = 1,
                         Grade = "N/A",
                         Role = "admin"
                     },
                     new Employee
                     {
-                        Name = "John Doe",
-                        Email = "john@starsecurity.com",
+                        Name = "Muhammad Hamza",
+                        Email = "hamza@starsecurity.com",
                         Password = BCrypt.Net.BCrypt.HashPassword("staff123"),
-                        Contact = "9123456780",
-                        Address = "Delhi",
+                        Contact = "9254687544",
+                        Address = "Karachi",
                         QualificationId = 3,
                         ServiceId = 1,
                         Grade = "Senior Guard",
@@ -70,11 +68,24 @@ namespace StarSecurity.Data
                     },
                     new Employee
                     {
-                        Name = "Jane Smith",
-                        Email = "jane@starsecurity.com",
+                        Name = "Abdul Moiz",
+                        Email = "moiz@starsecurity.com",
                         Password = BCrypt.Net.BCrypt.HashPassword("staff123"),
                         Contact = "9234567890",
-                        Address = "Chennai",
+                        Address = "Peshawar",
+                        QualificationId = 2,
+                        ServiceId = 2,
+                        Grade = "Cash Handler",
+                        Role = "staff"
+                    }
+                    ,
+                    new Employee
+                    {
+                        Name = "Ahmed Ali",
+                        Email = "ahmed@starsecurity.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("staff123"),
+                        Contact = "92326522490",
+                        Address = "Lahore",
                         QualificationId = 2,
                         ServiceId = 2,
                         Grade = "Cash Handler",
@@ -87,7 +98,6 @@ namespace StarSecurity.Data
 
             if (!context.Vacancies.Any())
             {
-                // 4. Vacancies
                 var vacancies = new List<Vacancy>
                 {
                     new Vacancy { ServiceId = 1, Count = 5, Status = "Open", PostedDate = DateTime.Now.AddDays(-10) },
@@ -100,32 +110,43 @@ namespace StarSecurity.Data
 
             if (!context.Bookings.Any())
             {
-                // 5. Bookings
                 var bookings = new List<Booking>
                 {
                     new Booking
                     {
-                        ClientName = "ABC Corporation",
-                        ClientEmail = "contact@abccorp.com",
+                        ClientName = "HBL",
+                        ClientEmail = "hbl@gmail.com",
                         Description = "Need security for corporate office",
                         Date = DateTime.Now.AddDays(7),
                         ShiftStart = "02:00",
                         ShiftEnd = "04:00",
                         ServiceId = 1,
-                        EmployeeId = 2, // John Doe assigned
-                        Address = "Mumbai",
+                        EmployeeId = 2,
+                        Address = "Lyari, Karachi",
                         Status = "Approved"
                     },
                     new Booking
                     {
-                        ClientName = "XYZ Bank",
-                        ClientEmail = "security@xyzbank.com",
+                        ClientName = "Allied Bank Limited",
+                        ClientEmail = "allied@gmail.com",
                         Description = "ATM cash replenishment",
                         Date = DateTime.Now.AddDays(3),
                         ShiftStart = "00:00",
                         ShiftEnd = "06:00",
                         ServiceId = 2,
-                        Address = "Delhi",
+                        Address = "Saddar, Lahore",
+                        Status = "Pending"
+                    },
+                    new Booking
+                    {
+                        ClientName = "TCL",
+                        ClientEmail = "tcl@gmail.com",
+                        Description = "Mobile Repair Shop Security Guarded Needed",
+                        Date = DateTime.Now.AddDays(2),
+                        ShiftStart = "01:00",
+                        ShiftEnd = "08:00",
+                        ServiceId = 1,
+                        Address = "Korangi, Karachi",
                         Status = "Pending"
                     }
                 };
@@ -135,7 +156,6 @@ namespace StarSecurity.Data
 
             if (!context.Clients.Any())
             {
-                // 6. Clients (from completed booking)
                 var clients = new List<Client>
                 {
                     new Client { BookingId = 1 }
@@ -146,10 +166,10 @@ namespace StarSecurity.Data
 
             if (!context.Testimonials.Any())
             {
-                // 7. Testimonials
                 var testimonials = new List<Testimonial>
                 {
                     new Testimonial { ClientId = 1, Content = "Excellent service, highly professional!", Rating = 5 }
+
                 };
                 context.Testimonials.AddRange(testimonials);
                 context.SaveChanges();
@@ -157,7 +177,6 @@ namespace StarSecurity.Data
 
             if (!context.Hirings.Any())
             {
-                // Get the first existing vacancy
                 var vacancy = context.Vacancies.FirstOrDefault();
                 if (vacancy != null)
                 {
@@ -165,12 +184,22 @@ namespace StarSecurity.Data
         {
             new Hiring
             {
-                Name = "Rohit Sharma",
-                Email = "rohit@gmail.com",
-                Contact = "9123401234",
-                Address = "Pune",
+                Name = "Shahzaib Ghayyas",
+                Email = "shahzaib@gmail.com",
+                Contact = "924684564",
+                Address = "ShahFaisal",
                 QualificationId = 3,
-                VacancyId = vacancy.Id, // Use actual existing ID
+                VacancyId = vacancy.Id,
+                Status = "Pending"
+            },
+             new Hiring
+            {
+                Name = "Bilal Fawad",
+                Email = "bilal@gmail.com",
+                Contact = "9223401234",
+                Address = "Liaquatabad",
+                QualificationId = 2,
+                VacancyId = vacancy.Id,
                 Status = "Pending"
             }
         };

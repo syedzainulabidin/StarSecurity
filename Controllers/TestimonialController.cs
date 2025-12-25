@@ -17,7 +17,6 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /dashboard/testimonials
         public IActionResult Index()
         {
             var testimonials = _context.Testimonials
@@ -28,7 +27,6 @@ namespace StarSecurity.Controllers
             return View(testimonials);
         }
 
-        // GET: /dashboard/testimonials/create
         public IActionResult Create()
         {
             var clients = _context.Clients
@@ -43,7 +41,6 @@ namespace StarSecurity.Controllers
             return View();
         }
 
-        // POST: /dashboard/testimonials/create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Testimonial testimonial)
@@ -74,7 +71,6 @@ namespace StarSecurity.Controllers
             return View(testimonial);
         }
 
-        // GET: /dashboard/testimonials/edit/5
         public IActionResult Edit(int id)
         {
             var testimonial = _context.Testimonials.Find(id);
@@ -92,7 +88,6 @@ namespace StarSecurity.Controllers
             return View(testimonial);
         }
 
-        // POST: /dashboard/testimonials/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Testimonial updatedTestimonial)
@@ -126,7 +121,6 @@ namespace StarSecurity.Controllers
             return View(updatedTestimonial);
         }
 
-        // POST: /dashboard/testimonials/delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

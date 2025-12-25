@@ -18,14 +18,12 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /login
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        // POST: /login
         [HttpPost]
         public async Task<IActionResult> Index(string email, string password)
         {
@@ -38,7 +36,6 @@ namespace StarSecurity.Controllers
                 return View();
             }
 
-            // Create claims
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, employee.Email),
@@ -50,21 +47,17 @@ namespace StarSecurity.Controllers
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 
-            // Sign in
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            // Redirect to dashboard
             return RedirectToAction("Index", "Dashboard");
         }
 
-        // GET: /logout
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: /accessdenied
         public IActionResult AccessDenied()
         {
             return View();

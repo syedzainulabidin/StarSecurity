@@ -16,7 +16,6 @@ namespace StarSecurity.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-        // Navigation
         public ICollection<Employee> Employees { get; set; }
         public ICollection<Hiring> Hirings { get; set; }
     }

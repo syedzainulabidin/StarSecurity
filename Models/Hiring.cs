@@ -25,7 +25,7 @@ namespace StarSecurity.Models
         public int VacancyId { get; set; }
         public Vacancy Vacancy { get; set; }
 
-        public string Status { get; set; } = "Pending"; // Pending, Reviewed, Rejected, Hired
+        public string Status { get; set; } = "Pending";
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

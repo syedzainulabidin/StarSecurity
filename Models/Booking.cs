@@ -29,7 +29,7 @@ namespace StarSecurity.Models
         public int ServiceId { get; set; }
         public Service Service { get; set; }
 
-        public int? EmployeeId { get; set; } // Assigned staff
+        public int? EmployeeId { get; set; }
         public Employee Employee { get; set; }
 
         [Required]

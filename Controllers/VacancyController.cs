@@ -17,7 +17,6 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /dashboard/vacancies
         public IActionResult Index()
         {
             var vacancies = _context.Vacancies
@@ -27,14 +26,12 @@ namespace StarSecurity.Controllers
             return View(vacancies);
         }
 
-        // GET: /dashboard/vacancies/create
         public IActionResult Create()
         {
             ViewBag.Services = new SelectList(_context.Services, "Id", "Title");
             return View();
         }
 
-        // POST: /dashboard/vacancies/create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Vacancy vacancy)
@@ -60,7 +57,6 @@ namespace StarSecurity.Controllers
             return View(vacancy);
         }
 
-        // GET: /dashboard/vacancies/edit/5
         public IActionResult Edit(int id)
         {
             var vacancy = _context.Vacancies.Find(id);
@@ -70,7 +66,6 @@ namespace StarSecurity.Controllers
             return View(vacancy);
         }
 
-        // POST: /dashboard/vacancies/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Vacancy updatedVacancy)
@@ -97,7 +92,6 @@ namespace StarSecurity.Controllers
             return View(updatedVacancy);
         }
 
-        // POST: /dashboard/vacancies/delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

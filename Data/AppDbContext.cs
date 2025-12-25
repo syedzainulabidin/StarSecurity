@@ -23,7 +23,6 @@ namespace StarSecurity.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Optional: Add unique constraint for employee email
             modelBuilder.Entity<Employee>()
                 .HasIndex(e => e.Email)
                 .IsUnique();

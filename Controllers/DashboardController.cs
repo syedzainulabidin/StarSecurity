@@ -19,7 +19,6 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /dashboard
         public IActionResult Index()
         {
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
@@ -28,7 +27,6 @@ namespace StarSecurity.Controllers
 
             if (role == "admin")
             {
-                // Admin stats
                 ViewBag.TotalEmployees = _context.Employees.Count();
                 ViewBag.TotalBookings = _context.Bookings.Count();
                 ViewBag.PendingBookings = _context.Bookings.Count(b => b.Status == "Pending");
@@ -38,7 +36,6 @@ namespace StarSecurity.Controllers
                 ViewBag.TotalClients = _context.Clients.Count();
                 ViewBag.TotalTestimonials = _context.Testimonials.Count();
 
-                // Recent bookings (last 5)
                 ViewBag.RecentBookings = _context.Bookings
                     .Include(b => b.Service)
                     .Include(b => b.Employee)
@@ -46,7 +43,6 @@ namespace StarSecurity.Controllers
                     .Take(5)
                     .ToList();
 
-                // Recent applications (last 5)
                 ViewBag.RecentApplications = _context.Hirings
                     .Include(h => h.Vacancy)
                         .ThenInclude(v => v.Service)
@@ -58,7 +54,6 @@ namespace StarSecurity.Controllers
             }
             else
             {
-                // Staff dashboard data
                 var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
                 var assignedBookings = _context.Bookings
                     .Where(b => b.EmployeeId == empId && b.Status == "Approved")
@@ -68,7 +63,6 @@ namespace StarSecurity.Controllers
             }
         }
 
-        // GET: /dashboard/profile
         public IActionResult Profile()
         {
             var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
@@ -98,7 +92,6 @@ namespace StarSecurity.Controllers
             ModelState.Remove("Qualification");
             ModelState.Remove("Service");
 
-            // If staff, do NOT update ServiceId and Grade
             var role = User.FindFirst(ClaimTypes.Role)?.Value;
             if (role != "admin")
             {
@@ -114,7 +107,6 @@ namespace StarSecurity.Controllers
                 existing.QualificationId = updatedEmployee.QualificationId;
                 existing.UpdatedAt = DateTime.Now;
 
-                // Only admin can update Service and Grade
                 if (role == "admin")
                 {
                     existing.ServiceId = updatedEmployee.ServiceId;
@@ -131,13 +123,11 @@ namespace StarSecurity.Controllers
             return View("Profile", updatedEmployee);
         }
 
-        // GET: /dashboard/changepassword
         public IActionResult ChangePassword()
         {
             return View();
         }
 
-        // POST: /dashboard/changepassword
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ChangePassword(string currentPassword, string newPassword, string confirmPassword)
@@ -146,14 +136,12 @@ namespace StarSecurity.Controllers
             var employee = _context.Employees.Find(empId);
             if (employee == null) return NotFound();
 
-            // Verify current password
             if (!BCrypt.Net.BCrypt.Verify(currentPassword, employee.Password))
             {
                 ModelState.AddModelError("currentPassword", "Current password is incorrect.");
                 return View();
             }
 
-            // Validate new password
             if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 6)
             {
                 ModelState.AddModelError("newPassword", "New password must be at least 6 characters.");
@@ -166,7 +154,6 @@ namespace StarSecurity.Controllers
                 return View();
             }
 
-            // Update password
             employee.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
             employee.UpdatedAt = DateTime.Now;
             _context.SaveChanges();
@@ -175,7 +162,6 @@ namespace StarSecurity.Controllers
             return RedirectToAction("Profile");
         }
 
-        // Staff: View assigned bookings
         public IActionResult MyBookings()
         {
             var empId = int.Parse(User.FindFirst("EmployeeId")?.Value);
@@ -186,7 +172,6 @@ namespace StarSecurity.Controllers
             return View(bookings);
         }
 
-        // Staff & Admin: View all employees (read-only for staff)
         public IActionResult Employees()
         {
             var employees = _context.Employees
@@ -196,7 +181,6 @@ namespace StarSecurity.Controllers
             return View(employees);
         }
 
-        // ADMIN: Manage all bookings
         [Authorize(Roles = "admin")]
         public IActionResult Bookings()
         {
@@ -285,7 +269,7 @@ namespace StarSecurity.Controllers
             var colleagues = _context.Employees
                 .Include(e => e.Qualification)
                 .Include(e => e.Service)
-                .Where(e => e.Id != empId) // Exclude self
+                .Where(e => e.Id != empId)
                 .ToList();
             return View(colleagues);
         }

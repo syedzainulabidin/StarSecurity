@@ -14,7 +14,6 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /booking/book?serviceId=1
         [HttpGet]
         public IActionResult Book(int serviceId)
         {
@@ -33,7 +32,6 @@ namespace StarSecurity.Controllers
             ModelState.Remove("Service");
             ModelState.Remove("Employee");
 
-            // Check duplicate active booking
             var existing = _context.Bookings
                 .Where(b => b.ClientEmail == booking.ClientEmail)
                 .Where(b => b.Status == "Pending" || b.Status == "Approved")

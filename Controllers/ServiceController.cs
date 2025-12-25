@@ -16,20 +16,17 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /dashboard/services
         public IActionResult Index()
         {
             var services = _context.Services.ToList();
             return View(services);
         }
 
-        // GET: /dashboard/services/create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: /dashboard/services/create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Service service)
@@ -52,7 +49,6 @@ namespace StarSecurity.Controllers
             return View(service);
         }
 
-        // GET: /dashboard/services/edit/5
         public IActionResult Edit(int id)
         {
             var service = _context.Services.Find(id);
@@ -60,7 +56,6 @@ namespace StarSecurity.Controllers
             return View(service);
         }
 
-        // POST: /dashboard/services/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Service updatedService)
@@ -85,7 +80,6 @@ namespace StarSecurity.Controllers
             return View(updatedService);
         }
 
-        // POST: /dashboard/services/delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

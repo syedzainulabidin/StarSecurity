@@ -16,8 +16,6 @@ namespace StarSecurity.Controllers
         {
             _context = context;
         }
-
-        // GET: /dashboard/clients
         public IActionResult Index()
         {
             var clients = _context.Clients
@@ -28,10 +26,8 @@ namespace StarSecurity.Controllers
             return View(clients);
         }
 
-        // GET: /dashboard/clients/create
         public IActionResult Create()
         {
-            // Show completed bookings to assign as clients
             var completedBookings = _context.Bookings
                 .Where(b => b.Status == "Completed")
                 .Include(b => b.Service)
@@ -40,7 +36,6 @@ namespace StarSecurity.Controllers
             return View();
         }
 
-        // POST: /dashboard/clients/create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Client client)
@@ -67,7 +62,6 @@ namespace StarSecurity.Controllers
             return View(client);
         }
 
-        // POST: /dashboard/clients/delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

@@ -17,8 +17,6 @@ namespace StarSecurity.Controllers
         {
             _context = context;
         }
-
-        // GET: /dashboard/employees
         public IActionResult Index()
         {
             var employees = _context.Employees
@@ -28,7 +26,6 @@ namespace StarSecurity.Controllers
             return View("~/Views/Employee/Index.cshtml", employees);
         }
 
-        // GET: /dashboard/employees/create
         public IActionResult Create()
         {
             ViewBag.Qualifications = new SelectList(_context.Qualifications, "Id", "Degree");
@@ -36,7 +33,6 @@ namespace StarSecurity.Controllers
             return View();
         }
 
-        // POST: /dashboard/employees/create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Employee employee)
@@ -46,7 +42,6 @@ namespace StarSecurity.Controllers
 
             if (ModelState.IsValid)
             {
-                // Hash password
                 employee.Password = BCrypt.Net.BCrypt.HashPassword(employee.Password);
                 employee.CreatedAt = DateTime.Now;
                 employee.UpdatedAt = DateTime.Now;
@@ -58,7 +53,6 @@ namespace StarSecurity.Controllers
                 return RedirectToAction("Index");
             }
 
-            // Collect errors
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             TempData["Error"] = string.Join("<br/>", errors);
 
@@ -67,7 +61,6 @@ namespace StarSecurity.Controllers
             return View(employee);
         }
 
-        // GET: /dashboard/employees/edit/5
         public IActionResult Edit(int id)
         {
             var employee = _context.Employees.Find(id);
@@ -78,14 +71,13 @@ namespace StarSecurity.Controllers
             return View(employee);
         }
 
-        // POST: /dashboard/employees/edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Employee updatedEmployee)
         {
             ModelState.Remove("Qualification");
             ModelState.Remove("Service");
-            ModelState.Remove("Password"); // Because it's optional in edit
+            ModelState.Remove("Password");
 
             if (ModelState.IsValid)
             {
@@ -102,7 +94,6 @@ namespace StarSecurity.Controllers
                 existing.Role = updatedEmployee.Role;
                 existing.UpdatedAt = DateTime.Now;
 
-                // Only update password if provided
                 if (!string.IsNullOrEmpty(updatedEmployee.Password))
                 {
                     existing.Password = BCrypt.Net.BCrypt.HashPassword(updatedEmployee.Password);
@@ -118,7 +109,6 @@ namespace StarSecurity.Controllers
             return View(updatedEmployee);
         }
 
-        // POST: /dashboard/employees/delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

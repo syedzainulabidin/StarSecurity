@@ -14,14 +14,11 @@ namespace StarSecurity.Controllers
         {
             _context = context;
         }
-
-        // GET: /contact
         public IActionResult Index()
         {
             return View();
         }
 
-        // POST: /contact/send
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Send(Contact contact)
@@ -38,7 +35,6 @@ namespace StarSecurity.Controllers
             return View("Index", contact);
         }
 
-        // GET: /dashboard/contactinquiries (Admin only)
         [Authorize(Roles = "admin")]
         public IActionResult ContactInquiries()
         {

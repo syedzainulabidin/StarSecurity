@@ -14,14 +14,11 @@ namespace StarSecurity.Controllers
         {
             _context = context;
         }
-
-        // GET: /inquire
         public IActionResult Index()
         {
             return View();
         }
 
-        // POST: /inquire/check
         [HttpPost]
         public IActionResult Check(string email)
         {
@@ -31,7 +28,6 @@ namespace StarSecurity.Controllers
                 return View("Index");
             }
 
-            // 1. Check in Bookings
             var bookings = _context.Bookings
                 .Include(b => b.Service)
                 .Include(b => b.Employee)
@@ -45,7 +41,6 @@ namespace StarSecurity.Controllers
                 return View("Index");
             }
 
-            // 2. Check in Job Applications (Hirings)
             var applications = _context.Hirings
                 .Include(h => h.Vacancy)
                     .ThenInclude(v => v.Service)
@@ -54,7 +49,6 @@ namespace StarSecurity.Controllers
 
             if (applications.Any())
             {
-                // Prepare list of application info with default password flag
                 var appResults = new List<object>();
                 foreach (var app in applications)
                 {
@@ -81,7 +75,6 @@ namespace StarSecurity.Controllers
                 return View("Index");
             }
 
-            // No records found
             ViewBag.NotFound = true;
             return View("Index");
         }

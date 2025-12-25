@@ -13,8 +13,6 @@ namespace StarSecurity.Models
 
         [Required, EmailAddress]
         public string Email { get; set; }
-
-        //[Required]
         public string Password { get; set; }
 
         [Required]
@@ -31,7 +29,7 @@ namespace StarSecurity.Models
         public string Grade { get; set; }
 
         [Required]
-        public string Role { get; set; } = "staff"; // admin or staff
+        public string Role { get; set; } = "staff";
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

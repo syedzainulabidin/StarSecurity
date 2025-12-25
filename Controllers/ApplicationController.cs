@@ -16,7 +16,6 @@ namespace StarSecurity.Controllers
             _context = context;
         }
 
-        // GET: /dashboard/applications
         public IActionResult Index()
         {
             var applications = _context.Hirings
@@ -29,7 +28,6 @@ namespace StarSecurity.Controllers
             return View(applications);
         }
 
-        // POST: /dashboard/applications/hire/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Hire(int id)
@@ -40,21 +38,20 @@ namespace StarSecurity.Controllers
 
             if (application == null) return NotFound();
 
-            // 1. Update application status
+
             application.Status = "Hired";
             application.UpdatedAt = DateTime.Now;
 
-            // 2. Create a new Employee record
             var employee = new Employee
             {
                 Name = application.Name,
                 Email = application.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword("Default@123"), // default password
+                Password = BCrypt.Net.BCrypt.HashPassword("Default@123"),
                 Contact = application.Contact,
                 Address = application.Address,
                 QualificationId = application.QualificationId,
-                ServiceId = application.Vacancy.ServiceId, // same service as vacancy
-                Grade = "Trainee", // default grade
+                ServiceId = application.Vacancy.ServiceId,
+                Grade = "Trainee",
                 Role = "staff",
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now
@@ -67,7 +64,6 @@ namespace StarSecurity.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: /dashboard/applications/reject/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Reject(int id)

@@ -14,16 +14,15 @@ namespace StarSecurity.Models
         public Service Service { get; set; }
 
         [Required]
-        public int Count { get; set; } // Number of openings
+        public int Count { get; set; }
 
-        public string Status { get; set; } = "Open"; // Open, Closed
+        public string Status { get; set; } = "Open";
 
         public DateTime PostedDate { get; set; } = DateTime.Now;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
-        // Navigation
         public ICollection<Hiring> Hirings { get; set; }
     }
 }
