@@ -54,6 +54,18 @@ namespace StarSecurity.Data
                         Grade = "N/A",
                         Role = "admin"
                     },
+                     new Employee
+                    {
+                        Name = "Syed Zain ul Abidin",
+                        Email = "zain@starsecurity.com",
+                        Password = BCrypt.Net.BCrypt.HashPassword("staff123"),
+                        Contact = "123456789",
+                        Address = "Karachi",
+                        QualificationId = 2,
+                        ServiceId = 2,
+                        Grade = "Supervisor",
+                        Role = "staff"
+                    },
                     new Employee
                     {
                         Name = "Muhammad Hamza",

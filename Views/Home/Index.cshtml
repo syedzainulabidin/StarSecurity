@@ -52,7 +52,7 @@
                 </div> -->
             </div>
         </div>
-        <div class="absolute bottom-0 left-0 w-full bg-blue-600 transform -rotate-1 origin-bottom-left z-50">
+        @* <div class="absolute bottom-0 left-0 w-full bg-blue-600 transform -rotate-1 origin-bottom-left z-50">
             <div class="flex whitespace-nowrap animate-infinite-scroll">
                 <div class="flex items-center gap-8 px-6 py-5 text-3xl font-black uppercase tracking-tighter bg-blue-600">
                     <svg class="h-6 w-6 fill-white" viewBox="0 0 24 24">
@@ -103,7 +103,7 @@
                     Professional Security Services You Can Trust
                 </div>
             </div>
-        </div>
+        </div> *@
 
         <!-- Right Column -->
         <div x-data="{ show: false }" x-init="setTimeout(() => show = true, 400)" x-show="show"
@@ -129,6 +129,7 @@
             <div class="relative flex h-32 w-32 items-center justify-center">
                 <div class="absolute inset-0 rounded-full border border-dashed border-white/20 rotate-text"></div>
                 <div class="absolute inset-0 flex items-center justify-center p-2">
+                    <a href="/services">
                     <svg class="h-full w-full rotate-[-90deg]" viewBox="0 0 100 100">
                         <path id="textPath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"
                               fill="none" />
@@ -137,7 +138,8 @@
                                 Professional Protection Anywhere and Anytime •
                             </textPath>
                         </text>
-                    </svg>
+                        </svg>
+                    </a>
                 </div>
                 <button class="z-10 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 shadow-lg shadow-blue-600/40 transition-transform hover:scale-110">
                     <svg class="ml-1 h-6 w-6 fill-white text-white" viewBox="0 0 24 24">

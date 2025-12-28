@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "D:\\Dot Net\\StarSecurity\\StarSecurity\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\data\\seeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|solutionrelative:data\\seeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\views\\home\\services.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -37,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\views\\shared\\_admin_dashboard_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|solutionrelative:views\\shared\\_admin_dashboard_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\data\\seeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|solutionrelative:data\\seeder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{1F79A340-F5B9-48F1-AC6C-0095D70CF658}|StarSecurity.csproj|d:\\dot net\\starsecurity\\starsecurity\\views\\dashboard\\bookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -238,11 +238,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Login\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Login\\Index.cshtml",
@@ -250,12 +250,11 @@
               "RelativeToolTip": "Views\\Login\\Index.cshtml",
               "ViewState": "AgIAACQAAAAAAAAAAAAswDoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-20T21:19:59.811Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-20T21:19:59.811Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "LoginController.cs",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
@@ -263,8 +262,7 @@
               "RelativeToolTip": "Controllers\\LoginController.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAwwDsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-25T11:31:57.859Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-25T11:31:57.859Z"
             },
             {
               "$type": "Document",
@@ -274,14 +272,14 @@
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
               "ToolTip": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAACoAAAAAAAAAAAAAAGcAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAAAIMAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-12-20T19:55:34.724Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "About.cshtml",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Home\\About.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\About.cshtml",
@@ -289,12 +287,11 @@
               "RelativeToolTip": "Views\\Home\\About.cshtml",
               "ViewState": "AgIAAGAAAAAAAAAAAIAwwHsAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-20T18:12:50.72Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-20T18:12:50.72Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Network.cshtml",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Home\\Network.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Network.cshtml",
@@ -302,12 +299,11 @@
               "RelativeToolTip": "Views\\Home\\Network.cshtml",
               "ViewState": "AgIAAEIAAAAAAAAAAAAAAEcAAACMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-20T21:22:34.667Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-20T21:22:34.667Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Services.cshtml",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Home\\Services.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Services.cshtml",
@@ -315,12 +311,11 @@
               "RelativeToolTip": "Views\\Home\\Services.cshtml",
               "ViewState": "AgIAAD0AAAAAAAAAAAAswGMAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-20T21:26:09.604Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-20T21:26:09.604Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
@@ -333,7 +328,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
+              "Title": "Seeder.cs",
+              "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Data\\Seeder.cs",
+              "RelativeDocumentMoniker": "Data\\Seeder.cs",
+              "ToolTip": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Data\\Seeder.cs",
+              "RelativeToolTip": "Data\\Seeder.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAAAEAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T21:20:28.085Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "_Employee_Dashboard_Layout.cshtml",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Shared\\_Employee_Dashboard_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Employee_Dashboard_Layout.cshtml",
@@ -341,12 +349,11 @@
               "RelativeToolTip": "Views\\Shared\\_Employee_Dashboard_Layout.cshtml",
               "ViewState": "AgIAAJMAAAAAAAAAAAAAAKwAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-26T20:29:21.425Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-26T20:29:21.425Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "_Admin_Dashboard_Layout.cshtml",
               "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Views\\Shared\\_Admin_Dashboard_Layout.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_Admin_Dashboard_Layout.cshtml",
@@ -354,8 +361,7 @@
               "RelativeToolTip": "Views\\Shared\\_Admin_Dashboard_Layout.cshtml",
               "ViewState": "AgIAAKIAAAAAAAAAAAAAAKsAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-26T20:11:59.231Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-26T20:11:59.231Z"
             },
             {
               "$type": "Document",
@@ -367,8 +373,7 @@
               "RelativeToolTip": "Views\\Contact\\Index.cshtml",
               "ViewState": "AgIAADUAAAAAAAAAAAAqwE4AAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-18T15:33:14.06Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-18T15:33:14.06Z"
             },
             {
               "$type": "Document",
@@ -380,8 +385,7 @@
               "RelativeToolTip": "Views\\Inquire\\Index.cshtml",
               "ViewState": "AgIAAMQAAAAAAAAAAAAcwNcAAACFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-18T15:51:00.53Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-18T15:51:00.53Z"
             },
             {
               "$type": "Document",
@@ -393,21 +397,7 @@
               "RelativeToolTip": "Views\\Dashboard\\Bookings.cshtml",
               "ViewState": "AgIAABgAAAAAAAAAAAAAACQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-14T20:54:55.159Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Seeder.cs",
-              "DocumentMoniker": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Data\\Seeder.cs",
-              "RelativeDocumentMoniker": "Data\\Seeder.cs",
-              "ToolTip": "D:\\Dot Net\\StarSecurity\\StarSecurity\\Data\\Seeder.cs",
-              "RelativeToolTip": "Data\\Seeder.cs",
-              "ViewState": "AgIAADcAAAAAAAAAAAAgwCAAAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T21:20:28.085Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-14T20:54:55.159Z"
             },
             {
               "$type": "Document",
@@ -419,8 +409,7 @@
               "RelativeToolTip": "Views\\Home\\Testimonials.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-20T21:29:12.452Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-20T21:29:12.452Z"
             },
             {
               "$type": "Document",
